@@ -25,11 +25,11 @@
 			<div class="col-4"></div>
 			<div class="col-4">
 				<fieldset class="margin-t-100">
-					<legend>Ulogovanje</legend>
+					<legend>Log In</legend>
 					<form method="post" action="ServletLogin" class="row">
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="email" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" id="floatingEmail" name="inputEmail" placeholder="E-mail" value="<%= email %>">
+								<input type="email" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" id="floatingEmail" name="inputEmail" placeholder="E-mail" value="<%= email %>" required>
 								<label for="floatingEmail" class="text-muted">E-mail</label>
 								<%
 									if(greska)
@@ -37,7 +37,7 @@
                                         out.print
 		                                (
                                             "<div id='validacijaEmail' class='invalid-feedback'>" +
-		                                        "Email ili šifra nisu prepoznati!" +
+		                                        "Email or password are incorrect!" +
 		                                    "</div>"
 		                                );
 									}
@@ -46,15 +46,15 @@
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="password" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" id="inputSifra" name="inputSifra" placeholder="Šifra" value="<%= sifra %>">
-								<label for="inputSifra" class="text-muted">Šifra</label>
+								<input type="password" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" id="inputSifra" name="inputSifra" placeholder="Password" value="<%= sifra %>" required>
+								<label for="inputSifra" class="text-muted">Password</label>
 								<%
 									if(greska)
 									{
 										out.print
 										(
 											"<div id='validacijaSifra' class='invalid-feedback'>" +
-												"Email ili šifra nisu prepoznati!" +
+												"Email or password are incorrect!" +
 											"</div>"
 										);
 									}
@@ -63,14 +63,16 @@
 						</div>
 						<div class="col-1"></div>
 						<div class="form-check form-switch col">
-							<input class="form-check-input check-boja" type="checkbox" id="prikazSifre">
-							<label class="form-check-label" for="prikazSifre">Prikaži šifru</label>
+							<input class="form-check-input check-color" type="checkbox" id="prikazSifre">
+							<label class="form-check-label" for="prikazSifre">Show password</label>
 						</div>
 						<div class="col-12 align-center margin-t-10">
-							<input type="submit" class="btn btn-light" value="Uloguj se">
+							<div class="d-grid gap-2">
+								<input type="submit" class="btn btn-light" value="Log In">
+							</div>
 						</div>
 						<div class="col margin-t-20">
-							Nemate nalog? <a class="link-light">Napravi nalog</a>
+							Don't have an account? <a class="link-light" href="signup.jsp">Sign Up</a>
 						</div>
 					</form>
 				</fieldset>
@@ -81,7 +83,6 @@
 		<%@ include file="headers and footer/footer.jsp" %>
 	</div>
 	
-	<script src="js/prikazSifre.js"></script>
 	<%@ include file="inits/jsInit.jsp"%>
 </body>
 </html>

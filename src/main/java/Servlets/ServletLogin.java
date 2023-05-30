@@ -3,7 +3,6 @@ package Servlets;
 import Database.DBConnection;
 import Models.Administrator;
 import Models.Klijent;
-import Models.Korisnik;
 import Models.Menadzer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -93,8 +92,9 @@ public class ServletLogin extends HttpServlet {
                             String brojTelefona = rez.getString("broj_telefona");
                             String datumRodjenja = rez.getString("datum_rodjenja");
                             String datumZaposlenja = rezRadnik.getString("datum_zaposlenja");
+                            String hotelId = rezMenadzer.getString("hotel_id");
 
-                            Menadzer menadzer = new Menadzer(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja);
+                            Menadzer menadzer = new Menadzer(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja, hotelId);
                             session.setAttribute("UlogovanKorisnik", menadzer);
 
                             response.sendRedirect("menadzerNalog.jsp");

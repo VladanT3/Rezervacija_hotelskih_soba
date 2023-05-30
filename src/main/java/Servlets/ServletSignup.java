@@ -2,14 +2,12 @@ package Servlets;
 
 import Database.DBConnection;
 import Models.Klijent;
-import Utils.KorisnikMethods;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.Date;
 
 @WebServlet(name = "ServletSignup", value = "/ServletSignup")
 public class ServletSignup extends HttpServlet {
@@ -61,7 +59,7 @@ public class ServletSignup extends HttpServlet {
             }
             else
             {
-                String korisnikID = KorisnikMethods.generisiNoviKlijentID();
+                String korisnikID = Klijent.generisiNoviKlijentID();
 
                 upit = "insert into korisnik values(?, ?, ?, ?, password(?), ?, ?, ?, ?, ?)";
 

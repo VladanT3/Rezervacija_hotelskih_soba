@@ -14,8 +14,4 @@ public class Radnik extends Korisnik{
     public String getDatumZaposlenja() {
         return datumZaposlenja;
     }
-
-    public void setDatumZaposlenja(String datumZaposlenja) {
-        this.datumZaposlenja = datumZaposlenja;
-    }
 }

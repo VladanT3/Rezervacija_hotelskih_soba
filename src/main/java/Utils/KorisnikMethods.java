@@ -9,11 +9,11 @@ import java.sql.SQLException;
 
 public class KorisnikMethods{
     static Connection conn = DBConnection.connectToDB();
-    public static String generisiNoviKorisnikID() {
+    public static String generisiNoviKlijentID() {
         String ID = "K";
         int IDnumber = 1001;
 
-        String upit = "select count(*) as brojKupaca from kupac";
+        String upit = "select count(*) as brojKlijenata from klijent";
         try
         {
             PreparedStatement stmt = conn.prepareStatement(upit);
@@ -21,8 +21,8 @@ public class KorisnikMethods{
 
             if(rez.next())
             {
-                int brojKupaca = rez.getInt("brojKupaca");
-                IDnumber += brojKupaca;
+                int brojKlijenata = rez.getInt("brojKlijenata");
+                IDnumber += brojKlijenata;
             }
         }
         catch (SQLException ex)

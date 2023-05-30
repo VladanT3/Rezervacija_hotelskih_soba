@@ -12,8 +12,30 @@
 			greskaEmail = (boolean) request.getAttribute("greskaEmail");
 		}
 		catch (Exception ignored){}
+		
+		String ime = (String) request.getAttribute("ime");
+		if(ime == null) ime = "";
   
+		String prezime = (String) request.getAttribute("prezime");
+		if(prezime == null) prezime = "";
   
+		String email = (String) request.getAttribute("email");
+		if(email == null) email = "";
+  
+		String sifra = (String) request.getAttribute("sifra");
+		if(sifra == null) sifra = "";
+  
+		String grad = (String) request.getAttribute("grad");
+		if(grad == null) grad = "";
+  
+		String adresa = (String) request.getAttribute("adresa");
+		if(adresa == null) adresa = "";
+  
+		String brojTelefona = (String) request.getAttribute("brojTelefona");
+		if(brojTelefona == null) brojTelefona = "";
+  
+		String datumRodjenja = (String) request.getAttribute("datumRodjenja");
+		if(datumRodjenja == null) datumRodjenja = "";
 	%>
 
 	<%@ include file="headers and footer/loginHeader.jsp"%>
@@ -27,14 +49,14 @@
 					<form action="ServletSignup" method="post" class="row">
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="inputIme" id="inputIme" placeholder="First Name" required>
+								<input type="text" class="form-control input-boja" name="inputIme" id="inputIme" placeholder="First Name" value="<%= ime %>" required>
 								<label for="inputIme" class="text-muted">First Name</label>
 								
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="inputPrezime" id="inputPrezime" placeholder="Last Name" required>
+								<input type="text" class="form-control input-boja" name="inputPrezime" id="inputPrezime" placeholder="Last Name" value="<%= prezime %>" required>
 								<label for="inputPrezime" class="text-muted">Last Name</label>
 								
 							</div>
@@ -300,28 +322,28 @@
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="inputGrad" id="inputGrad" placeholder="City" required>
+								<input type="text" class="form-control input-boja" name="inputGrad" id="inputGrad" placeholder="City" value="<%= grad %>" required>
 								<label for="inputGrad" class="text-muted">City</label>
 							
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="inputAdresa" id="inputAdresa" placeholder="Address" required>
+								<input type="text" class="form-control input-boja" name="inputAdresa" id="inputAdresa" placeholder="Address" value="<%= adresa %>" required>
 								<label for="inputAdresa" class="text-muted">Address</label>
 								
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="tel" class="form-control input-boja" name="inputPhone" id="inputPhone" placeholder="Phone Number" required>
+								<input type="tel" class="form-control input-boja" name="inputPhone" id="inputPhone" placeholder="Phone Number" value="<%= brojTelefona %>" required>
 								<label for="inputPhone" class="text-muted">Phone Number</label>
 								
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="email" class="form-control input-boja <%= greskaEmail ? "is-invalid" : "" %>" name="inputEmail" id="inputEmail" placeholder="E-mail" required>
+								<input type="email" class="form-control input-boja <%= greskaEmail ? "is-invalid" : "" %>" name="inputEmail" id="inputEmail" placeholder="E-mail" value="<%= email %>" required>
 								<label for="inputEmail" class="text-muted">E-mail</label>
 								<%
 									if(greskaEmail)
@@ -338,7 +360,7 @@
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="password" class="form-control input-boja" name="inputSifra" id="inputSifra" placeholder="Password" required>
+								<input type="password" class="form-control input-boja" name="inputSifra" id="inputSifra" placeholder="Password" value="<%= sifra %>" required>
 								<label for="inputSifra" class="text-muted">Password</label>
 								
 							</div>
@@ -346,7 +368,7 @@
 						<div class="col-3">
 							<div class="mb-3">
 								<label for="inputDatumRodjenja" class="form-label text-muted">Date of Birth:</label>
-								<input type="date" class="form-control input-boja color-scheme-dark" name="inputDatumRodjenja" id="inputDatumRodjenja" required>
+								<input type="date" class="form-control input-boja color-scheme-dark" name="inputDatumRodjenja" id="inputDatumRodjenja" value="<%= datumRodjenja %>" required>
 								
 							</div>
 						</div>

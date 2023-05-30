@@ -46,12 +46,20 @@ public class ServletSignup extends HttpServlet {
             {
                 greskaEmail = true;
                 request.setAttribute("greskaEmail", greskaEmail);
+                request.setAttribute("ime", inputIme);
+                request.setAttribute("prezime", inputPrezime);
+                request.setAttribute("email", inputEmail);
+                request.setAttribute("sifra", inputSifra);
+                request.setAttribute("grad", inputGrad);
+                request.setAttribute("adresa", inputAdresa);
+                request.setAttribute("brojTelefona", inputBrojTelefona);
+                request.setAttribute("datumRodjenja", inputDatumRodjenja);
                 RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");
                 rd.forward(request, response);
             }
             else
             {
-                String korisnikID = KorisnikMethods.generisiNoviKorisnikID();
+                String korisnikID = KorisnikMethods.generisiNoviKlijentID();
 
                 upit = "insert into korisnik values(?, ?, ?, ?, password(?), ?, ?, ?, ?, ?)";
 
@@ -68,10 +76,13 @@ public class ServletSignup extends HttpServlet {
                 stmtUnosKorisnika.setString(10, inputDatumRodjenja);
                 stmtUnosKorisnika.execute();
 
-                upit = "insert into kupac values()";
+                upit = "insert into klijent values(?, 0)";
+                PreparedStatement stmtUnosKlijenta = conn.prepareStatement(upit);
+                stmtUnosKlijenta.setString(1, korisnikID);
+                stmtUnosKlijenta.execute();
 
                 request.getSession().setAttribute("UlogovanKorisnik", korisnikID);
-                response.sendRedirect("kupacNalog.jsp");
+                response.sendRedirect("klijentNalog.jsp");
             }
         }
         catch (SQLException ex)

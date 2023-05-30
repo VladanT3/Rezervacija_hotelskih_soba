@@ -47,7 +47,7 @@ public class ServletLogin extends HttpServlet {
 
                 if(rezKupac.next())
                 {
-                    response.sendRedirect("kupacNalog.jsp");
+                    response.sendRedirect("klijentNalog.jsp");
                 }
                 else
                 {

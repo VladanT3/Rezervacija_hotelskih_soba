@@ -33,7 +33,7 @@ public class ServletSignup extends HttpServlet {
         String inputBrojTelefona = request.getParameter("inputPhone");
         String inputDatumRodjenja = request.getParameter("inputDatumRodjenja");
 
-        upit = "select email from korisnik where email = ?";
+        upit = "select * from korisnik ko join klijent kl on ko.korisnik_id = kl.korisnik_id where email = ?";
 
         try
         {
@@ -44,18 +44,45 @@ public class ServletSignup extends HttpServlet {
 
             if(rez.next())
             {
-                greskaEmail = true;
-                request.setAttribute("greskaEmail", greskaEmail);
-                request.setAttribute("ime", inputIme);
-                request.setAttribute("prezime", inputPrezime);
-                request.setAttribute("email", inputEmail);
-                request.setAttribute("sifra", inputSifra);
-                request.setAttribute("grad", inputGrad);
-                request.setAttribute("adresa", inputAdresa);
-                request.setAttribute("brojTelefona", inputBrojTelefona);
-                request.setAttribute("datumRodjenja", inputDatumRodjenja);
-                RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");
-                rd.forward(request, response);
+                boolean obrisan = rez.getBoolean("obrisan");
+                if(!obrisan)
+                {
+                    greskaEmail = true;
+                    request.setAttribute("greskaEmail", greskaEmail);
+                    request.setAttribute("ime", inputIme);
+                    request.setAttribute("prezime", inputPrezime);
+                    request.setAttribute("email", inputEmail);
+                    request.setAttribute("sifra", inputSifra);
+                    request.setAttribute("grad", inputGrad);
+                    request.setAttribute("adresa", inputAdresa);
+                    request.setAttribute("brojTelefona", inputBrojTelefona);
+                    request.setAttribute("datumRodjenja", inputDatumRodjenja);
+                    RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");
+                    rd.forward(request, response);
+                }
+                else
+                {
+                    String korisnikId = rez.getString("korisnik_id");
+                    upit = "update klijent set obrisan = 0 where korisnik_id = ?";
+                    PreparedStatement stmtVracanjeNaloga = conn.prepareStatement(upit);
+                    stmtVracanjeNaloga.setString(1, korisnikId);
+                    stmtVracanjeNaloga.execute();
+
+                    String ime = rez.getString("ime");
+                    String prezime = rez.getString("prezime");
+                    String email = rez.getString("email");
+                    String drzava = rez.getString("drzava");
+                    String grad = rez.getString("grad");
+                    String adresa = rez.getString("adresa");
+                    String brojTelefona = rez.getString("broj_telefona");
+                    String datumRodjenja = rez.getString("datum_rodjenja");
+                    int brojPoena = rez.getInt("broj_poena");
+
+                    Klijent klijent = new Klijent(korisnikId, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
+                    session.setAttribute("UlogovanKorisnik", klijent);
+
+                    response.sendRedirect("klijentNalog.jsp");
+                }
             }
             else
             {

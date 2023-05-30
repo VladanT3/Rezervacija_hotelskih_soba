@@ -18,6 +18,7 @@ public class Hotel {
         this.brojParkingMesta = brojParkingMesta;
     }
 
+
     public String getId() {
         return id;
     }

@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class Menadzer extends Radnik{
     protected String hotelID;
+    private static final Connection conn = DBConnection.connectToDB();
 
     public Menadzer() {
     }
@@ -20,7 +21,6 @@ public class Menadzer extends Radnik{
 
     public String VratiNazivDodeljenogHotela()
     {
-        Connection conn = DBConnection.connectToDB();
         String upit = "select naziv from hotel where menadzer_id = ?";
         String nazivHotela = "";
         try

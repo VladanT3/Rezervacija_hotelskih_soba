@@ -1,6 +1,7 @@
 package Servlets;
 
 import Database.DBConnection;
+import Models.Klijent;
 import Utils.KorisnikMethods;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -22,6 +23,7 @@ public class ServletSignup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String upit;
         boolean greskaEmail = false;
+        HttpSession session = request.getSession();
 
         String inputIme = request.getParameter("inputIme");
         String inputPrezime = request.getParameter("inputPrezime");
@@ -81,8 +83,28 @@ public class ServletSignup extends HttpServlet {
                 stmtUnosKlijenta.setString(1, korisnikID);
                 stmtUnosKlijenta.execute();
 
-                request.getSession().setAttribute("UlogovanKorisnik", korisnikID);
-                response.sendRedirect("klijentNalog.jsp");
+                upit = "select * from korisnik kor join klijent kl on kor.korisnik_id = kl.korisnik_id where email = ?";
+                PreparedStatement stmtVadjenjeKorisnika = conn.prepareStatement(upit);
+                stmtVadjenjeKorisnika.setString(1, inputEmail);
+                ResultSet rezKorisnik = stmtVadjenjeKorisnika.executeQuery();
+
+                if(rezKorisnik.next())
+                {
+                    String ime = rezKorisnik.getString("ime");
+                    String prezime = rezKorisnik.getString("prezime");
+                    String email = rezKorisnik.getString("email");
+                    String drzava = rezKorisnik.getString("drzava");
+                    String grad = rezKorisnik.getString("grad");
+                    String adresa = rezKorisnik.getString("adresa");
+                    String brojTelefona = rezKorisnik.getString("broj_telefona");
+                    String datumRodjenja = rezKorisnik.getString("datum_rodjenja");
+                    int brojPoena = rezKorisnik.getInt("broj_poena");
+
+                    Klijent klijent = new Klijent(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
+                    session.setAttribute("UlogovanKorisnik", klijent);
+
+                    response.sendRedirect("klijentNalog.jsp");
+                }
             }
         }
         catch (SQLException ex)

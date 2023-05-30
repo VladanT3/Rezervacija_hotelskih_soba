@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class Klijent extends Korisnik{
     protected int brojPoena;
+    private static final Connection conn = DBConnection.connectToDB();
 
     public Klijent() {
     }
@@ -19,7 +20,6 @@ public class Klijent extends Korisnik{
     }
 
     public static String generisiNoviKlijentID() {
-        Connection conn = DBConnection.connectToDB();
         String ID = "K";
         int IDnumber = 1001;
 
@@ -41,6 +41,40 @@ public class Klijent extends Korisnik{
         }
 
         return ID + IDnumber;
+    }
+
+    public Rezervacija VratiDetaljeNajblizeRezervacije()
+    {
+        Rezervacija rezervacija = new Rezervacija();
+        String upit = "select * " +
+                "from rezervacija " +
+                "where klijent_id = ? and " +
+                "datediff(datum_pocetka, curdate()) = " +
+                "(select min(datediff(datum_pocetka, curdate())) " +
+                "from rezervacija " +
+                "where klijent_id = ?)";
+        try
+        {
+            PreparedStatement stmt = conn.prepareStatement(upit);
+            stmt.setString(1, id);
+            stmt.setString(2, id);
+            ResultSet rez = stmt.executeQuery();
+            if(rez.next())
+            {
+                rezervacija.setRezervacijaID(rez.getString("rezervacija_id"));
+                rezervacija.setKlijentID(rez.getString("klijent_id"));
+                rezervacija.setSobaID(rez.getString("soba_id"));
+                rezervacija.setDatumPocetka(rez.getString("datum_pocetka"));
+                rezervacija.setDatumIsteka(rez.getString("datum_isteka"));
+                rezervacija.setCena(rez.getFloat("cena"));
+            }
+        }
+        catch(SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return rezervacija;
     }
 
     public int getBrojPoena() {

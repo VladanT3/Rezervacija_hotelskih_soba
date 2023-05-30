@@ -50,6 +50,18 @@ public class ServletLogin extends HttpServlet {
 
                 if(rezKlijent.next())
                 {
+                    boolean obrisan = rezKlijent.getBoolean("obrisan");
+                    if(obrisan)
+                    {
+                        greskaLogin = true;
+                        request.setAttribute("greskaLogin", greskaLogin);
+                        request.setAttribute("unetEmail", inputEmail);
+                        request.setAttribute("unetaSifra", inputSifra);
+                        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+                        rd.forward(request, response);
+                        return;
+                    }
+
                     String ime = rez.getString("ime");
                     String prezime = rez.getString("prezime");
                     String email = rez.getString("email");

@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<% request.getSession().setAttribute("Title", "Login"); %>
+<% request.getSession().setAttribute("Title", "Kontinental | Login"); %>
 <!DOCTYPE html>
 <html>
 <%@ include file="inits/headInit.jsp"%>
 <body>
 	<%@ include file="headers and footer/loginHeader.jsp"%>
 	<%
-		request.getSession().setAttribute("UlogovanKorisnik", "");
+		request.getSession().setAttribute("UlogovanKorisnik", null);
 		
 		String email = (String) request.getAttribute("unetEmail");
         if(email == null) email = "";

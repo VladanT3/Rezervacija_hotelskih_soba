@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<% request.getSession().setAttribute("Title", "Signup"); %>
+<% request.getSession().setAttribute("Title", "Kontinental | Signup"); %>
 <html>
 <%@ include file="inits/headInit.jsp"%>
 <body>
 	<%
-		request.getSession().setAttribute("UlogovanKorisnik", "");
+		request.getSession().setAttribute("UlogovanKorisnik", null);
 		
 		boolean greskaEmail = false;
 		try

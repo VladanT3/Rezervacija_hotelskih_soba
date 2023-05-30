@@ -1,6 +1,10 @@
 package Servlets;
 
 import Database.DBConnection;
+import Models.Administrator;
+import Models.Klijent;
+import Models.Korisnik;
+import Models.Menadzer;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -24,8 +28,9 @@ public class ServletLogin extends HttpServlet {
         String inputEmail = request.getParameter("inputEmail");
         String inputSifra = request.getParameter("inputSifra");
         boolean greskaLogin = false;
+        HttpSession session = request.getSession();
 
-        String upit = "select korisnik_id from korisnik where email = ? and sifra = password(?)";
+        String upit = "select * from korisnik where email = ? and sifra = password(?)";
         try
         {
             PreparedStatement stmt = conn.prepareStatement(upit);
@@ -37,41 +42,88 @@ public class ServletLogin extends HttpServlet {
             if(rez.next())
             {
                 String korisnikID = rez.getString("korisnik_id");
-                request.getSession().setAttribute("UlogovanKorisnik", korisnikID);
 
-                upit = "select * from kupac where korisnik_id = ?";
-                PreparedStatement stmtProveraKupac = conn.prepareStatement(upit);
-                stmtProveraKupac.setString(1, korisnikID);
+                upit = "select * from klijent where korisnik_id = ?";
+                PreparedStatement stmtProveraKlijent = conn.prepareStatement(upit);
+                stmtProveraKlijent.setString(1, korisnikID);
 
-                ResultSet rezKupac = stmtProveraKupac.executeQuery();
+                ResultSet rezKlijent = stmtProveraKlijent.executeQuery();
 
-                if(rezKupac.next())
+                if(rezKlijent.next())
                 {
+                    String ime = rez.getString("ime");
+                    String prezime = rez.getString("prezime");
+                    String email = rez.getString("email");
+                    String drzava = rez.getString("drzava");
+                    String grad = rez.getString("grad");
+                    String adresa = rez.getString("adresa");
+                    String brojTelefona = rez.getString("broj_telefona");
+                    String datumRodjenja = rez.getString("datum_rodjenja");
+                    int brojPoena = rezKlijent.getInt("broj_poena");
+
+                    Klijent klijent = new Klijent(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
+                    session.setAttribute("UlogovanKorisnik", klijent);
+
                     response.sendRedirect("klijentNalog.jsp");
                 }
                 else
                 {
-                    upit = "select * from menadzer where korisnik_id = ?";
-                    PreparedStatement stmtProveraMenadzer = conn.prepareStatement(upit);
-                    stmtProveraMenadzer.setString(1, korisnikID);
+                    upit = "select * from radnik where korisnik_id = ?";
+                    PreparedStatement stmtProveraRadnik = conn.prepareStatement(upit);
+                    stmtProveraRadnik.setString(1, korisnikID);
 
-                    ResultSet rezMenadzer = stmtProveraMenadzer.executeQuery();
+                    ResultSet rezRadnik = stmtProveraRadnik.executeQuery();
 
-                    if(rezMenadzer.next())
+                    if(rezRadnik.next())
                     {
-                        response.sendRedirect("menadzerNalog.jsp");
-                    }
-                    else
-                    {
-                        upit = "select * from administrator where korisnik_id = ?";
-                        PreparedStatement stmtProveraAdmin = conn.prepareStatement(upit);
-                        stmtProveraAdmin.setString(1, korisnikID);
+                        upit = "select * from menadzer where korisnik_id = ?";
+                        PreparedStatement stmtProveraMenadzer = conn.prepareStatement(upit);
+                        stmtProveraMenadzer.setString(1, korisnikID);
 
-                        ResultSet rezAdmin = stmtProveraAdmin.executeQuery();
+                        ResultSet rezMenadzer = stmtProveraMenadzer.executeQuery();
 
-                        if(rezAdmin.next())
+                        if(rezMenadzer.next())
                         {
-                            response.sendRedirect("adminNalog.jsp");
+                            String ime = rez.getString("ime");
+                            String prezime = rez.getString("prezime");
+                            String email = rez.getString("email");
+                            String drzava = rez.getString("drzava");
+                            String grad = rez.getString("grad");
+                            String adresa = rez.getString("adresa");
+                            String brojTelefona = rez.getString("broj_telefona");
+                            String datumRodjenja = rez.getString("datum_rodjenja");
+                            String datumZaposlenja = rezRadnik.getString("datum_zaposlenja");
+
+                            Menadzer menadzer = new Menadzer(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja);
+                            session.setAttribute("UlogovanKorisnik", menadzer);
+
+                            response.sendRedirect("menadzerNalog.jsp");
+                        }
+                        else
+                        {
+                            upit = "select * from administrator where korisnik_id = ?";
+                            PreparedStatement stmtProveraAdmin = conn.prepareStatement(upit);
+                            stmtProveraAdmin.setString(1, korisnikID);
+
+                            ResultSet rezAdmin = stmtProveraAdmin.executeQuery();
+
+                            if(rezAdmin.next())
+                            {
+                                String ime = rez.getString("ime");
+                                String prezime = rez.getString("prezime");
+                                String email = rez.getString("email");
+                                String drzava = rez.getString("drzava");
+                                String grad = rez.getString("grad");
+                                String adresa = rez.getString("adresa");
+                                String brojTelefona = rez.getString("broj_telefona");
+                                String datumRodjenja = rez.getString("datum_rodjenja");
+                                String datumZaposlenja = rezRadnik.getString("datum_zaposlenja");
+
+                                Administrator admin = new Administrator(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja);
+                                session.setAttribute("UlogovanKorisnik", admin);
+
+                                response.sendRedirect("adminNalog.jsp");
+                            }
                         }
                     }
                 }

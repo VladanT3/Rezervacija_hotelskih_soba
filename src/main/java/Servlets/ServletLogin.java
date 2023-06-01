@@ -108,6 +108,7 @@ public class ServletLogin extends HttpServlet {
 
                             Menadzer menadzer = new Menadzer(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja, hotelId);
                             session.setAttribute("UlogovanKorisnik", menadzer);
+                            session.setAttribute("UlogovanRadnik", "Menadzer");
 
                             response.sendRedirect("menadzerNalog.jsp");
                         }
@@ -133,6 +134,7 @@ public class ServletLogin extends HttpServlet {
 
                                 Administrator admin = new Administrator(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja);
                                 session.setAttribute("UlogovanKorisnik", admin);
+                                session.setAttribute("UlogovanRadnik", "Admin");
 
                                 response.sendRedirect("adminNalog.jsp");
                             }

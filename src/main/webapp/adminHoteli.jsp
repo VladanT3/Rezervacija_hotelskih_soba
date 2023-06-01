@@ -1,0 +1,62 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Models.Hotel" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%
+	request.getSession().setAttribute("Title", "Administrator | Hotels");
+    request.getSession().setAttribute("Active", "adminHoteli");
+%>
+<html>
+<%@ include file="inits/headInit.jsp" %>
+<body>
+	<%@ include file="headers and footer/adminHeader.jsp" %>
+
+	<div class="container">
+		<%
+			String pretraga = request.getParameter("search");
+            pretraga = pretraga == null ? "" : pretraga;
+			ArrayList<Hotel> hoteli = Hotel.VratiHotele(pretraga);
+		%>
+		<div class="row margin-t-50">
+			<div class="col-1">
+				<a href="insertAndUpdateHotel.jsp" class="btn btn-outline-light" title="Add new Hotel"><i class="fa-solid fa-plus fa-lg"></i></a>
+			</div>
+			<div class="col-4">
+				<form action="adminHoteli.jsp" method="get">
+					<div class="input-group mb-3">
+						<input type="text" class="form-control input-boja" name="search" placeholder="Search hotels...">
+						<input class="btn btn-outline-light" type="submit" value="Search">
+					</div>
+				</form>
+			</div>
+			<div class="col-7"></div>
+			<%
+				for(Hotel hotel : hoteli)
+				{
+            %>
+					<div class="col-3 padding-10">
+						<div class="div-artikal">
+							<img src="img/<%= hotel.getNazivSlike() %>" class="rounded mx-auto d-block" height="200px" width="188px" alt="<%= hotel.getNaziv() %>">
+							<div class="div-artikal-naziv">
+								<p><%= hotel.getNaziv() %></p>
+							</div>
+							<div class="align-center">
+								<div class="row">
+									<div class="col-3"></div>
+									<div class="col-3"><a href="ServletPrepareUpdate?hotel=<%= hotel.getId() %>" class="btn btn-light" title="Edit"><i class="fa-solid fa-pen fa-lg"></i></a></div>
+									<div class="col-3"><a class="btn btn-outline-light" title="Delete"><i class="fa-solid fa-trash fa-lg"></i></a></div>
+									<div class="col-3"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+			<%
+				}
+			%>
+		</div>
+		
+		<%@ include file="headers and footer/footer.jsp" %>
+	</div>
+
+	<%@ include file="inits/jsInit.jsp"%>
+</body>
+</html>

@@ -91,6 +91,29 @@ public class Hotel {
         return hotel;
     }
 
+    public static String GenerisiNoviHotelID()
+    {
+        String hotelID = "H";
+        int dodatakID = 11;
+        String upit = "select count(*) as brojHotela from hotel";
+
+        try
+        {
+            PreparedStatement stmt = conn.prepareStatement(upit);
+            ResultSet rez = stmt.executeQuery();
+            if(rez.next())
+            {
+                dodatakID += rez.getInt("brojHotela");
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return hotelID + dodatakID;
+    }
+
     public String getId() {
         return id;
     }

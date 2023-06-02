@@ -20,23 +20,36 @@ public class Menadzer extends Radnik{
         this.hotelID = hotelID;
     }
 
-    public String VratiNazivDodeljenogHotela()
+    public Hotel VratiDodeljenHotel()
     {
-        String upit = "select naziv from hotel where menadzer_id = ?";
-        String nazivHotela = "";
+        Hotel hotel = new Hotel();
+        String upit = "select * from hotel where menadzer_id = ?";
+
         try
         {
             PreparedStatement stmt = conn.prepareStatement(upit);
             stmt.setString(1, id);
             ResultSet rez = stmt.executeQuery();
             if(rez.next())
-                nazivHotela = rez.getString("naziv");
+            {
+                String hotelId = rez.getString("hotel_id");
+                String menadzerID = rez.getString("menadzer_id");
+                String naziv = rez.getString("naziv");
+                String drzava = rez.getString("drzava");
+                String grad = rez.getString("grad");
+                String opis = rez.getString("opis");
+                String nazivSlike = rez.getString("naziv_slike");
+                int zvezdice = rez.getInt("broj_zvezdica");
+                int parking = rez.getInt("broj_parking_mesta");
+                hotel = new Hotel(hotelId, menadzerID, naziv, drzava, grad, opis, nazivSlike, zvezdice, parking);
+            }
         }
         catch (SQLException ex)
         {
             ex.printStackTrace();
         }
-        return nazivHotela;
+
+        return hotel;
     }
 
     public static ArrayList<Menadzer> VratiMenadzereKojimaNijeDodeljenHotel()

@@ -8,6 +8,10 @@
 <html>
 <%@ include file="inits/headInit.jsp" %>
 <body>
+	<%
+		boolean uspesanUnos = request.getAttribute("uspesanUnos") != null;
+        boolean uspesnaPromena = request.getAttribute("uspesnaPromena") != null;
+	%>
 	<%@ include file="headers and footer/adminHeader.jsp" %>
 
 	<div class="container">
@@ -17,6 +21,26 @@
 			ArrayList<Hotel> hoteli = Hotel.VratiHotele(pretraga);
 		%>
 		<div class="row margin-t-50">
+			<%
+				if(uspesanUnos)
+				{
+            %>
+					<div class="col-12 alert alert-success" role="alert">
+						<i class="fa-solid fa-circle-check fa-lg"></i> A new hotel has been added!
+					</div>
+			<%
+				}
+			%>
+			<%
+				if(uspesnaPromena)
+				{
+			%>
+					<div class="col-12 alert alert-success" role="alert">
+						<i class="fa-solid fa-circle-check fa-lg"></i> The hotel details have been update!
+					</div>
+			<%
+				}
+			%>
 			<div class="col-1">
 				<a href="insertAndUpdateHotel.jsp" class="btn btn-outline-light" title="Add new Hotel"><i class="fa-solid fa-plus fa-lg"></i></a>
 			</div>

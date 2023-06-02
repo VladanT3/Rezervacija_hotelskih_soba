@@ -1,3 +1,8 @@
+<%
+	String active = (String) request.getSession().getAttribute("Active");
+	active = active == null ? "" : active;
+%>
+
 <header>
 	<nav class="navbar fixed-top navbar-expand-lg bg-light">
 		<div class="container-fluid">
@@ -11,9 +16,9 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link">
+						<a href="ServletPrepareUpdate?hotel=<%= dodeljenHotel.getId() %>" class="nav-link <%= active.equals("editHotel") ? "active" : "" %>">
 							<i class="fa-solid fa-hotel fa-lg bi d-block mx-auto mb-1"></i>
-							Hotel
+							Edit Hotel
 						</a>
 					</li>
 					<li class="nav-item">

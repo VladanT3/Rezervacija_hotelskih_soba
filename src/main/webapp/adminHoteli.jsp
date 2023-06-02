@@ -62,6 +62,9 @@
 							<img src="img/<%= hotel.getNazivSlike() %>" class="rounded mx-auto d-block" height="200px" width="188px" alt="<%= hotel.getNaziv() %>">
 							<div class="div-artikal-naziv">
 								<p><%= hotel.getNaziv() %></p>
+								<p><%= hotel.getDrzava() + ", " + hotel.getGrad() %></p>
+								<p>Stars: <%= hotel.getBrojZvezdica() %></p>
+								<p>Parking spots: <%= hotel.getBrojParkingMesta() %></p>
 							</div>
 							<div class="align-center">
 								<div class="row">

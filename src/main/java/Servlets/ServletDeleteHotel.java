@@ -15,6 +15,14 @@ public class ServletDeleteHotel extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
+        if(proveraLogin == null)
+        {
+            request.getSession().invalidate();
+            response.sendRedirect("index.jsp");
+            return;
+        }
+
         String hotelID = request.getParameter("hotel");
         String upit = "delete from hotel where hotel_id = ?";
         try

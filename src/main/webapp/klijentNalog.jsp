@@ -2,7 +2,17 @@
 <%@ page import="Models.Rezervacija" %>
 <%@ page import="Models.Hotel" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<% request.getSession().setAttribute("Title", "Kontinental | Your Profile"); %>
+<%
+	Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
+	if(proveraLogin == null)
+	{
+		request.getSession().invalidate();
+		response.sendRedirect("index.jsp");
+		return;
+	}
+	
+	request.getSession().setAttribute("Title", "Kontinental | Your Profile");
+%>
 <html>
 <%@ include file="inits/headInit.jsp"%>
 <body>

@@ -3,6 +3,14 @@
 <%@ page import="Models.Hotel" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
+	Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
+	if(proveraLogin == null)
+	{
+		request.getSession().invalidate();
+		response.sendRedirect("index.jsp");
+		return;
+	}
+	
 	String ulogovanRadnik = (String) request.getSession().getAttribute("UlogovanRadnik");
 	ulogovanRadnik = ulogovanRadnik == null ? "" : ulogovanRadnik;
     if(ulogovanRadnik.equals("Menadzer")){

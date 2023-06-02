@@ -14,6 +14,14 @@ import java.io.IOException;
 public class ServletPrepareUpdate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
+        if(proveraLogin == null)
+        {
+            request.getSession().invalidate();
+            response.sendRedirect("index.jsp");
+            return;
+        }
+
         Hotel hotelZaUpdate = Hotel.VratiDetaljeHotela(request.getParameter("hotel"));
         request.setAttribute("hotel", hotelZaUpdate);
         request.setAttribute("updateProvera", "1");

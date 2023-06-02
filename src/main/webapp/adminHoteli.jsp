@@ -2,6 +2,14 @@
 <%@ page import="Models.Hotel" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
+	Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
+	if(proveraLogin == null)
+	{
+		request.getSession().invalidate();
+		response.sendRedirect("index.jsp");
+		return;
+	}
+	
 	request.getSession().setAttribute("Title", "Administrator | Hotels");
     request.getSession().setAttribute("Active", "adminHoteli");
 %>

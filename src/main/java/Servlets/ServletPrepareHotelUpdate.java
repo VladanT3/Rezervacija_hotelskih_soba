@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "ServletPrepareUpdate", value = "/ServletPrepareUpdate")
-public class ServletPrepareUpdate extends HttpServlet {
+@WebServlet(name = "ServletPrepareHotelUpdate", value = "/ServletPrepareHotelUpdate")
+public class ServletPrepareHotelUpdate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");

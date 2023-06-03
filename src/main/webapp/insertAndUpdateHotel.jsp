@@ -29,10 +29,12 @@
 		String izmenaProvera = (String) request.getAttribute("updateProvera");
         int izmena = 0;
 		Hotel hotel = new Hotel();
+        Menadzer menadzerHotela = new Menadzer();
         if(izmenaProvera != null)
         {
 	        izmena = Integer.parseInt(izmenaProvera);
             hotel = (Hotel) request.getAttribute("hotel");
+            menadzerHotela = Menadzer.VratiMenadzera(hotel.getMenadzerId());
         }
         
 		ArrayList<Menadzer> menadzeri = Menadzer.VratiMenadzereKojimaNijeDodeljenHotel();
@@ -46,8 +48,18 @@
         String brojParkingMesta = request.getAttribute("brojParkingMesta") == null ? "" : (String) request.getAttribute("brojParkingMesta");
         String opis = request.getAttribute("opis") == null ? "" : (String) request.getAttribute("opis");
         String nazivSlike = request.getAttribute("nazivSlike") == null ? "" : (String) request.getAttribute("nazivSlike");
+		
+        if(ulogovanRadnik.equals("Menadzer")){
 	%>
-	<%@ include file="headers and footer/adminHeader.jsp" %>
+			<%@ include file="headers and footer/managerHeader.jsp" %>
+	<%
+		}
+		else if(ulogovanRadnik.equals("Admin")){
+	%>
+			<%@ include file="headers and footer/adminHeader.jsp" %>
+	<%
+		}
+	%>
 	
 	<div class="container">
 		<div class="row">
@@ -72,6 +84,13 @@
 									<label for="assignedManager" class="form-label">Hotel Manager:</label>
 									<select class="form-select input-boja" id="assignedManager" name="assignedManager">
 										<option value="">Select One</option>
+										<%
+											if(izmena == 1){
+                                        %>
+												<option selected value="<%= menadzerHotela.getId() %>"><%= menadzerHotela.getId() + " - " + menadzerHotela.getIme() + " " + menadzerHotela.getPrezime() %></option>
+										<%
+											}
+										%>
 										<%
 											for(Menadzer menadzer : menadzeri)
 											{
@@ -147,7 +166,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<textarea name="hotelDesc" id="hotelDesc" class="form-control input-boja" style="height: 150px;" placeholder="Hotel Description" maxlength="500" required><%= izmena == 1 ? hotel.getOpis() : "" %><%= opis %></textarea>
+								<textarea name="hotelDesc" id="hotelDesc" class="form-control input-boja" style="height: 150px" placeholder="Hotel Description" maxlength="500" required><%= izmena == 1 ? hotel.getOpis() : "" %><%= opis %></textarea>
 								<label for="hotelDesc" class="text-muted">Hotel Description</label>
 							</div>
 						</div>

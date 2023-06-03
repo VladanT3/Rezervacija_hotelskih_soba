@@ -4,11 +4,11 @@
 }
 
 .check-boja {
-    background-color: #2C3034;
+    background-color: #F8F9FA;
 }
 
 .check-boja:checked {
-    background-color: #F8F9FA;
+    background-color: #2C3034;
 }
 
 .margin-b-0 {
@@ -108,7 +108,6 @@
 .div-artikal-naziv {
     margin-top: 10px;
     text-align: center;
-    font-weight: bold;
 }
 
 .custom-hover-colors {

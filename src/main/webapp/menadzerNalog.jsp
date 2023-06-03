@@ -148,7 +148,7 @@
 			<div class="col-4">
 				<div class="align-center margin-t-50 mb-3">
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="ServletPrepareUpdate?hotel=<%= dodeljenHotel.getId() %>" type="button" class="btn btn-light">Edit Hotel</a>
+						<a href="ServletPrepareHotelUpdate?hotel=<%= dodeljenHotel.getId() %>" type="button" class="btn btn-light">Edit Hotel</a>
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
@@ -156,7 +156,7 @@
 					</div>
 					<div class="col-6"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a type="button" class="btn btn-light">Show All Room Types</a>
+						<a href="tipoviSoba.jsp" type="button" class="btn btn-light">Show All Room Types</a>
 					</div>
 				</div>
 			</div>

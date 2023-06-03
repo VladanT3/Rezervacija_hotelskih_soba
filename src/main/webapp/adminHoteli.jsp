@@ -66,7 +66,7 @@
 			<div class="col-4">
 				<form action="adminHoteli.jsp" method="get">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control input-boja" name="search" placeholder="Search hotels...">
+						<input type="text" class="form-control input-boja" name="search" placeholder="Search hotels..." value="<%= pretraga %>">
 						<input class="btn btn-outline-light" type="submit" value="Search">
 					</div>
 				</form>
@@ -88,7 +88,7 @@
 							<div class="align-center">
 								<div class="row">
 									<div class="col-3"></div>
-									<div class="col-3"><a href="ServletPrepareUpdate?hotel=<%= hotel.getId() %>" class="btn btn-light" title="Edit"><i class="fa-solid fa-pen fa-lg"></i></a></div>
+									<div class="col-3"><a href="ServletPrepareHotelUpdate?hotel=<%= hotel.getId() %>" class="btn btn-light" title="Edit"><i class="fa-solid fa-pen fa-lg"></i></a></div>
 									<div class="col-3"><a href="ServletDeleteHotel?hotel=<%= hotel.getId() %>" class="btn btn-outline-light" title="Delete"><i class="fa-solid fa-trash fa-lg"></i></a></div>
 									<div class="col-3"></div>
 								</div>

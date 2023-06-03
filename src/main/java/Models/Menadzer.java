@@ -88,6 +88,44 @@ public class Menadzer extends Radnik{
         return menadzeri;
     }
 
+    public static Menadzer VratiMenadzera(String id)
+    {
+        Menadzer menadzer = new Menadzer();
+        String upit = "select * " +
+                "from korisnik k join radnik r on k.korisnik_id = r.korisnik_id " +
+                "join menadzer m on m.korisnik_id = r.korisnik_id " +
+                "where k.korisnik_id = ?";
+
+        try
+        {
+            PreparedStatement stmt = conn.prepareStatement(upit);
+            stmt.setString(1, id);
+            ResultSet rez = stmt.executeQuery();
+            if(rez.next())
+            {
+                String menadzerID = rez.getString("korisnik_id");
+                String ime = rez.getString("ime");
+                String prezime = rez.getString("prezime");
+                String email = rez.getString("email");
+                String drzava = rez.getString("drzava");
+                String grad = rez.getString("grad");
+                String adresa = rez.getString("adresa");
+                String brojTelefona = rez.getString("broj_telefona");
+                String datumRodjenja = rez.getString("datum_rodjenja");
+                String datumZaposlenja = rez.getString("datum_zaposlenja");
+                String hotelId = rez.getString("hotel_id");
+
+                menadzer = new Menadzer(menadzerID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja, hotelId);
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return menadzer;
+    }
+
     public String getHotelID() {
         return hotelID;
     }

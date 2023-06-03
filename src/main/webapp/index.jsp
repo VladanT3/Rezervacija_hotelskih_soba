@@ -63,7 +63,7 @@
 						</div>
 						<div class="col-1"></div>
 						<div class="form-check form-switch col">
-							<input class="form-check-input check-color" type="checkbox" id="prikazSifre">
+							<input class="form-check-input check-boja" type="checkbox" id="prikazSifre">
 							<label class="form-check-label" for="prikazSifre">Show password</label>
 						</div>
 						<div class="col-12 align-center margin-t-10">

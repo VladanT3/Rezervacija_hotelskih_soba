@@ -33,29 +33,29 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
         String nazivSlike = request.getParameter("hotelPicture");
         int zvezdice = 0, parkingMesta = 0;
 
-        try
-        {
-            zvezdice = Integer.parseInt(brojZvezdica);
-            parkingMesta = Integer.parseInt(brojParkingMesta);
-        }
-        catch (Exception ex)
-        {
-            request.setAttribute("ceoBrojGreska", true);
-            request.setAttribute("menadzer", menadzerID);
-            request.setAttribute("naziv", naziv);
-            request.setAttribute("drzava", drzava);
-            request.setAttribute("grad", grad);
-            request.setAttribute("brojZvezdica", brojZvezdica);
-            request.setAttribute("brojParkingMesta", brojParkingMesta);
-            request.setAttribute("opis", opis);
-            request.setAttribute("nazivSlike", nazivSlike);
-            RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateHotel.jsp");
-            rd.forward(request, response);
-            response.sendRedirect("insertAndUpdateHotel.jsp");
-        }
-
         if(submit.equals("Add Hotel"))
         {
+            try
+            {
+                zvezdice = Integer.parseInt(brojZvezdica);
+                parkingMesta = Integer.parseInt(brojParkingMesta);
+            }
+            catch (Exception ex)
+            {
+                request.setAttribute("ceoBrojGreska", true);
+                request.setAttribute("menadzer", menadzerID);
+                request.setAttribute("naziv", naziv);
+                request.setAttribute("drzava", drzava);
+                request.setAttribute("grad", grad);
+                request.setAttribute("brojZvezdica", brojZvezdica);
+                request.setAttribute("brojParkingMesta", brojParkingMesta);
+                request.setAttribute("opis", opis);
+                request.setAttribute("nazivSlike", nazivSlike);
+                RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateHotel.jsp");
+                rd.forward(request, response);
+                response.sendRedirect("insertAndUpdateHotel.jsp");
+            }
+
             String hotelID = Hotel.GenerisiNoviHotelID();
             String upit = "insert into hotel values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try
@@ -89,8 +89,27 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
         }
         else if(submit.equals("Edit Hotel"))
         {
-            String upit;
             String updateHotelID = request.getParameter("updateHotelID");
+
+            try
+            {
+                zvezdice = Integer.parseInt(brojZvezdica);
+                parkingMesta = Integer.parseInt(brojParkingMesta);
+            }
+            catch (Exception ex)
+            {
+                request.setAttribute("ceoBrojGreska", true);
+
+                Hotel hotelZaUpdate = Hotel.VratiDetaljeHotela(updateHotelID);
+                request.setAttribute("hotel", hotelZaUpdate);
+                request.setAttribute("updateProvera", "1");
+
+                RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateHotel.jsp");
+                rd.forward(request, response);
+                response.sendRedirect("insertAndUpdateHotel.jsp");
+            }
+
+            String upit;
             try
             {
                 String ulogovanRadnik  = (String) request.getSession().getAttribute("UlogovanRadnik");

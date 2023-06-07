@@ -52,7 +52,7 @@
 				{
 			%>
 			<div class="col-12 alert alert-success" role="alert">
-				<i class="fa-solid fa-circle-check fa-lg"></i> A new room type has been added!
+				<i class="fa-solid fa-circle-check fa-lg"></i> The new room type has been added!
 			</div>
 			<%
 				}

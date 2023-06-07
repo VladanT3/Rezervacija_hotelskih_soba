@@ -103,6 +103,14 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                 Hotel hotelZaUpdate = Hotel.VratiDetaljeHotela(updateHotelID);
                 request.setAttribute("hotel", hotelZaUpdate);
                 request.setAttribute("updateProvera", "1");
+                request.setAttribute("menadzer", menadzerID);
+                request.setAttribute("naziv", naziv);
+                request.setAttribute("drzava", drzava);
+                request.setAttribute("grad", grad);
+                request.setAttribute("brojZvezdica", brojZvezdica);
+                request.setAttribute("brojParkingMesta", brojParkingMesta);
+                request.setAttribute("opis", opis);
+                request.setAttribute("nazivSlike", nazivSlike);
 
                 RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateHotel.jsp");
                 rd.forward(request, response);

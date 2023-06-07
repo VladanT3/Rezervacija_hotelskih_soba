@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Klijent extends Korisnik{
     protected int brojPoena;
@@ -75,6 +76,38 @@ public class Klijent extends Korisnik{
         }
 
         return rezervacija;
+    }
+
+    public static ArrayList<Klijent> VratiKlijente(String imePrezime)
+    {
+        ArrayList<Klijent> klijenti = new ArrayList<>();
+        String upit = "select * from korisnik ko join klijent kl on kl.korisnik_id = ko.korisnik_id where concat(ime, prezime) like '%" + imePrezime + "%'";
+        try
+        {
+            PreparedStatement stmt = conn.prepareStatement(upit);
+            ResultSet rez = stmt.executeQuery();
+            while(rez.next())
+            {
+                String id = rez.getString("korisnik_id");
+                String ime = rez.getString("ime");
+                String prezime = rez.getString("prezime");
+                String email = rez.getString("email");
+                String drzava = rez.getString("drzava");
+                String grad = rez.getString("grad");
+                String adresa = rez.getString("adresa");
+                String brojTelefona = rez.getString("broj_telefona");
+                String datumRodjenja = rez.getString("datum_rodjenja");
+                int brojPoena = rez.getInt("broj_poena");
+
+                klijenti.add(new Klijent(id, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena));
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return klijenti;
     }
 
     public int getBrojPoena() {

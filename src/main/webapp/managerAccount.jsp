@@ -156,7 +156,7 @@
 					</div>
 					<div class="col-6"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="tipoviSoba.jsp" type="button" class="btn btn-light">Show All Room Types</a>
+						<a href="roomTypes.jsp" type="button" class="btn btn-light">Show All Room Types</a>
 					</div>
 				</div>
 			</div>

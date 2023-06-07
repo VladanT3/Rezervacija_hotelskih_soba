@@ -92,7 +92,7 @@
 			<div class="col-4">
 				<div class="align-center margin-t-50 mb-3">
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="adminHoteli.jsp" type="button" class="btn btn-light">Show All Hotels</a>
+						<a href="adminHotels.jsp" type="button" class="btn btn-light">Show All Hotels</a>
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
@@ -100,7 +100,7 @@
 					</div>
 					<div class="col-6"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="tipoviSoba.jsp" type="button" class="btn btn-light">Show All Room Types</a>
+						<a href="roomTypes.jsp" type="button" class="btn btn-light">Show All Room Types</a>
 					</div>
 					<div class="col-6"></div>
 					<div class="col-6 mb-3 d-grid gap-2">

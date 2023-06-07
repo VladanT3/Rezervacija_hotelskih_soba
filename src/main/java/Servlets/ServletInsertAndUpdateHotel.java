@@ -51,9 +51,9 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                 request.setAttribute("brojParkingMesta", brojParkingMesta);
                 request.setAttribute("opis", opis);
                 request.setAttribute("nazivSlike", nazivSlike);
-                RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateHotel.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("addOrEditHotel.jsp");
                 rd.forward(request, response);
-                response.sendRedirect("insertAndUpdateHotel.jsp");
+                response.sendRedirect("addOrEditHotel.jsp");
             }
 
             String hotelID = Hotel.GenerisiNoviHotelID();
@@ -79,7 +79,7 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                 stmtUpdateMenadzer.execute();
 
                 request.setAttribute("uspesanUnos", true);
-                RequestDispatcher rd = request.getRequestDispatcher("adminHoteli.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
                 rd.forward(request, response);
             }
             catch (SQLException ex)
@@ -112,9 +112,9 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                 request.setAttribute("opis", opis);
                 request.setAttribute("nazivSlike", nazivSlike);
 
-                RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateHotel.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("addOrEditHotel.jsp");
                 rd.forward(request, response);
-                response.sendRedirect("insertAndUpdateHotel.jsp");
+                response.sendRedirect("addOrEditHotel.jsp");
             }
 
             String upit;
@@ -146,7 +146,7 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                         stmtPromenaHotela.execute();
 
                         request.setAttribute("uspesnaPromena", true);
-                        RequestDispatcher rd = request.getRequestDispatcher("menadzerNalog.jsp");
+                        RequestDispatcher rd = request.getRequestDispatcher("managerAccount.jsp");
                         rd.forward(request, response);
                         break;
                     }
@@ -213,7 +213,7 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                         }
 
                         request.setAttribute("uspesnaPromena", true);
-                        RequestDispatcher rd = request.getRequestDispatcher("adminHoteli.jsp");
+                        RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
                         rd.forward(request, response);
                         break;
                     }

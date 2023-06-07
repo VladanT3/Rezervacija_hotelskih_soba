@@ -33,7 +33,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="tipoviSoba.jsp" class="nav-link <%= active.equals("roomTypes") ? "active" : "" %>">
+						<a href="roomTypes.jsp" class="nav-link <%= active.equals("roomTypes") ? "active" : "" %>">
 							<i class="fa-solid fa-bed fa-lg bi d-block mx-auto mb-1"></i>
 							Room Types
 						</a>
@@ -42,7 +42,7 @@
 			</div>
 			<div class="text-end">
 				<div class="btn-group">
-					<a type="button" class="btn btn-outline-dark" href="menadzerNalog.jsp">
+					<a type="button" class="btn btn-outline-dark" href="managerAccount.jsp">
 						<i class="fa-solid fa-user fa-lg"></i>
 					</a>
 					<a href="ServletLogout" type="button" class="btn btn-dark me-2">Log Out</a>

@@ -76,7 +76,7 @@ public class ServletLogin extends HttpServlet {
                     Klijent klijent = new Klijent(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
                     session.setAttribute("UlogovanKorisnik", klijent);
 
-                    response.sendRedirect("klijentNalog.jsp");
+                    response.sendRedirect("clientAccount.jsp");
                 }
                 else
                 {
@@ -111,7 +111,7 @@ public class ServletLogin extends HttpServlet {
                             session.setAttribute("UlogovanKorisnik", menadzer);
                             session.setAttribute("UlogovanRadnik", "Menadzer");
 
-                            response.sendRedirect("menadzerNalog.jsp");
+                            response.sendRedirect("managerAccount.jsp");
                         }
                         else
                         {
@@ -137,7 +137,7 @@ public class ServletLogin extends HttpServlet {
                                 session.setAttribute("UlogovanKorisnik", admin);
                                 session.setAttribute("UlogovanRadnik", "Admin");
 
-                                response.sendRedirect("adminNalog.jsp");
+                                response.sendRedirect("adminAccount.jsp");
                             }
                         }
                     }

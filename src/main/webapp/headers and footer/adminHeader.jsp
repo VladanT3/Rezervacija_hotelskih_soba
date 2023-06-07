@@ -16,7 +16,7 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="adminHoteli.jsp" class="nav-link <%= active.equals("adminHoteli") ? "active" : "" %>">
+						<a href="adminHotels.jsp" class="nav-link <%= active.equals("adminHoteli") ? "active" : "" %>">
 						<i class="fa-solid fa-hotel fa-lg bi d-block mx-auto mb-1"></i>
 						Hotels
 						</a>
@@ -28,13 +28,13 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="tipoviSoba.jsp" class="nav-link <%= active.equals("roomTypes") ? "active" : "" %>">
+						<a href="roomTypes.jsp" class="nav-link <%= active.equals("roomTypes") ? "active" : "" %>">
 						<i class="fa-solid fa-bed fa-lg bi d-block mx-auto mb-1"></i>
 						Room Types
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link">
+						<a href="clientSearch.jsp" class="nav-link <%= active.equals("prikazKlijenata") ? "active" : "" %>">
 						<i class="fa-solid fa-users fa-lg bi d-block mx-auto mb-1"></i>
 						Users
 						</a>
@@ -43,7 +43,7 @@
 			</div>
 			<div class="text-end">
 				<div class="btn-group">
-					<a type="button" class="btn btn-outline-dark" href="adminNalog.jsp">
+					<a type="button" class="btn btn-outline-dark" href="adminAccount.jsp">
 						<i class="fa-solid fa-user fa-lg"></i>
 					</a>
 					<a href="ServletLogout" type="button" class="btn btn-dark me-2">Log Out</a>

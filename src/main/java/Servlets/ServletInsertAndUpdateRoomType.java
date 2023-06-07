@@ -48,9 +48,9 @@ public class ServletInsertAndUpdateRoomType extends HttpServlet {
                 request.setAttribute("kupatilo", kupatilo);
                 request.setAttribute("televizor", tv);
                 request.setAttribute("opis", opis);
-                RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateRoomType.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoomType.jsp");
                 rd.forward(request, response);
-                response.sendRedirect("insertAndUpdateRoomType.jsp");
+                response.sendRedirect("addOrEditRoomType.jsp");
             }
 
             String tipSobeId = TipSobe.GenerisiTipSobeID(brojKreveta, tipKreveta, kuhinja, kupatilo, tv);
@@ -72,7 +72,7 @@ public class ServletInsertAndUpdateRoomType extends HttpServlet {
                     request.setAttribute("televizor", tv);
                     request.setAttribute("opis", opis);
 
-                    RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateRoomType.jsp");
+                    RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoomType.jsp");
                     rd.forward(request, response);
                 }
                 else
@@ -90,7 +90,7 @@ public class ServletInsertAndUpdateRoomType extends HttpServlet {
                     stmtUnosTipaSobe.execute();
 
                     request.setAttribute("uspesanUnos", true);
-                    RequestDispatcher rd = request.getRequestDispatcher("tipoviSoba.jsp");
+                    RequestDispatcher rd = request.getRequestDispatcher("roomTypes.jsp");
                     rd.forward(request, response);
                 }
             }
@@ -119,9 +119,9 @@ public class ServletInsertAndUpdateRoomType extends HttpServlet {
                 request.setAttribute("kupatilo", kupatilo);
                 request.setAttribute("televizor", tv);
                 request.setAttribute("opis", opis);
-                RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateRoomType.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoomType.jsp");
                 rd.forward(request, response);
-                response.sendRedirect("insertAndUpdateRoomType.jsp");
+                response.sendRedirect("addOrEditRoomType.jsp");
             }
 
             String nazivTipaSobe = TipSobe.GenerisiNazivTipaSobe(brojKreveta, tipKreveta, kuhinja, kupatilo);
@@ -148,7 +148,7 @@ public class ServletInsertAndUpdateRoomType extends HttpServlet {
                 stmt.execute();
 
                 request.setAttribute("uspesnaPromena", true);
-                RequestDispatcher rd = request.getRequestDispatcher("tipoviSoba.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("roomTypes.jsp");
                 rd.forward(request, response);
             }
             catch (SQLException ex)

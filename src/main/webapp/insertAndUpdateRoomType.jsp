@@ -33,13 +33,13 @@
 			tipSobe = (TipSobe) request.getAttribute("tipSobe");
 		}
 		
-		boolean greska = request.getAttribute("ceoBrojGreska") != null;
-		String brojKreveta = request.getAttribute("brojKreveta") == null ? "" : (String) request.getAttribute("brojKreveta");
+        boolean postojiTipSobeGreska = request.getAttribute("postojiTipSobeGreska") != null;
+		boolean ceoBrojGreska = request.getAttribute("ceoBrojGreska") != null;
+        String brojKreveta = request.getAttribute("brojKreveta") == null ? "" : (String) request.getAttribute("brojKreveta");
 		String tipKreveta = request.getAttribute("tipKreveta") == null ? "" : (String) request.getAttribute("tipKreveta");
 		String kuhinja = request.getAttribute("kuhinja") == null ? "" : (String) request.getAttribute("kuhinja");
 		String kupatilo = request.getAttribute("kupatilo") == null ? "" : (String) request.getAttribute("kupatilo");
-		boolean televizorBool = request.getAttribute("televizor") != null && (boolean) request.getAttribute("televizor");
-        String televizor = String.valueOf(televizorBool);
+		boolean televizor = request.getAttribute("televizor") != null;
 		String opis = request.getAttribute("opis") == null ? "" : (String) request.getAttribute("opis");
 		
 		if(ulogovanRadnik.equals("Menadzer")){
@@ -56,6 +56,16 @@
 	
 	<div class="container">
 		<div class="row">
+			<%
+				if(postojiTipSobeGreska)
+				{
+			%>
+					<div class="col-12 alert alert-danger margin-t-50" role="alert">
+						<i class="fa-solid fa-circle-exclamation fa-lg"></i> Selected room type already exists!
+					</div>
+			<%
+				}
+			%>
 			<div class="col-4"></div>
 			<div class="col-4">
 				<fieldset class="margin-t-50">
@@ -73,20 +83,20 @@
 								<label for="roomTypeTipKreveta" class="form-label">Bed Type</label>
 								<select class="form-select input-boja" name="roomTypeTipKreveta" id="roomTypeTipKreveta" required>
 									<option class="text-muted" value="">Select One</option>
-									<option <%= izmena == 1 ? tipSobe.getTipKreveta().equals("Single") ? "selected" : "" : "" %><%= tipKreveta.equals("Single") ? "selected" : "" %> value="Single">Single</option>
-									<option <%= izmena == 1 ? tipSobe.getTipKreveta().equals("Double") ? "selected" : "" : "" %><%= tipKreveta.equals("Double") ? "selected" : "" %> value="Double">Double</option>
-									<option <%= izmena == 1 ? tipSobe.getTipKreveta().equals("Single + Double") ? "selected" : "" : "" %><%= tipKreveta.equals("Single + Double") ? "selected" : "" %> value="Single + Double">Single + Double</option>
-									<option <%= izmena == 1 ? tipSobe.getTipKreveta().equals("Queen") ? "selected" : "" : "" %><%= tipKreveta.equals("Queen") ? "selected" : "" %> value="Queen">Queen</option>
-									<option <%= izmena == 1 ? tipSobe.getTipKreveta().equals("King") ? "selected" : "" : "" %><%= tipKreveta.equals("King") ? "selected" : "" %> value="King">King</option>
+									<option <%= tipKreveta.equals("Single") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("Single") ? "selected" : "" : "" %> value="Single">Single</option>
+									<option <%= tipKreveta.equals("Double") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("Double") ? "selected" : "" : "" %> value="Double">Double</option>
+									<option <%= tipKreveta.equals("Single + Double") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("Single + Double") ? "selected" : "" : "" %> value="Single + Double">Single + Double</option>
+									<option <%= tipKreveta.equals("Queen") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("Queen") ? "selected" : "" : "" %> value="Queen">Queen</option>
+									<option <%= tipKreveta.equals("King") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("King") ? "selected" : "" : "" %> value="King">King</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="mb-3">
 								<label for="roomTypeBrojKreveta" class="form-label">Number of Beds</label>
-								<input type="text" name="roomTypeBrojKreveta" id="roomTypeBrojKreveta" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" value="<%= izmena == 1 ? tipSobe.getBrojKreveta() : "" %><%= brojKreveta %>" required>
+								<input type="text" name="roomTypeBrojKreveta" id="roomTypeBrojKreveta" class="form-control input-boja <%= ceoBrojGreska ? "is-invalid" : "" %>" value="<%= brojKreveta != "" ? brojKreveta : izmena == 1 ? tipSobe.getBrojKreveta() : "" %>" required>
 								<%
-									if(greska)
+									if(ceoBrojGreska)
 									{
 										out.print
 										(
@@ -103,9 +113,9 @@
 								<label for="roomTypeKuhinja" class="form-label">Kitchen Type</label>
 								<select class="form-select input-boja" name="roomTypeKuhinja" id="roomTypeKuhinja" required>
 									<option class="text-muted" value="">Select One</option>
-									<option <%= izmena == 1 ? tipSobe.getKuhinja().equals("None") ? "selected" : "" : "" %><%= kuhinja.equals("None") ? "selected" : "" %> value="None">None</option>
-									<option <%= izmena == 1 ? tipSobe.getKuhinja().equals("Semi-furnished") ? "selected" : "" : "" %><%= kuhinja.equals("Semi-furnished") ? "selected" : "" %> value="Semi-furnished">Semi-furnished</option>
-									<option <%= izmena == 1 ? tipSobe.getKuhinja().equals("Fully-furnished") ? "selected" : "" : "" %><%= kuhinja.equals("Fully-furnished") ? "selected" : "" %> value="Fully-furnished">Fully-furnished</option>
+									<option <%= kuhinja.equals("None") ? "selected" : izmena == 1 ? tipSobe.getKuhinja().equals("None") ? "selected" : "" : "" %> value="None">None</option>
+									<option <%= kuhinja.equals("Semi-furnished") ? "selected" : izmena == 1 ? tipSobe.getKuhinja().equals("Semi-furnished") ? "selected" : "" : "" %> value="Semi-furnished">Semi-furnished</option>
+									<option <%= kuhinja.equals("Fully-furnished") ? "selected" : izmena == 1 ? tipSobe.getKuhinja().equals("Fully-furnished") ? "selected" : "" : "" %> value="Fully-furnished">Fully-furnished</option>
 								</select>
 							</div>
 						</div>
@@ -114,20 +124,20 @@
 								<label for="roomTypeKupatilo" class="form-label">Bathroom Type</label>
 								<select class="form-select input-boja" name="roomTypeKupatilo" id="roomTypeKupatilo" required>
 									<option class="text-muted" value="">Select One</option>
-									<option <%= izmena == 1 ? tipSobe.getKupatilo().equals("Shower") ? "selected" : "" : "" %><%= kupatilo.equals("Shower") ? "selected" : "" %> value="Shower">Shower</option>
-									<option <%= izmena == 1 ? tipSobe.getKupatilo().equals("Bath") ? "selected" : "" : "" %><%= kupatilo.equals("Bath") ? "selected" : "" %> value="Bath">Bath</option>
+									<option <%= kupatilo.equals("Shower") ? "selected" : izmena == 1 ? tipSobe.getKupatilo().equals("Shower") ? "selected" : "" : "" %> value="Shower">Shower</option>
+									<option <%= kupatilo.equals("Bath") ? "selected" : izmena == 1 ? tipSobe.getKupatilo().equals("Bath") ? "selected" : "" : "" %> value="Bath">Bath</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-check form-switch col mb-3">
 								<label class="form-check-label" for="roomTypeTV">TV</label>
-								<input class="form-check-input check-boja" type="checkbox" name="roomTypeTV" id="roomTypeTV" <%= izmena == 1 ? tipSobe.isTelevizor() ? "checked" : "" : televizor.equals("true") ? "checked" : "" %><%= televizor.equals("true") ? "checked" : "" %>>
+								<input class="form-check-input check-boja" type="checkbox" name="roomTypeTV" id="roomTypeTV" <%= televizor ? "checked" : izmena == 1 ? tipSobe.isTelevizor() ? "checked" : "" : "" %>>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<textarea name="roomTypeDesc" id="roomTypeDesc" class="form-control input-boja" style="height: 150px" placeholder="Room Description" maxlength="500" required><%= izmena == 1 ? tipSobe.getOpis() : "" %><%= opis %></textarea>
+								<textarea name="roomTypeDesc" id="roomTypeDesc" class="form-control input-boja" style="height: 150px" placeholder="Room Description" maxlength="500" required><%= opis != "" ? opis : izmena == 1 ? tipSobe.getOpis() : "" %></textarea>
 								<label for="roomTypeDesc" class="text-muted">Room Description</label>
 							</div>
 						</div>
@@ -146,7 +156,7 @@
 							{
 						%>
 								<div class="col-12">
-									<input type="hidden" name="updateHotelID" value="<%= tipSobe.getTipSobeID() %>">
+									<input type="hidden" name="updateRoomTypeID" value="<%= tipSobe.getTipSobeID() %>">
 									<div class="d-grid gap-2">
 										<input type="submit" name="submit" class="btn btn-light float-end" value="Edit Room Type">
 									</div>

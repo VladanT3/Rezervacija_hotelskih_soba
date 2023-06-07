@@ -85,7 +85,7 @@
 									<select class="form-select input-boja" id="assignedManager" name="assignedManager">
 										<option value="">Select One</option>
 										<%
-											if(izmena == 1){
+											if(izmena == 1 && menadzerHotela.getId() != null){
                                         %>
 												<option selected value="<%= menadzerHotela.getId() %>"><%= menadzerHotela.getId() + " - " + menadzerHotela.getIme() + " " + menadzerHotela.getPrezime() %></option>
 										<%
@@ -108,25 +108,25 @@
 						%>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelName" id="hotelName" class="form-control input-boja" placeholder="Hotel Name" value="<%= izmena == 1 ? hotel.getNaziv() : "" %><%= naziv %>" required>
+								<input type="text" name="hotelName" id="hotelName" class="form-control input-boja" placeholder="Hotel Name" value="<%= naziv != "" ? naziv : izmena == 1 ? hotel.getNaziv() : "" %>" required>
 								<label for="hotelName" class="text-muted">Hotel Name</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelCountry" id="hotelCountry" class="form-control input-boja" placeholder="Country" value="<%= izmena == 1 ? hotel.getDrzava() : "" %><%= drzava %>" required>
+								<input type="text" name="hotelCountry" id="hotelCountry" class="form-control input-boja" placeholder="Country" value="<%= drzava != "" ? drzava : izmena == 1 ? hotel.getDrzava() : "" %>" required>
 								<label for="hotelCountry" class="text-muted">Country:</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelCity" id="hotelCity" class="form-control input-boja" placeholder="City" value="<%= izmena == 1 ? hotel.getGrad() : "" %><%= grad %>" required>
+								<input type="text" name="hotelCity" id="hotelCity" class="form-control input-boja" placeholder="City" value="<%= grad != "" ? grad : izmena == 1 ? hotel.getGrad() : "" %>" required>
 								<label for="hotelCity" class="text-muted">City</label>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelZvezdice" id="hotelZvezdice" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" placeholder="Number of stars" value="<%= izmena == 1 ? hotel.getBrojZvezdica() : "" %><%= brojZvezdica %>" required>
+								<input type="text" name="hotelZvezdice" id="hotelZvezdice" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" placeholder="Number of stars" value="<%= brojZvezdica != "" ? brojZvezdica : izmena == 1 ? hotel.getBrojZvezdica() : "" %>" required>
 								<label for="hotelZvezdice" class="text-muted">Number of stars</label>
 								<%
 									if(greska)
@@ -143,7 +143,7 @@
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelParking" id="hotelParking" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" placeholder="Parking spots" value="<%= izmena == 1 ? hotel.getBrojParkingMesta() : "" %><%= brojParkingMesta %>" required>
+								<input type="text" name="hotelParking" id="hotelParking" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" placeholder="Parking spots" value="<%= brojParkingMesta != "" ? brojParkingMesta : izmena == 1 ? hotel.getBrojParkingMesta() : "" %>" required>
 								<label for="hotelParking" class="text-muted">Parking spots</label>
 								<%
 									if(greska)
@@ -160,13 +160,13 @@
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelPicture" id="hotelPicture" class="form-control input-boja" placeholder="Hotel Picture" value="<%= izmena == 1 ? hotel.getNazivSlike() : "" %><%= nazivSlike %>">
+								<input type="text" name="hotelPicture" id="hotelPicture" class="form-control input-boja" placeholder="Hotel Picture" value="<%= nazivSlike != "" ? nazivSlike : izmena == 1 ? hotel.getNazivSlike() : "" %>">
 								<label for="hotelPicture" class="text-muted">Hotel Picture</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<textarea name="hotelDesc" id="hotelDesc" class="form-control input-boja" style="height: 150px" placeholder="Hotel Description" maxlength="500" required><%= izmena == 1 ? hotel.getOpis() : "" %><%= opis %></textarea>
+								<textarea name="hotelDesc" id="hotelDesc" class="form-control input-boja" style="height: 150px" placeholder="Hotel Description" maxlength="500" required><%= opis != "" ? opis : izmena == 1 ? hotel.getOpis() : "" %></textarea>
 								<label for="hotelDesc" class="text-muted">Hotel Description</label>
 							</div>
 						</div>

@@ -89,6 +89,179 @@ public class TipSobe {
         return tipSobe;
     }
 
+    public static String GenerisiTipSobeID(int brojKreveta, String tipKreveta, String kuhinja, String kupatilo, boolean tv)
+    {
+        String id = "TS";
+        int dodatakIDBrojKreveta = 0;
+
+        switch (tipKreveta)
+        {
+            case "Single":
+            {
+                id += brojKreveta + "S";
+                break;
+            }
+            case "Double":
+            {
+                dodatakIDBrojKreveta = brojKreveta / 2;
+                id += dodatakIDBrojKreveta + "D";
+                break;
+            }
+            case "Single + Double":
+            {
+                dodatakIDBrojKreveta = brojKreveta / 3;
+                id += dodatakIDBrojKreveta + "SD";
+                break;
+            }
+            case "Queen":
+            {
+                dodatakIDBrojKreveta = brojKreveta / 2;
+                id += dodatakIDBrojKreveta + "Q";
+                break;
+            }
+            case "King":
+            {
+                dodatakIDBrojKreveta = brojKreveta / 2;
+                id += dodatakIDBrojKreveta + "K";
+                break;
+            }
+        }
+
+        switch (kuhinja)
+        {
+            case "None":
+            {
+                id += "0K";
+                break;
+            }
+            case "Semi-furnished":
+            {
+                id += "1K";
+                break;
+            }
+            case "Fully-furnished":
+            {
+                id += "2K";
+                break;
+            }
+        }
+
+        switch (kupatilo)
+        {
+            case "Shower":
+            {
+                id += "Shw";
+                break;
+            }
+            case "Bath":
+            {
+                id += "Bth";
+                break;
+            }
+        }
+
+        if(tv)
+            id += "1TV";
+        else
+            id += "0TV";
+
+        return id;
+    }
+
+    public static String GenerisiNazivTipaSobe(int brojKreveta, String tipKreveta, String kuhinja, String kupatilo)
+    {
+        String naziv = "";
+        int dodatakNazivBrojKreveta = 0;
+
+        switch (tipKreveta)
+        {
+            case "Single":
+            {
+                naziv += brojKreveta + "x Single ";
+                if(brojKreveta > 1)
+                    naziv += "Beds | ";
+                else
+                    naziv += "Bed | ";
+                break;
+            }
+            case "Double":
+            {
+                dodatakNazivBrojKreveta = brojKreveta / 2;
+                naziv += dodatakNazivBrojKreveta + "x Double ";
+                if(dodatakNazivBrojKreveta > 1)
+                    naziv += "Beds | ";
+                else
+                    naziv += "Bed | ";
+                break;
+            }
+            case "Single + Double":
+            {
+                dodatakNazivBrojKreveta = brojKreveta / 3;
+                naziv += dodatakNazivBrojKreveta + "x Single/Double ";
+                if(dodatakNazivBrojKreveta > 1)
+                    naziv += "Combos | ";
+                else
+                    naziv += "Combo | ";
+                break;
+            }
+            case "Queen":
+            {
+                dodatakNazivBrojKreveta = brojKreveta / 2;
+                naziv += dodatakNazivBrojKreveta + "x Queen Size ";
+                if(dodatakNazivBrojKreveta > 1)
+                    naziv += "Beds | ";
+                else
+                    naziv += "Bed | ";
+                break;
+            }
+            case "King":
+            {
+                dodatakNazivBrojKreveta = brojKreveta / 2;
+                naziv += dodatakNazivBrojKreveta + "x King Size ";
+                if(dodatakNazivBrojKreveta > 1)
+                    naziv += "Beds | ";
+                else
+                    naziv += "Bed | ";
+                break;
+            }
+        }
+
+        switch (kuhinja)
+        {
+            case "None":
+            {
+                naziv += "No Kitchen | ";
+                break;
+            }
+            case "Semi-furnished":
+            {
+                naziv += "Semi-furnished Kitchen | ";
+                break;
+            }
+            case "Fully-furnished":
+            {
+                naziv += "Fully-furnished Kitchen | ";
+                break;
+            }
+        }
+
+        switch (kupatilo)
+        {
+            case "Shower":
+            {
+                naziv += "Shower";
+                break;
+            }
+            case "Bath":
+            {
+                naziv += "Bath";
+                break;
+            }
+        }
+
+        return naziv;
+    }
+
     public String getTipSobeID() {
         return tipSobeID;
     }

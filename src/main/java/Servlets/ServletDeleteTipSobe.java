@@ -33,7 +33,7 @@ public class ServletDeleteTipSobe extends HttpServlet {
             stmt.execute();
 
             request.setAttribute("uspesnoBrisanje", true);
-            RequestDispatcher rd = request.getRequestDispatcher("tipoviSoba.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("roomTypes.jsp");
             rd.forward(request, response);
         }
         catch(SQLException ex)

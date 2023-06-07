@@ -78,10 +78,10 @@
 				}
 			%>
 			<div class="col-1">
-				<a href="insertAndUpdateRoomType.jsp" class="btn btn-outline-light" title="Add new Room Type"><i class="fa-solid fa-plus fa-lg"></i></a>
+				<a href="addOrEditRoomType.jsp" class="btn btn-outline-light" title="Add new Room Type"><i class="fa-solid fa-plus fa-lg"></i></a>
 			</div>
 			<div class="col-4">
-				<form action="tipoviSoba.jsp" method="get">
+				<form action="roomTypes.jsp" method="get">
 					<div class="input-group mb-3">
 						<input type="text" class="form-control input-boja" name="search" placeholder="Search room types..." value="<%= pretraga %>">
 						<input class="btn btn-outline-light" type="submit" value="Search">

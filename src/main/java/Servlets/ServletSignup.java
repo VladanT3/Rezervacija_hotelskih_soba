@@ -82,7 +82,7 @@ public class ServletSignup extends HttpServlet {
                     Klijent klijent = new Klijent(korisnikId, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
                     session.setAttribute("UlogovanKorisnik", klijent);
 
-                    response.sendRedirect("klijentNalog.jsp");
+                    response.sendRedirect("clientAccount.jsp");
                 }
             }
             else
@@ -129,7 +129,7 @@ public class ServletSignup extends HttpServlet {
                     Klijent klijent = new Klijent(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
                     session.setAttribute("UlogovanKorisnik", klijent);
 
-                    response.sendRedirect("klijentNalog.jsp");
+                    response.sendRedirect("clientAccount.jsp");
                 }
             }
         }

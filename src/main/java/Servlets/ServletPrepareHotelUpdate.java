@@ -25,7 +25,7 @@ public class ServletPrepareHotelUpdate extends HttpServlet {
         Hotel hotelZaUpdate = Hotel.VratiDetaljeHotela(request.getParameter("hotel"));
         request.setAttribute("hotel", hotelZaUpdate);
         request.setAttribute("updateProvera", "1");
-        RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateHotel.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("addOrEditHotel.jsp");
         rd.forward(request, response);
     }
 

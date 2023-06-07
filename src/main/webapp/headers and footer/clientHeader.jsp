@@ -32,7 +32,7 @@
 			</div>
 			<div class="text-end">
 				<div class="btn-group">
-					<a type="button" class="btn btn-outline-dark" href="klijentNalog.jsp">
+					<a type="button" class="btn btn-outline-dark" href="clientAccount.jsp">
 						<i class="fa-solid fa-user fa-lg"></i>
 					</a>
 					<a href="ServletLogout" type="button" class="btn btn-dark me-2">Log Out</a>

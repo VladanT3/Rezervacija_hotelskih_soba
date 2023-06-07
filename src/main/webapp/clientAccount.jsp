@@ -21,7 +21,7 @@
 		Rezervacija rezervacija = klijent.VratiDetaljeNajblizeRezervacije();
 		Hotel hotel = rezervacija.VratiDetaljeHotelaUKomJeRezervacija();
 	%>
-	<%@ include file="headers and footer/klijentHeader.jsp"%>
+	<%@ include file="headers and footer/clientHeader.jsp"%>
 	
 	<div class="container">
 		<div class="row">
@@ -97,7 +97,7 @@
 							<div class="mb-3 row">
 								<label for="reservationCountry" class="col-5 col-form-label text-muted">Country:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="reservationCountry" value="<%= hotel.getDrzava() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="reservationCountry" value="<%= hotel.getDrzava() == null ? "" : hotel.getDrzava() %>">
 								</div>
 							</div>
 						</div>
@@ -105,7 +105,7 @@
 							<div class="mb-3 row">
 								<label for="reservationCity" class="col-5 col-form-label text-muted">City:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="reservationCity" value="<%= hotel.getGrad() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="reservationCity" value="<%= hotel.getGrad() == null ? "" : hotel.getGrad() %>">
 								</div>
 							</div>
 						</div>
@@ -113,7 +113,7 @@
 							<div class="mb-3 row">
 								<label for="reservationHotel" class="col-5 col-form-label text-muted">Hotel:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="reservationHotel" value="<%= hotel.getNaziv() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="reservationHotel" value="<%= hotel.getNaziv() == null ? "" : hotel.getNaziv() %>">
 								</div>
 							</div>
 						</div>
@@ -121,7 +121,7 @@
 							<div class="mb-3 row">
 								<label for="reservationRoom" class="col-5 col-form-label text-muted">Room:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="reservationRoom" value="<%= rezervacija.VratiBrojSobeURezervaciji() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="reservationRoom" value="<%= rezervacija.VratiBrojSobeURezervaciji() == 0 ? "" : rezervacija.VratiBrojSobeURezervaciji() %>">
 								</div>
 							</div>
 						</div>
@@ -129,7 +129,7 @@
 							<div class="mb-3 row">
 								<label for="reservationFrom" class="col-5 col-form-label text-muted">From:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="reservationFrom" value="<%= rezervacija.getDatumPocetka() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="reservationFrom" value="<%= rezervacija.getDatumPocetka() == null ? "" : rezervacija.getDatumPocetka() %>">
 								</div>
 							</div>
 						</div>
@@ -137,7 +137,7 @@
 							<div class="mb-3 row">
 								<label for="reservationTo" class="col-5 col-form-label text-muted">To:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="reservationTo" value="<%= rezervacija.getDatumIsteka() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="reservationTo" value="<%= rezervacija.getDatumIsteka() == null ? "" : rezervacija.getDatumIsteka() %>">
 								</div>
 							</div>
 						</div>

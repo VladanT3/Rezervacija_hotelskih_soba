@@ -32,7 +32,7 @@ public class ServletDeleteHotel extends HttpServlet {
             stmt.execute();
 
             request.setAttribute("uspesnoBrisanje", true);
-            RequestDispatcher rd = request.getRequestDispatcher("adminHoteli.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
             rd.forward(request, response);
         }
         catch(SQLException ex)

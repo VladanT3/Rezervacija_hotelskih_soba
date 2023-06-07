@@ -25,7 +25,7 @@ public class ServletPrepareRoomTypeUpdate extends HttpServlet {
         TipSobe tipZaUpdate = TipSobe.VratiDetaljeTipaSobe(request.getParameter("tipSobe"));
         request.setAttribute("tipSobe", tipZaUpdate);
         request.setAttribute("updateProvera", "1");
-        RequestDispatcher rd = request.getRequestDispatcher("insertAndUpdateRoomType.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoomType.jsp");
         rd.forward(request, response);
     }
 

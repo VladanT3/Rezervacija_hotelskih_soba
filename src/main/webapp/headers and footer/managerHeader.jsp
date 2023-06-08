@@ -1,11 +1,11 @@
-<%@ page import="Models.Menadzer" %>
+<%@ page import="Models.Manager" %>
 <%@ page import="Models.Hotel" %>
 
 <%
 	String active = (String) request.getSession().getAttribute("Active");
 	active = active == null ? "" : active;
-	Menadzer m = (Menadzer) request.getSession().getAttribute("UlogovanKorisnik");
-	Hotel dh = m.VratiDodeljenHotel();
+	Manager m = (Manager) request.getSession().getAttribute("LoggedInUser");
+	Hotel ah = m.ReturnAssignedHotel();
 %>
 
 <header>
@@ -21,7 +21,7 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="ServletPrepareHotelUpdate?hotel=<%= dh.getId() %>" class="nav-link <%= active.equals("editHotel") ? "active" : "" %>">
+						<a href="ServletPrepareHotelUpdate?hotel=<%= ah.getId() %>" class="nav-link <%= active.equals("editHotel") ? "active" : "" %>">
 							<i class="fa-solid fa-hotel fa-lg bi d-block mx-auto mb-1"></i>
 							Edit Hotel
 						</a>

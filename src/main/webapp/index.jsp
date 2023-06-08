@@ -6,19 +6,15 @@
 <body>
 	<%@ include file="headers and footer/loginHeader.jsp"%>
 	<%
-		request.getSession().setAttribute("UlogovanKorisnik", null);
+		request.getSession().setAttribute("LoggedInUser", null);
 		
-		String email = (String) request.getAttribute("unetEmail");
+		String email = (String) request.getAttribute("inputEmail");
         if(email == null) email = "";
-		String sifra = (String) request.getAttribute("unetaSifra");
-        if(sifra == null) sifra = "";
-		
-		boolean greska = false;
-		try
-		{
-			greska = (boolean) request.getAttribute("greskaLogin");
-		}
-        catch (Exception ignored){}
+        
+		String password = (String) request.getAttribute("inputPassword");
+        if(password == null) password = "";
+        
+		boolean loginError = request.getAttribute("loginError") != null;
 	%>
 	<div class="container">
 		<div class="row">
@@ -29,14 +25,14 @@
 					<form method="post" action="ServletLogin" class="row">
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="email" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" id="floatingEmail" name="inputEmail" placeholder="E-mail" value="<%= email %>" required>
+								<input type="email" class="form-control input-boja <%= loginError ? "is-invalid" : "" %>" id="floatingEmail" name="inputEmail" placeholder="E-mail" value="<%= email %>" required>
 								<label for="floatingEmail" class="text-muted">E-mail</label>
 								<%
-									if(greska)
+									if(loginError)
 									{
                                         out.print
 		                                (
-                                            "<div id='validacijaEmail' class='invalid-feedback'>" +
+                                            "<div id='validationEmail' class='invalid-feedback'>" +
 		                                        "Email or password are incorrect!" +
 		                                    "</div>"
 		                                );
@@ -46,14 +42,14 @@
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="password" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" id="inputSifra" name="inputSifra" placeholder="Password" value="<%= sifra %>" required>
-								<label for="inputSifra" class="text-muted">Password</label>
+								<input type="password" class="form-control input-boja <%= loginError ? "is-invalid" : "" %>" id="userPassword" name="inputPassword" placeholder="Password" value="<%= password %>" required>
+								<label for="userPassword" class="text-muted">Password</label>
 								<%
-									if(greska)
+									if(loginError)
 									{
 										out.print
 										(
-											"<div id='validacijaSifra' class='invalid-feedback'>" +
+											"<div id='validationPassword' class='invalid-feedback'>" +
 												"Email or password are incorrect!" +
 											"</div>"
 										);
@@ -63,8 +59,8 @@
 						</div>
 						<div class="col-1"></div>
 						<div class="form-check form-switch col">
-							<input class="form-check-input check-boja" type="checkbox" id="prikazSifre">
-							<label class="form-check-label" for="prikazSifre">Show password</label>
+							<input class="form-check-input check-boja" type="checkbox" id="showPassword">
+							<label class="form-check-label" for="showPassword">Show password</label>
 						</div>
 						<div class="col-12 align-center margin-t-10">
 							<div class="d-grid gap-2">

@@ -1,7 +1,7 @@
 package Servlets;
 
 import Database.DBConnection;
-import Models.Klijent;
+import Models.Client;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -20,114 +20,87 @@ public class ServletSignup extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String upit;
-        boolean greskaEmail = false;
+        String query;
         HttpSession session = request.getSession();
 
-        String inputIme = request.getParameter("inputIme");
-        String inputPrezime = request.getParameter("inputPrezime");
-        String inputEmail = request.getParameter("inputEmail");
-        String inputSifra = request.getParameter("inputSifra");
-        String inputDrzava = request.getParameter("inputDrzava");
-        String inputGrad = request.getParameter("inputGrad");
-        String inputAdresa = request.getParameter("inputAdresa");
-        String inputBrojTelefona = request.getParameter("inputPhone");
-        String inputDatumRodjenja = request.getParameter("inputDatumRodjenja");
+        String firstName = request.getParameter("clientFirstName");
+        String lastName = request.getParameter("clientLastName");
+        String email = request.getParameter("clientEmail");
+        String password = request.getParameter("userPassword");
+        String country = request.getParameter("clientCountry");
+        String city = request.getParameter("clientCity");
+        String address = request.getParameter("clientAddress");
+        String phoneNumber = request.getParameter("clientPhone");
+        String birthday = request.getParameter("clientBirthday");
 
-        upit = "select * from korisnik ko join klijent kl on ko.korisnik_id = kl.korisnik_id where email = ?";
+        query = "select * from korisnik where email = ?";
 
         try
         {
-            PreparedStatement stmt = conn.prepareStatement(upit);
-            stmt.setString(1, inputEmail);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, email);
 
-            ResultSet rez = stmt.executeQuery();
+            ResultSet res = stmt.executeQuery();
 
-            if(rez.next())
+            if(res.next())
             {
-                boolean obrisan = rez.getBoolean("obrisan");
-                if(!obrisan)
-                {
-                    greskaEmail = true;
-                    request.setAttribute("greskaEmail", greskaEmail);
-                    request.setAttribute("ime", inputIme);
-                    request.setAttribute("prezime", inputPrezime);
-                    request.setAttribute("email", inputEmail);
-                    request.setAttribute("sifra", inputSifra);
-                    request.setAttribute("grad", inputGrad);
-                    request.setAttribute("adresa", inputAdresa);
-                    request.setAttribute("brojTelefona", inputBrojTelefona);
-                    request.setAttribute("datumRodjenja", inputDatumRodjenja);
-                    RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");
-                    rd.forward(request, response);
-                }
-                else
-                {
-                    String korisnikId = rez.getString("korisnik_id");
-                    upit = "update klijent set obrisan = 0 where korisnik_id = ?";
-                    PreparedStatement stmtVracanjeNaloga = conn.prepareStatement(upit);
-                    stmtVracanjeNaloga.setString(1, korisnikId);
-                    stmtVracanjeNaloga.execute();
+                request.setAttribute("emailError", true);
+                request.setAttribute("firstName", firstName);
+                request.setAttribute("lastName", lastName);
+                request.setAttribute("email", email);
+                request.setAttribute("password", password);
+                request.setAttribute("city", city);
+                request.setAttribute("address", address);
+                request.setAttribute("phoneNumber", phoneNumber);
+                request.setAttribute("birthday", birthday);
 
-                    String ime = rez.getString("ime");
-                    String prezime = rez.getString("prezime");
-                    String email = rez.getString("email");
-                    String drzava = rez.getString("drzava");
-                    String grad = rez.getString("grad");
-                    String adresa = rez.getString("adresa");
-                    String brojTelefona = rez.getString("broj_telefona");
-                    String datumRodjenja = rez.getString("datum_rodjenja");
-                    int brojPoena = rez.getInt("broj_poena");
-
-                    Klijent klijent = new Klijent(korisnikId, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
-                    session.setAttribute("UlogovanKorisnik", klijent);
-
-                    response.sendRedirect("clientAccount.jsp");
-                }
+                RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");
+                rd.forward(request, response);
+                response.sendRedirect("signup.jsp");
             }
             else
             {
-                String korisnikID = Klijent.generisiNoviKlijentID();
+                String userID = Client.GenerateNewClientID();
 
-                upit = "insert into korisnik values(?, ?, ?, ?, password(?), ?, ?, ?, ?, ?)";
+                query = "insert into korisnik values(?, ?, ?, ?, password(?), ?, ?, ?, ?, ?, default)";
 
-                PreparedStatement stmtUnosKorisnika = conn.prepareStatement(upit);
-                stmtUnosKorisnika.setString(1, korisnikID);
-                stmtUnosKorisnika.setString(2, inputIme);
-                stmtUnosKorisnika.setString(3, inputPrezime);
-                stmtUnosKorisnika.setString(4, inputEmail);
-                stmtUnosKorisnika.setString(5, inputSifra);
-                stmtUnosKorisnika.setString(6, inputDrzava);
-                stmtUnosKorisnika.setString(7, inputGrad);
-                stmtUnosKorisnika.setString(8, inputAdresa);
-                stmtUnosKorisnika.setString(9, inputBrojTelefona);
-                stmtUnosKorisnika.setString(10, inputDatumRodjenja);
-                stmtUnosKorisnika.execute();
+                PreparedStatement stmtInsertUser = conn.prepareStatement(query);
+                stmtInsertUser.setString(1, userID);
+                stmtInsertUser.setString(2, firstName);
+                stmtInsertUser.setString(3, lastName);
+                stmtInsertUser.setString(4, email);
+                stmtInsertUser.setString(5, password);
+                stmtInsertUser.setString(6, country);
+                stmtInsertUser.setString(7, city);
+                stmtInsertUser.setString(8, address);
+                stmtInsertUser.setString(9, phoneNumber);
+                stmtInsertUser.setString(10, birthday);
+                stmtInsertUser.execute();
 
-                upit = "insert into klijent values(?, 0)";
-                PreparedStatement stmtUnosKlijenta = conn.prepareStatement(upit);
-                stmtUnosKlijenta.setString(1, korisnikID);
-                stmtUnosKlijenta.execute();
+                query = "insert into klijent values(?, 0)";
+                PreparedStatement stmtInsertClient = conn.prepareStatement(query);
+                stmtInsertClient.setString(1, userID);
+                stmtInsertClient.execute();
 
-                upit = "select * from korisnik kor join klijent kl on kor.korisnik_id = kl.korisnik_id where email = ?";
-                PreparedStatement stmtVadjenjeKorisnika = conn.prepareStatement(upit);
-                stmtVadjenjeKorisnika.setString(1, inputEmail);
-                ResultSet rezKorisnik = stmtVadjenjeKorisnika.executeQuery();
+                query = "select * from korisnik kor join klijent kl on kor.korisnik_id = kl.korisnik_id where email = ?";
+                PreparedStatement stmtReturnClient = conn.prepareStatement(query);
+                stmtReturnClient.setString(1, email);
+                ResultSet resClient = stmtReturnClient.executeQuery();
 
-                if(rezKorisnik.next())
+                if(resClient.next())
                 {
-                    String ime = rezKorisnik.getString("ime");
-                    String prezime = rezKorisnik.getString("prezime");
-                    String email = rezKorisnik.getString("email");
-                    String drzava = rezKorisnik.getString("drzava");
-                    String grad = rezKorisnik.getString("grad");
-                    String adresa = rezKorisnik.getString("adresa");
-                    String brojTelefona = rezKorisnik.getString("broj_telefona");
-                    String datumRodjenja = rezKorisnik.getString("datum_rodjenja");
-                    int brojPoena = rezKorisnik.getInt("broj_poena");
+                    String clientFirstName = resClient.getString("ime");
+                    String clientLastName = resClient.getString("prezime");
+                    String clientEmail = resClient.getString("email");
+                    String clientCountry = resClient.getString("drzava");
+                    String clientCity = resClient.getString("grad");
+                    String clientAddress = resClient.getString("adresa");
+                    String clientPhone = resClient.getString("broj_telefona");
+                    String clientBirthday = resClient.getString("datum_rodjenja");
+                    int numberOfPoints = resClient.getInt("broj_poena");
 
-                    Klijent klijent = new Klijent(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
-                    session.setAttribute("UlogovanKorisnik", klijent);
+                    Client client = new Client(userID, clientFirstName, clientLastName, clientEmail, clientCountry, clientCity, clientAddress, clientPhone, clientBirthday, numberOfPoints);
+                    session.setAttribute("LoggedInUser", client);
 
                     response.sendRedirect("clientAccount.jsp");
                 }

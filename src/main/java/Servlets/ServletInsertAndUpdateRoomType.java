@@ -1,7 +1,7 @@
 package Servlets;
 
 import Database.DBConnection;
-import Models.TipSobe;
+import Models.RoomType;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -24,72 +24,72 @@ public class ServletInsertAndUpdateRoomType extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String submit = request.getParameter("submit");
-        String tipKreveta = request.getParameter("roomTypeTipKreveta");
-        String brojKrevetaString = request.getParameter("roomTypeBrojKreveta");
-        String kuhinja = request.getParameter("roomTypeKuhinja");
-        String kupatilo = request.getParameter("roomTypeKupatilo");
+        String bedType = request.getParameter("roomTypeBedType");
+        String numberOfBedsString = request.getParameter("roomTypeNumberOfBeds");
+        String kitchen = request.getParameter("roomTypeKitchen");
+        String bathroom = request.getParameter("roomTypeBathroom");
         String tvBool = request.getParameter("roomTypeTV");
-        String opis = request.getParameter("roomTypeDesc");
-        int brojKreveta = 0;
+        String desc = request.getParameter("roomTypeDesc");
+        int numberOfBeds = 0;
         boolean tv = tvBool.equals("on");
 
         if(submit.equals("Add Room Type"))
         {
             try
             {
-                brojKreveta = Integer.parseInt(brojKrevetaString);
+                numberOfBeds = Integer.parseInt(numberOfBedsString);
             }
             catch (Exception ex)
             {
-                request.setAttribute("ceoBrojGreska", true);
-                request.setAttribute("tipKreveta", tipKreveta);
-                request.setAttribute("brojKreveta", brojKrevetaString);
-                request.setAttribute("kuhinja", kuhinja);
-                request.setAttribute("kupatilo", kupatilo);
-                request.setAttribute("televizor", tv);
-                request.setAttribute("opis", opis);
+                request.setAttribute("wholeNumberError", true);
+                request.setAttribute("bedType", bedType);
+                request.setAttribute("numberOfBeds", numberOfBedsString);
+                request.setAttribute("kitchen", kitchen);
+                request.setAttribute("bathroom", bathroom);
+                request.setAttribute("television", tv);
+                request.setAttribute("desc", desc);
                 RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoomType.jsp");
                 rd.forward(request, response);
                 response.sendRedirect("addOrEditRoomType.jsp");
             }
 
-            String tipSobeId = TipSobe.GenerisiTipSobeID(brojKreveta, tipKreveta, kuhinja, kupatilo, tv);
-            String nazivTipaSobe = TipSobe.GenerisiNazivTipaSobe(brojKreveta, tipKreveta, kuhinja, kupatilo);
-            String upit = "select * from tip_sobe where tip_sobe_id = ?";
+            String roomTypeID = RoomType.GenerateRoomTypeID(numberOfBeds, bedType, kitchen, bathroom, tv);
+            String roomTypeName = RoomType.GenerateRoomTypeName(numberOfBeds, bedType, kitchen, bathroom);
+            String query = "select * from tip_sobe where tip_sobe_id = ?";
 
             try
             {
-                PreparedStatement stmt = conn.prepareStatement(upit);
-                stmt.setString(1, tipSobeId);
-                ResultSet rez = stmt.executeQuery();
-                if(rez.next())
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, roomTypeID);
+                ResultSet res = stmt.executeQuery();
+                if(res.next())
                 {
-                    request.setAttribute("postojiTipSobeGreska", true);
-                    request.setAttribute("tipKreveta", tipKreveta);
-                    request.setAttribute("brojKreveta", brojKrevetaString);
-                    request.setAttribute("kuhinja", kuhinja);
-                    request.setAttribute("kupatilo", kupatilo);
-                    request.setAttribute("televizor", tv);
-                    request.setAttribute("opis", opis);
+                    request.setAttribute("roomTypeAlreadyExistsError", true);
+                    request.setAttribute("bedType", bedType);
+                    request.setAttribute("numberOfBeds", numberOfBedsString);
+                    request.setAttribute("kitchen", kitchen);
+                    request.setAttribute("bathroom", bathroom);
+                    request.setAttribute("television", tv);
+                    request.setAttribute("desc", desc);
 
                     RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoomType.jsp");
                     rd.forward(request, response);
                 }
                 else
                 {
-                    upit = "insert into tip_sobe value (?, ?, ?, ?, ?, ?, ?, ?)";
-                    PreparedStatement stmtUnosTipaSobe = conn.prepareStatement(upit);
-                    stmtUnosTipaSobe.setString(1, tipSobeId);
-                    stmtUnosTipaSobe.setString(2, nazivTipaSobe);
-                    stmtUnosTipaSobe.setInt(3, brojKreveta);
-                    stmtUnosTipaSobe.setString(4, tipKreveta);
-                    stmtUnosTipaSobe.setString(5, kuhinja);
-                    stmtUnosTipaSobe.setString(6, kupatilo);
-                    stmtUnosTipaSobe.setBoolean(7, tv);
-                    stmtUnosTipaSobe.setString(8, opis);
-                    stmtUnosTipaSobe.execute();
+                    query = "insert into tip_sobe value (?, ?, ?, ?, ?, ?, ?, ?)";
+                    PreparedStatement stmtInsertRoomType = conn.prepareStatement(query);
+                    stmtInsertRoomType.setString(1, roomTypeID);
+                    stmtInsertRoomType.setString(2, roomTypeName);
+                    stmtInsertRoomType.setInt(3, numberOfBeds);
+                    stmtInsertRoomType.setString(4, bedType);
+                    stmtInsertRoomType.setString(5, kitchen);
+                    stmtInsertRoomType.setString(6, bathroom);
+                    stmtInsertRoomType.setBoolean(7, tv);
+                    stmtInsertRoomType.setString(8, desc);
+                    stmtInsertRoomType.execute();
 
-                    request.setAttribute("uspesanUnos", true);
+                    request.setAttribute("successfulInsert", true);
                     RequestDispatcher rd = request.getRequestDispatcher("roomTypes.jsp");
                     rd.forward(request, response);
                 }
@@ -105,26 +105,26 @@ public class ServletInsertAndUpdateRoomType extends HttpServlet {
 
             try
             {
-                brojKreveta = Integer.parseInt(brojKrevetaString);
+                numberOfBeds = Integer.parseInt(numberOfBedsString);
             }
             catch (Exception ex)
             {
-                TipSobe tipZaUpdate = TipSobe.VratiDetaljeTipaSobe(updateRoomTypeID);
-                request.setAttribute("tipSobe", tipZaUpdate);
-                request.setAttribute("updateProvera", "1");
-                request.setAttribute("ceoBrojGreska", true);
-                request.setAttribute("tipKreveta", tipKreveta);
-                request.setAttribute("brojKreveta", brojKrevetaString);
-                request.setAttribute("kuhinja", kuhinja);
-                request.setAttribute("kupatilo", kupatilo);
-                request.setAttribute("televizor", tv);
-                request.setAttribute("opis", opis);
+                RoomType roomTypeForUpdate = RoomType.ReturnRoomTypeDetails(updateRoomTypeID);
+                request.setAttribute("roomType", roomTypeForUpdate);
+                request.setAttribute("checkUpdate", "1");
+                request.setAttribute("wholeNumberError", true);
+                request.setAttribute("bedType", bedType);
+                request.setAttribute("numberOfBeds", numberOfBedsString);
+                request.setAttribute("kitchen", kitchen);
+                request.setAttribute("bathroom", bathroom);
+                request.setAttribute("television", tv);
+                request.setAttribute("desc", desc);
                 RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoomType.jsp");
                 rd.forward(request, response);
                 response.sendRedirect("addOrEditRoomType.jsp");
             }
 
-            String nazivTipaSobe = TipSobe.GenerisiNazivTipaSobe(brojKreveta, tipKreveta, kuhinja, kupatilo);
+            String roomTypeName = RoomType.GenerateRoomTypeName(numberOfBeds, bedType, kitchen, bathroom);
             String upit = "update tip_sobe set " +
                     "naziv = ?, " +
                     "broj_kreveta = ?, " +
@@ -137,17 +137,17 @@ public class ServletInsertAndUpdateRoomType extends HttpServlet {
             try
             {
                 PreparedStatement stmt = conn.prepareStatement(upit);
-                stmt.setString(1, nazivTipaSobe);
-                stmt.setInt(2, brojKreveta);
-                stmt.setString(3, tipKreveta);
-                stmt.setString(4, kuhinja);
-                stmt.setString(5, kupatilo);
+                stmt.setString(1, roomTypeName);
+                stmt.setInt(2, numberOfBeds);
+                stmt.setString(3, bedType);
+                stmt.setString(4, kitchen);
+                stmt.setString(5, bathroom);
                 stmt.setBoolean(6, tv);
-                stmt.setString(7, opis);
+                stmt.setString(7, desc);
                 stmt.setString(8, updateRoomTypeID);
                 stmt.execute();
 
-                request.setAttribute("uspesnaPromena", true);
+                request.setAttribute("successfulUpdate", true);
                 RequestDispatcher rd = request.getRequestDispatcher("roomTypes.jsp");
                 rd.forward(request, response);
             }

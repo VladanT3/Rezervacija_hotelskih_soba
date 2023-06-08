@@ -2,8 +2,8 @@ package Servlets;
 
 import Database.DBConnection;
 import Models.Administrator;
-import Models.Klijent;
-import Models.Menadzer;
+import Models.Client;
+import Models.Manager;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -26,116 +26,103 @@ public class ServletLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String inputEmail = request.getParameter("inputEmail");
-        String inputSifra = request.getParameter("inputSifra");
-        boolean greskaLogin = false;
+        String inputSifra = request.getParameter("inputPassword");
         HttpSession session = request.getSession();
 
-        String upit = "select * from korisnik where email = ? and sifra = password(?)";
+        String query = "select * from korisnik where email = ? and sifra = password(?)";
         try
         {
-            PreparedStatement stmt = conn.prepareStatement(upit);
+            PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, inputEmail);
             stmt.setString(2, inputSifra);
 
-            ResultSet rez = stmt.executeQuery();
+            ResultSet res = stmt.executeQuery();
 
-            if(rez.next())
+            if(res.next())
             {
-                String korisnikID = rez.getString("korisnik_id");
+                String userID = res.getString("korisnik_id");
 
-                upit = "select * from klijent where korisnik_id = ?";
-                PreparedStatement stmtProveraKlijent = conn.prepareStatement(upit);
-                stmtProveraKlijent.setString(1, korisnikID);
+                query = "select * from klijent where korisnik_id = ?";
+                PreparedStatement stmtCheckClient = conn.prepareStatement(query);
+                stmtCheckClient.setString(1, userID);
 
-                ResultSet rezKlijent = stmtProveraKlijent.executeQuery();
+                ResultSet resClient = stmtCheckClient.executeQuery();
 
-                if(rezKlijent.next())
+                if(resClient.next())
                 {
-                    boolean obrisan = rezKlijent.getBoolean("obrisan");
-                    if(obrisan)
-                    {
-                        greskaLogin = true;
-                        request.setAttribute("greskaLogin", greskaLogin);
-                        request.setAttribute("unetEmail", inputEmail);
-                        request.setAttribute("unetaSifra", inputSifra);
-                        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-                        rd.forward(request, response);
-                        return;
-                    }
+                    String firstName = res.getString("ime");
+                    String lastName = res.getString("prezime");
+                    String email = res.getString("email");
+                    String country = res.getString("drzava");
+                    String city = res.getString("grad");
+                    String address = res.getString("adresa");
+                    String phoneNumber = res.getString("broj_telefona");
+                    String birthday = res.getString("datum_rodjenja");
+                    int numberOfPoints = resClient.getInt("broj_poena");
 
-                    String ime = rez.getString("ime");
-                    String prezime = rez.getString("prezime");
-                    String email = rez.getString("email");
-                    String drzava = rez.getString("drzava");
-                    String grad = rez.getString("grad");
-                    String adresa = rez.getString("adresa");
-                    String brojTelefona = rez.getString("broj_telefona");
-                    String datumRodjenja = rez.getString("datum_rodjenja");
-                    int brojPoena = rezKlijent.getInt("broj_poena");
-
-                    Klijent klijent = new Klijent(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, brojPoena);
-                    session.setAttribute("UlogovanKorisnik", klijent);
+                    Client client = new Client(userID, firstName, lastName, email, country, city, address, phoneNumber, birthday, numberOfPoints);
+                    session.setAttribute("LoggedInUser", client);
 
                     response.sendRedirect("clientAccount.jsp");
                 }
                 else
                 {
-                    upit = "select * from radnik where korisnik_id = ?";
-                    PreparedStatement stmtProveraRadnik = conn.prepareStatement(upit);
-                    stmtProveraRadnik.setString(1, korisnikID);
+                    query = "select * from radnik where korisnik_id = ?";
+                    PreparedStatement stmtCheckEmployee = conn.prepareStatement(query);
+                    stmtCheckEmployee.setString(1, userID);
 
-                    ResultSet rezRadnik = stmtProveraRadnik.executeQuery();
+                    ResultSet resEmployee = stmtCheckEmployee.executeQuery();
 
-                    if(rezRadnik.next())
+                    if(resEmployee.next())
                     {
-                        upit = "select * from menadzer where korisnik_id = ?";
-                        PreparedStatement stmtProveraMenadzer = conn.prepareStatement(upit);
-                        stmtProveraMenadzer.setString(1, korisnikID);
+                        query = "select * from menadzer where korisnik_id = ?";
+                        PreparedStatement stmtCheckManager = conn.prepareStatement(query);
+                        stmtCheckManager.setString(1, userID);
 
-                        ResultSet rezMenadzer = stmtProveraMenadzer.executeQuery();
+                        ResultSet rezMenadzer = stmtCheckManager.executeQuery();
 
                         if(rezMenadzer.next())
                         {
-                            String ime = rez.getString("ime");
-                            String prezime = rez.getString("prezime");
-                            String email = rez.getString("email");
-                            String drzava = rez.getString("drzava");
-                            String grad = rez.getString("grad");
-                            String adresa = rez.getString("adresa");
-                            String brojTelefona = rez.getString("broj_telefona");
-                            String datumRodjenja = rez.getString("datum_rodjenja");
-                            String datumZaposlenja = rezRadnik.getString("datum_zaposlenja");
-                            String hotelId = rezMenadzer.getString("hotel_id");
+                            String firstName = res.getString("ime");
+                            String lastName = res.getString("prezime");
+                            String email = res.getString("email");
+                            String country = res.getString("drzava");
+                            String city = res.getString("grad");
+                            String address = res.getString("adresa");
+                            String phoneNumber = res.getString("broj_telefona");
+                            String birthday = res.getString("datum_rodjenja");
+                            String dateOfHiring = resEmployee.getString("datum_zaposlenja");
+                            String hotelID = rezMenadzer.getString("hotel_id");
 
-                            Menadzer menadzer = new Menadzer(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja, hotelId);
-                            session.setAttribute("UlogovanKorisnik", menadzer);
-                            session.setAttribute("UlogovanRadnik", "Menadzer");
+                            Manager manager = new Manager(userID, firstName, lastName, email, country, city, address, phoneNumber, birthday, dateOfHiring, hotelID);
+                            session.setAttribute("LoggedInUser", manager);
+                            session.setAttribute("LoggedInEmployee", "Manager");
 
                             response.sendRedirect("managerAccount.jsp");
                         }
                         else
                         {
-                            upit = "select * from administrator where korisnik_id = ?";
-                            PreparedStatement stmtProveraAdmin = conn.prepareStatement(upit);
-                            stmtProveraAdmin.setString(1, korisnikID);
+                            query = "select * from administrator where korisnik_id = ?";
+                            PreparedStatement stmtCheckAdmin = conn.prepareStatement(query);
+                            stmtCheckAdmin.setString(1, userID);
 
-                            ResultSet rezAdmin = stmtProveraAdmin.executeQuery();
+                            ResultSet resAdmin = stmtCheckAdmin.executeQuery();
 
-                            if(rezAdmin.next())
+                            if(resAdmin.next())
                             {
-                                String ime = rez.getString("ime");
-                                String prezime = rez.getString("prezime");
-                                String email = rez.getString("email");
-                                String drzava = rez.getString("drzava");
-                                String grad = rez.getString("grad");
-                                String adresa = rez.getString("adresa");
-                                String brojTelefona = rez.getString("broj_telefona");
-                                String datumRodjenja = rez.getString("datum_rodjenja");
-                                String datumZaposlenja = rezRadnik.getString("datum_zaposlenja");
+                                String firstName = res.getString("ime");
+                                String lastName = res.getString("prezime");
+                                String email = res.getString("email");
+                                String country = res.getString("drzava");
+                                String city = res.getString("grad");
+                                String address = res.getString("adresa");
+                                String phoneNumber = res.getString("broj_telefona");
+                                String birthday = res.getString("datum_rodjenja");
+                                String dateOfHiring = resEmployee.getString("datum_zaposlenja");
 
-                                Administrator admin = new Administrator(korisnikID, ime, prezime, email, drzava, grad, adresa, brojTelefona, datumRodjenja, datumZaposlenja);
-                                session.setAttribute("UlogovanKorisnik", admin);
-                                session.setAttribute("UlogovanRadnik", "Admin");
+                                Administrator admin = new Administrator(userID, firstName, lastName, email, country, city, address, phoneNumber, birthday, dateOfHiring);
+                                session.setAttribute("LoggedInUser", admin);
+                                session.setAttribute("LoggedInEmployee", "Admin");
 
                                 response.sendRedirect("adminAccount.jsp");
                             }
@@ -145,10 +132,9 @@ public class ServletLogin extends HttpServlet {
             }
             else
             {
-                greskaLogin = true;
-                request.setAttribute("greskaLogin", greskaLogin);
-                request.setAttribute("unetEmail", inputEmail);
-                request.setAttribute("unetaSifra", inputSifra);
+                request.setAttribute("loginError", true);
+                request.setAttribute("inputEmail", inputEmail);
+                request.setAttribute("inputPassword", inputSifra);
                 RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
                 rd.forward(request, response);
             }

@@ -16,7 +16,7 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="adminHotels.jsp" class="nav-link <%= active.equals("adminHoteli") ? "active" : "" %>">
+						<a href="adminHotels.jsp" class="nav-link <%= active.equals("adminHotels") ? "active" : "" %>">
 						<i class="fa-solid fa-hotel fa-lg bi d-block mx-auto mb-1"></i>
 						Hotels
 						</a>
@@ -31,12 +31,6 @@
 						<a href="roomTypes.jsp" class="nav-link <%= active.equals("roomTypes") ? "active" : "" %>">
 						<i class="fa-solid fa-bed fa-lg bi d-block mx-auto mb-1"></i>
 						Room Types
-						</a>
-					</li>
-					<li class="nav-item">
-						<a href="clientSearch.jsp" class="nav-link <%= active.equals("prikazKlijenata") ? "active" : "" %>">
-						<i class="fa-solid fa-users fa-lg bi d-block mx-auto mb-1"></i>
-						Users
 						</a>
 					</li>
 				</ul>

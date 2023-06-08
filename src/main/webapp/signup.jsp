@@ -4,67 +4,72 @@
 <%@ include file="inits/headInit.jsp"%>
 <body>
 	<%
-		request.getSession().setAttribute("UlogovanKorisnik", null);
+		request.getSession().setAttribute("LoggedInUser", null);
 		
-		boolean greskaEmail = false;
-		try
-		{
-			greskaEmail = (boolean) request.getAttribute("greskaEmail");
-		}
-		catch (Exception ignored){}
+		boolean emailError = request.getAttribute("emailError") != null;
 		
-		String ime = (String) request.getAttribute("ime");
-		if(ime == null) ime = "";
+		String firstName = (String) request.getAttribute("firstName");
+		if(firstName == null) firstName = "";
   
-		String prezime = (String) request.getAttribute("prezime");
-		if(prezime == null) prezime = "";
+		String lastName = (String) request.getAttribute("lastName");
+		if(lastName == null) lastName = "";
   
 		String email = (String) request.getAttribute("email");
 		if(email == null) email = "";
   
-		String sifra = (String) request.getAttribute("sifra");
-		if(sifra == null) sifra = "";
+		String password = (String) request.getAttribute("password");
+		if(password == null) password = "";
   
-		String grad = (String) request.getAttribute("grad");
-		if(grad == null) grad = "";
+		String city = (String) request.getAttribute("city");
+		if(city == null) city = "";
   
-		String adresa = (String) request.getAttribute("adresa");
-		if(adresa == null) adresa = "";
+		String address = (String) request.getAttribute("address");
+		if(address == null) address = "";
   
-		String brojTelefona = (String) request.getAttribute("brojTelefona");
-		if(brojTelefona == null) brojTelefona = "";
+		String phoneNumber = (String) request.getAttribute("phoneNumber");
+		if(phoneNumber == null) phoneNumber = "";
   
-		String datumRodjenja = (String) request.getAttribute("datumRodjenja");
-		if(datumRodjenja == null) datumRodjenja = "";
+		String birthday = (String) request.getAttribute("birthday");
+		if(birthday == null) birthday = "";
+		
+		boolean successfulDelete = request.getAttribute("successfulDelete") != null;
 	%>
 
 	<%@ include file="headers and footer/loginHeader.jsp"%>
 	
 	<div class="container">
-		<div class="row">
+		<div class="row margin-t-50">
+			<%
+				if(successfulDelete)
+				{
+			%>
+					<div class="col-12 alert alert-success" role="alert">
+						<i class="fa-solid fa-circle-check fa-lg"></i> Your account has been deleted!
+					</div>
+			<%
+				}
+			%>
 			<div class="col-2"></div>
 			<div class="col-8">
-				<fieldset class="margin-t-100">
+				<fieldset>
 					<legend>Create an Account</legend>
 					<form action="ServletSignup" method="post" class="row">
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="inputIme" id="inputIme" placeholder="First Name" value="<%= ime %>" required>
-								<label for="inputIme" class="text-muted">First Name</label>
-								
+								<input type="text" class="form-control input-boja" name="clientFirstName" id="clientFirstName" placeholder="First Name" value="<%= firstName %>" required>
+								<label for="clientFirstName" class="text-muted">First Name</label>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="inputPrezime" id="inputPrezime" placeholder="Last Name" value="<%= prezime %>" required>
-								<label for="inputPrezime" class="text-muted">Last Name</label>
-								
+								<input type="text" class="form-control input-boja" name="clientLastName" id="clientLastName" placeholder="Last Name" value="<%= lastName %>" required>
+								<label for="clientLastName" class="text-muted">Last Name</label>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="mb-3">
-								<label for="inputDrzava" class="text-muted">Country:</label>
-								<select class="form-select input-boja" id="inputDrzava" name="inputDrzava" required>
+								<label for="clientCountry" class="text-muted">Country:</label>
+								<select class="form-select input-boja" id="clientCountry" name="clientCountry" required>
 									<option value="" class="text-muted">Please Select One</option>
 									<option value="Afghanistan">Afghanistan</option>
 									<option value="Aland Islands">Aland Islands</option>
@@ -322,35 +327,32 @@
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="inputGrad" id="inputGrad" placeholder="City" value="<%= grad %>" required>
-								<label for="inputGrad" class="text-muted">City</label>
-							
+								<input type="text" class="form-control input-boja" name="clientCity" id="clientCity" placeholder="City" value="<%= city %>" required>
+								<label for="clientCity" class="text-muted">City</label>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="inputAdresa" id="inputAdresa" placeholder="Address" value="<%= adresa %>" required>
-								<label for="inputAdresa" class="text-muted">Address</label>
-								
+								<input type="text" class="form-control input-boja" name="clientAddress" id="clientAddress" placeholder="Address" value="<%= address %>" required>
+								<label for="clientAddress" class="text-muted">Address</label>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="tel" class="form-control input-boja" name="inputPhone" id="inputPhone" placeholder="Phone Number" value="<%= brojTelefona %>" required>
-								<label for="inputPhone" class="text-muted">Phone Number</label>
-								
+								<input type="tel" class="form-control input-boja" name="clientPhone" id="clientPhone" placeholder="Phone Number" value="<%= phoneNumber %>" required>
+								<label for="clientPhone" class="text-muted">Phone Number</label>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="email" class="form-control input-boja <%= greskaEmail ? "is-invalid" : "" %>" name="inputEmail" id="inputEmail" placeholder="E-mail" value="<%= email %>" required>
-								<label for="inputEmail" class="text-muted">E-mail</label>
+								<input type="email" class="form-control input-boja <%= emailError ? "is-invalid" : "" %>" name="clientEmail" id="clientEmail" placeholder="E-mail" value="<%= email %>" required>
+								<label for="clientEmail" class="text-muted">E-mail</label>
 								<%
-									if(greskaEmail)
+									if(emailError)
 									{
 										out.print
 										(
-											"<div id='validacijaEmail' class='invalid-feedback'>" +
+											"<div id='validationEmail' class='invalid-feedback'>" +
 												"Email has already been registered!" +
 											"</div>"
 										);
@@ -360,22 +362,20 @@
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="password" class="form-control input-boja" name="inputSifra" id="inputSifra" placeholder="Password" value="<%= sifra %>" required>
-								<label for="inputSifra" class="text-muted">Password</label>
-								
+								<input type="password" class="form-control input-boja" name="userPassword" id="userPassword" placeholder="Password" value="<%= password %>" required>
+								<label for="userPassword" class="text-muted">Password</label>
 							</div>
 						</div>
 						<div class="col-3">
 							<div class="mb-3">
-								<label for="inputDatumRodjenja" class="form-label text-muted">Date of Birth:</label>
-								<input type="date" class="form-control input-boja color-scheme-dark" name="inputDatumRodjenja" id="inputDatumRodjenja" value="<%= datumRodjenja %>" required>
-								
+								<label for="clientBirthday" class="form-label text-muted">Date of Birth:</label>
+								<input type="date" class="form-control input-boja color-scheme-dark" name="clientBirthday" id="clientBirthday" value="<%= birthday %>" required>
 							</div>
 						</div>
 						<div class="col-6"></div>
 						<div class="form-check form-switch col">
-							<input class="form-check-input check-boja" type="checkbox" id="prikazSifre">
-							<label class="form-check-label" for="prikazSifre">Show password</label>
+							<input class="form-check-input check-boja" type="checkbox" id="showPassword">
+							<label class="form-check-label" for="showPassword">Show password</label>
 						</div>
 						<div class="col-6 align-center">
 							<div class="d-grid gap-2">

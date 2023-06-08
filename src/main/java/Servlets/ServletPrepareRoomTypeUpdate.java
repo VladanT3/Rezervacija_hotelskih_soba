@@ -1,6 +1,6 @@
 package Servlets;
 
-import Models.TipSobe;
+import Models.RoomType;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,17 +14,17 @@ import java.io.IOException;
 public class ServletPrepareRoomTypeUpdate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
-        if(proveraLogin == null)
+        Object checkLogin = request.getSession().getAttribute("LoggedInUser");
+        if(checkLogin == null)
         {
             request.getSession().invalidate();
             response.sendRedirect("index.jsp");
             return;
         }
 
-        TipSobe tipZaUpdate = TipSobe.VratiDetaljeTipaSobe(request.getParameter("tipSobe"));
-        request.setAttribute("tipSobe", tipZaUpdate);
-        request.setAttribute("updateProvera", "1");
+        RoomType roomTypeForUpdate = RoomType.ReturnRoomTypeDetails(request.getParameter("roomType"));
+        request.setAttribute("roomType", roomTypeForUpdate);
+        request.setAttribute("checkUpdate", "1");
         RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoomType.jsp");
         rd.forward(request, response);
     }

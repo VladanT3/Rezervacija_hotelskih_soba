@@ -1,8 +1,8 @@
 <%@ page import="Models.Administrator" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-	Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
-	if(proveraLogin == null)
+	Object checkLogin = request.getSession().getAttribute("LoggedInUser");
+	if(checkLogin == null)
 	{
 		request.getSession().invalidate();
 		response.sendRedirect("index.jsp");
@@ -15,7 +15,7 @@
 <%@ include file="inits/headInit.jsp"%>
 <body>
 	<%
-		Administrator admin = (Administrator) request.getSession().getAttribute("UlogovanKorisnik");
+		Administrator admin = (Administrator) request.getSession().getAttribute("LoggedInUser");
 	%>
 	<%@ include file="headers and footer/adminHeader.jsp"%>
 	
@@ -27,7 +27,7 @@
 						<div class="mb-3 row">
 							<label for="fullName" class="col-5 col-form-label text-muted">Full Name:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="fullName" value="<%= admin.getIme() + " " + admin.getPrezime() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="fullName" value="<%= admin.getFirstName() + " " + admin.getLastName() %>">
 							</div>
 						</div>
 					</div>
@@ -43,7 +43,7 @@
 						<div class="mb-3 row">
 							<label for="phone" class="col-5 col-form-label text-muted">Phone number:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="phone" value="<%= admin.getBrojTelefona() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="phone" value="<%= admin.getPhoneNumber() %>">
 							</div>
 						</div>
 					</div>
@@ -51,7 +51,7 @@
 						<div class="mb-3 row">
 							<label for="hired" class="col-5 col-form-label text-muted">Hired:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="hired" value="<%= admin.getDatumZaposlenja() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="hired" value="<%= admin.getDateOfHiring() %>">
 							</div>
 						</div>
 					</div>
@@ -59,7 +59,7 @@
 						<div class="mb-3 row">
 							<label for="country" class="col-5 col-form-label text-muted">Counrty:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="country" value="<%= admin.getDrzava() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="country" value="<%= admin.getCountry() %>">
 							</div>
 						</div>
 					</div>
@@ -67,7 +67,7 @@
 						<div class="mb-3 row">
 							<label for="city" class="col-5 col-form-label text-muted">City:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="city" value="<%= admin.getGrad() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="city" value="<%= admin.getCity() %>">
 							</div>
 						</div>
 					</div>
@@ -75,7 +75,7 @@
 						<div class="mb-3 row">
 							<label for="address" class="col-5 col-form-label text-muted">Address:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="address" value="<%= admin.getAdresa() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="address" value="<%= admin.getAddress() %>">
 							</div>
 						</div>
 					</div>
@@ -83,7 +83,7 @@
 						<div class="mb-3 row">
 							<label for="birthday" class="col-5 col-form-label text-muted">Birthday:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= admin.getDatumRodjenja() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= admin.getBirthday() %>">
 							</div>
 						</div>
 					</div>

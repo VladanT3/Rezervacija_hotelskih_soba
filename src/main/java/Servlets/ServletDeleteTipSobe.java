@@ -16,23 +16,23 @@ public class ServletDeleteTipSobe extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
-        if(proveraLogin == null)
+        Object checkLogin = request.getSession().getAttribute("LoggedInUser");
+        if(checkLogin == null)
         {
             request.getSession().invalidate();
             response.sendRedirect("index.jsp");
             return;
         }
 
-        String tipSobeID = request.getParameter("tipSobe");
-        String upit = "delete from tip_sobe where tip_sobe_id = ?";
+        String roomTypeID = request.getParameter("roomType");
+        String query = "delete from tip_sobe where tip_sobe_id = ?";
         try
         {
-            PreparedStatement stmt = conn.prepareStatement(upit);
-            stmt.setString(1, tipSobeID);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, roomTypeID);
             stmt.execute();
 
-            request.setAttribute("uspesnoBrisanje", true);
+            request.setAttribute("successfulDelete", true);
             RequestDispatcher rd = request.getRequestDispatcher("roomTypes.jsp");
             rd.forward(request, response);
         }

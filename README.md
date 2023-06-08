@@ -2,6 +2,6 @@
 
 Aplikacija za rezervisanje hotelskih soba
 
-Front-end: HTML, CSS, JS
+Front-end: JSP, CSS, JS
 
 Back-end: Java

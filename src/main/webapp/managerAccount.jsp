@@ -1,9 +1,9 @@
-<%@ page import="Models.Menadzer" %>
+<%@ page import="Models.Manager" %>
 <%@ page import="Models.Hotel" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-	Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
-	if(proveraLogin == null)
+	Object checkLogin = request.getSession().getAttribute("LoggedInUser");
+	if(checkLogin == null)
 	{
 		request.getSession().invalidate();
 		response.sendRedirect("index.jsp");
@@ -16,16 +16,16 @@
 <%@ include file="inits/headInit.jsp"%>
 <body>
 	<%
-		Menadzer menadzer = (Menadzer) request.getSession().getAttribute("UlogovanKorisnik");
-        Hotel dodeljenHotel = menadzer.VratiDodeljenHotel();
-		boolean uspesnaPromena = request.getAttribute("uspesnaPromena") != null;
+		Manager manager = (Manager) request.getSession().getAttribute("LoggedInUser");
+        Hotel assignedHotel = manager.ReturnAssignedHotel();
+		boolean successfulUpdate = request.getAttribute("successfulUpdate") != null;
 	%>
 	<%@ include file="headers and footer/managerHeader.jsp"%>
 
 	<div class="container">
 		<div class="row">
 			<%
-				if(uspesnaPromena)
+				if(successfulUpdate)
 				{
 			%>
 					<div class="col-12 alert alert-success margin-t-50" role="alert">
@@ -40,7 +40,7 @@
 						<div class="mb-3 row">
 							<label for="fullName" class="col-5 col-form-label text-muted">Full Name:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="fullName" value="<%= menadzer.getIme() + " " + menadzer.getPrezime() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="fullName" value="<%= manager.getFirstName() + " " + manager.getLastName() %>">
 							</div>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 						<div class="mb-3 row">
 							<label for="email" class="col-5 col-form-label text-muted">E-mail:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="email" value="<%= menadzer.getEmail() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="email" value="<%= manager.getEmail() %>">
 							</div>
 						</div>
 					</div>
@@ -56,7 +56,7 @@
 						<div class="mb-3 row">
 							<label for="phone" class="col-5 col-form-label text-muted">Phone number:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="phone" value="<%= menadzer.getBrojTelefona() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="phone" value="<%= manager.getPhoneNumber() %>">
 							</div>
 						</div>
 					</div>
@@ -64,7 +64,7 @@
 						<div class="mb-3 row">
 							<label for="hired" class="col-5 col-form-label text-muted">Hired:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="hired" value="<%= menadzer.getDatumZaposlenja() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="hired" value="<%= manager.getDateOfHiring() %>">
 							</div>
 						</div>
 					</div>
@@ -72,7 +72,7 @@
 						<div class="mb-3 row">
 							<label for="country" class="col-5 col-form-label text-muted">Counrty:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="country" value="<%= menadzer.getDrzava() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="country" value="<%= manager.getCountry() %>">
 							</div>
 						</div>
 					</div>
@@ -80,7 +80,7 @@
 						<div class="mb-3 row">
 							<label for="city" class="col-5 col-form-label text-muted">City:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="city" value="<%= menadzer.getGrad() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="city" value="<%= manager.getCity() %>">
 							</div>
 						</div>
 					</div>
@@ -88,7 +88,7 @@
 						<div class="mb-3 row">
 							<label for="address" class="col-5 col-form-label text-muted">Address:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="address" value="<%= menadzer.getAdresa() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="address" value="<%= manager.getAddress() %>">
 							</div>
 						</div>
 					</div>
@@ -96,7 +96,7 @@
 						<div class="mb-3 row">
 							<label for="birthday" class="col-5 col-form-label text-muted">Birthday:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= menadzer.getDatumRodjenja() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= manager.getBirthday() %>">
 							</div>
 						</div>
 					</div>
@@ -106,7 +106,7 @@
 							<div class="mb-3 row">
 								<label for="hotelName" class="col-5 col-form-label text-muted">Hotel Name:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="hotelName" value="<%= dodeljenHotel.getNaziv() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="hotelName" value="<%= assignedHotel.getName() %>">
 								</div>
 							</div>
 						</div>
@@ -114,7 +114,7 @@
 							<div class="mb-3 row">
 								<label for="hotelCountry" class="col-5 col-form-label text-muted">Hotel Country:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="hotelCountry" value="<%= dodeljenHotel.getDrzava() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="hotelCountry" value="<%= assignedHotel.getCountry() %>">
 								</div>
 							</div>
 						</div>
@@ -122,7 +122,7 @@
 							<div class="mb-3 row">
 								<label for="hotelCity" class="col-5 col-form-label text-muted">Hotel City:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="hotelCity" value="<%= dodeljenHotel.getGrad() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="hotelCity" value="<%= assignedHotel.getCity() %>">
 								</div>
 							</div>
 						</div>
@@ -130,7 +130,7 @@
 							<div class="mb-3 row">
 								<label for="hotelStars" class="col-5 col-form-label text-muted">Number of Stars:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="hotelStars" value="<%= dodeljenHotel.getBrojZvezdica() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="hotelStars" value="<%= assignedHotel.getNumberOfStars() %>">
 								</div>
 							</div>
 						</div>
@@ -138,7 +138,7 @@
 							<div class="mb-3 row">
 								<label for="hotelParking" class="col-5 col-form-label text-muted">Number of Parking Spots:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="hotelParking" value="<%= dodeljenHotel.getBrojParkingMesta() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="hotelParking" value="<%= assignedHotel.getNumberOfParkingSpots() %>">
 								</div>
 							</div>
 						</div>
@@ -148,7 +148,7 @@
 			<div class="col-4">
 				<div class="align-center margin-t-50 mb-3">
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="ServletPrepareHotelUpdate?hotel=<%= dodeljenHotel.getId() %>" type="button" class="btn btn-light">Edit Hotel</a>
+						<a href="ServletPrepareHotelUpdate?hotel=<%= assignedHotel.getId() %>" type="button" class="btn btn-light">Edit Hotel</a>
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">

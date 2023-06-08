@@ -1,8 +1,9 @@
-<%@ page import="Models.TipSobe" %>
+<%@ page import="Models.RoomType" %>
+<%@ page import="Models.RoomType" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-	Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
-	if(proveraLogin == null)
+	Object checkLogin = request.getSession().getAttribute("LoggedInUser");
+	if(checkLogin == null)
 	{
 		request.getSession().invalidate();
 		response.sendRedirect("index.jsp");
@@ -11,12 +12,12 @@
 	
 	request.getSession().setAttribute("Active", "roomTypes");
  
-	String ulogovanRadnik = (String) request.getSession().getAttribute("UlogovanRadnik");
-	ulogovanRadnik = ulogovanRadnik == null ? "" : ulogovanRadnik;
-	if(ulogovanRadnik.equals("Menadzer")){
+	String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+	loggedInEmployee = loggedInEmployee == null ? "" : loggedInEmployee;
+	if(loggedInEmployee.equals("Manager")){
 		request.getSession().setAttribute("Title", "Manager | Room Types");
 	}
-	else if(ulogovanRadnik.equals("Admin")){
+	else if(loggedInEmployee.equals("Admin")){
 		request.getSession().setAttribute("Title", "Administrator | Room Types");
 	}
 %>
@@ -24,30 +25,30 @@
 <%@ include file="inits/headInit.jsp" %>
 <body>
 	<%
-		String izmenaProvera = (String) request.getAttribute("updateProvera");
-		int izmena = 0;
-		TipSobe tipSobe = new TipSobe();
-		if(izmenaProvera != null)
+		String updateCheck = (String) request.getAttribute("checkUpdate");
+		int update = 0;
+		RoomType roomType = new RoomType();
+		if(updateCheck != null)
 		{
-			izmena = Integer.parseInt(izmenaProvera);
-			tipSobe = (TipSobe) request.getAttribute("tipSobe");
+			update = Integer.parseInt(updateCheck);
+			roomType = (RoomType) request.getAttribute("roomType");
 		}
 		
-        boolean postojiTipSobeGreska = request.getAttribute("postojiTipSobeGreska") != null;
-		boolean ceoBrojGreska = request.getAttribute("ceoBrojGreska") != null;
-        String brojKreveta = request.getAttribute("brojKreveta") == null ? "" : (String) request.getAttribute("brojKreveta");
-		String tipKreveta = request.getAttribute("tipKreveta") == null ? "" : (String) request.getAttribute("tipKreveta");
-		String kuhinja = request.getAttribute("kuhinja") == null ? "" : (String) request.getAttribute("kuhinja");
-		String kupatilo = request.getAttribute("kupatilo") == null ? "" : (String) request.getAttribute("kupatilo");
-		boolean televizor = request.getAttribute("televizor") != null;
-		String opis = request.getAttribute("opis") == null ? "" : (String) request.getAttribute("opis");
+        boolean roomTypeAlreadyExistsError = request.getAttribute("roomTypeAlreadyExistsError") != null;
+		boolean wholeNumberError = request.getAttribute("wholeNumberError") != null;
+        String numberOfBeds = request.getAttribute("numberOfBeds") == null ? "" : (String) request.getAttribute("numberOfBeds");
+		String bedType = request.getAttribute("bedType") == null ? "" : (String) request.getAttribute("bedType");
+		String kitchen = request.getAttribute("kitchen") == null ? "" : (String) request.getAttribute("kitchen");
+		String bathroom = request.getAttribute("bathroom") == null ? "" : (String) request.getAttribute("bathroom");
+		boolean television = request.getAttribute("television") != null;
+		String desc = request.getAttribute("desc") == null ? "" : (String) request.getAttribute("desc");
 		
-		if(ulogovanRadnik.equals("Menadzer")){
+		if(loggedInEmployee.equals("Manager")){
 	%>
 			<%@ include file="headers and footer/managerHeader.jsp" %>
 	<%
 		}
-		else if(ulogovanRadnik.equals("Admin")){
+		else if(loggedInEmployee.equals("Admin")){
 	%>
 			<%@ include file="headers and footer/adminHeader.jsp" %>
 	<%
@@ -57,7 +58,7 @@
 	<div class="container">
 		<div class="row">
 			<%
-				if(postojiTipSobeGreska)
+				if(roomTypeAlreadyExistsError)
 				{
 			%>
 					<div class="col-12 alert alert-danger margin-t-50" role="alert">
@@ -71,7 +72,7 @@
 				<fieldset class="margin-t-50">
 					<legend>
 						<%
-							if(izmena == 1)
+							if(update == 1)
 								out.print("Edit Room Type");
 							else
 								out.print("Add New Room Type");
@@ -80,27 +81,27 @@
 					<form action="ServletInsertAndUpdateRoomType" method="post" class="row">
 						<div class="col-6">
 							<div class="mb-3">
-								<label for="roomTypeTipKreveta" class="form-label">Bed Type</label>
-								<select class="form-select input-boja" name="roomTypeTipKreveta" id="roomTypeTipKreveta" required>
+								<label for="roomTypeBedType" class="form-label">Bed Type</label>
+								<select class="form-select input-boja" name="roomTypeBedType" id="roomTypeBedType" required>
 									<option class="text-muted" value="">Select One</option>
-									<option <%= tipKreveta.equals("Single") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("Single") ? "selected" : "" : "" %> value="Single">Single</option>
-									<option <%= tipKreveta.equals("Double") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("Double") ? "selected" : "" : "" %> value="Double">Double</option>
-									<option <%= tipKreveta.equals("Single + Double") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("Single + Double") ? "selected" : "" : "" %> value="Single + Double">Single + Double</option>
-									<option <%= tipKreveta.equals("Queen") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("Queen") ? "selected" : "" : "" %> value="Queen">Queen</option>
-									<option <%= tipKreveta.equals("King") ? "selected" : izmena == 1 ? tipSobe.getTipKreveta().equals("King") ? "selected" : "" : "" %> value="King">King</option>
+									<option <%= bedType.equals("Single") ? "selected" : update == 1 ? roomType.getBedType().equals("Single") ? "selected" : "" : "" %> value="Single">Single</option>
+									<option <%= bedType.equals("Double") ? "selected" : update == 1 ? roomType.getBedType().equals("Double") ? "selected" : "" : "" %> value="Double">Double</option>
+									<option <%= bedType.equals("Single + Double") ? "selected" : update == 1 ? roomType.getBedType().equals("Single + Double") ? "selected" : "" : "" %> value="Single + Double">Single + Double</option>
+									<option <%= bedType.equals("Queen") ? "selected" : update == 1 ? roomType.getBedType().equals("Queen") ? "selected" : "" : "" %> value="Queen">Queen</option>
+									<option <%= bedType.equals("King") ? "selected" : update == 1 ? roomType.getBedType().equals("King") ? "selected" : "" : "" %> value="King">King</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="mb-3">
-								<label for="roomTypeBrojKreveta" class="form-label">Number of Beds</label>
-								<input type="text" name="roomTypeBrojKreveta" id="roomTypeBrojKreveta" class="form-control input-boja <%= ceoBrojGreska ? "is-invalid" : "" %>" value="<%= brojKreveta != "" ? brojKreveta : izmena == 1 ? tipSobe.getBrojKreveta() : "" %>" required>
+								<label for="roomTypeNumberOfBeds" class="form-label">Number of Beds</label>
+								<input type="text" name="roomTypeNumberOfBeds" id="roomTypeNumberOfBeds" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" value="<%= numberOfBeds != "" ? numberOfBeds : update == 1 ? roomType.getNumberOfBeds() : "" %>" required>
 								<%
-									if(ceoBrojGreska)
+									if(wholeNumberError)
 									{
 										out.print
 										(
-											"<div id='validacijaBrojZvezdica' class='invalid-feedback'>" +
+											"<div id='validationNumberOfStars' class='invalid-feedback'>" +
 												"Incorrect value, number of beds has to be a number!" +
 											"</div>"
 										);
@@ -110,39 +111,41 @@
 						</div>
 						<div class="col-6">
 							<div class="mb-3">
-								<label for="roomTypeKuhinja" class="form-label">Kitchen Type</label>
-								<select class="form-select input-boja" name="roomTypeKuhinja" id="roomTypeKuhinja" required>
+								<label for="roomTypeKitchen" class="form-label">Kitchen Type</label>
+								<select class="form-select input-boja" name="roomTypeKitchen" id="roomTypeKitchen"
+								        required>
 									<option class="text-muted" value="">Select One</option>
-									<option <%= kuhinja.equals("None") ? "selected" : izmena == 1 ? tipSobe.getKuhinja().equals("None") ? "selected" : "" : "" %> value="None">None</option>
-									<option <%= kuhinja.equals("Semi-furnished") ? "selected" : izmena == 1 ? tipSobe.getKuhinja().equals("Semi-furnished") ? "selected" : "" : "" %> value="Semi-furnished">Semi-furnished</option>
-									<option <%= kuhinja.equals("Fully-furnished") ? "selected" : izmena == 1 ? tipSobe.getKuhinja().equals("Fully-furnished") ? "selected" : "" : "" %> value="Fully-furnished">Fully-furnished</option>
+									<option <%= kitchen.equals("None") ? "selected" : update == 1 ? roomType.getKitchen().equals("None") ? "selected" : "" : "" %> value="None">None</option>
+									<option <%= kitchen.equals("Semi-furnished") ? "selected" : update == 1 ? roomType.getKitchen().equals("Semi-furnished") ? "selected" : "" : "" %> value="Semi-furnished">Semi-furnished</option>
+									<option <%= kitchen.equals("Fully-furnished") ? "selected" : update == 1 ? roomType.getKitchen().equals("Fully-furnished") ? "selected" : "" : "" %> value="Fully-furnished">Fully-furnished</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="mb-3">
-								<label for="roomTypeKupatilo" class="form-label">Bathroom Type</label>
-								<select class="form-select input-boja" name="roomTypeKupatilo" id="roomTypeKupatilo" required>
+								<label for="roomTypeBathroom" class="form-label">Bathroom Type</label>
+								<select class="form-select input-boja" name="roomTypeBathroom" id="roomTypeBathroom"
+								        required>
 									<option class="text-muted" value="">Select One</option>
-									<option <%= kupatilo.equals("Shower") ? "selected" : izmena == 1 ? tipSobe.getKupatilo().equals("Shower") ? "selected" : "" : "" %> value="Shower">Shower</option>
-									<option <%= kupatilo.equals("Bath") ? "selected" : izmena == 1 ? tipSobe.getKupatilo().equals("Bath") ? "selected" : "" : "" %> value="Bath">Bath</option>
+									<option <%= bathroom.equals("Shower") ? "selected" : update == 1 ? roomType.getBathroom().equals("Shower") ? "selected" : "" : "" %> value="Shower">Shower</option>
+									<option <%= bathroom.equals("Bath") ? "selected" : update == 1 ? roomType.getBathroom().equals("Bath") ? "selected" : "" : "" %> value="Bath">Bath</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-check form-switch col mb-3">
 								<label class="form-check-label" for="roomTypeTV">TV</label>
-								<input class="form-check-input check-boja" type="checkbox" name="roomTypeTV" id="roomTypeTV" <%= televizor ? "checked" : izmena == 1 ? tipSobe.isTelevizor() ? "checked" : "" : "" %>>
+								<input class="form-check-input check-boja" type="checkbox" name="roomTypeTV" id="roomTypeTV" <%= television ? "checked" : update == 1 ? roomType.isTelevision() ? "checked" : "" : "" %>>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<textarea name="roomTypeDesc" id="roomTypeDesc" class="form-control input-boja" style="height: 150px" placeholder="Room Description" maxlength="500" required><%= opis != "" ? opis : izmena == 1 ? tipSobe.getOpis() : "" %></textarea>
+								<textarea name="roomTypeDesc" id="roomTypeDesc" class="form-control input-boja" style="height: 150px" placeholder="Room Description" maxlength="500" required><%= desc != "" ? desc : update == 1 ? roomType.getDescription() : "" %></textarea>
 								<label for="roomTypeDesc" class="text-muted">Room Description</label>
 							</div>
 						</div>
 						<%
-							if(izmena == 0)
+							if(update == 0)
 							{
 						%>
 								<div class="col-12">
@@ -156,7 +159,7 @@
 							{
 						%>
 								<div class="col-12">
-									<input type="hidden" name="updateRoomTypeID" value="<%= tipSobe.getTipSobeID() %>">
+									<input type="hidden" name="updateRoomTypeID" value="<%= roomType.getRoomTypeID() %>">
 									<div class="d-grid gap-2">
 										<input type="submit" name="submit" class="btn btn-light float-end" value="Edit Room Type">
 									</div>

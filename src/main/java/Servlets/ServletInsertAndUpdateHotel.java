@@ -23,62 +23,62 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String submit = request.getParameter("submit");
-        String menadzerID = request.getParameter("assignedManager") == null ? "" : request.getParameter("assignedManager");
-        String naziv = request.getParameter("hotelName");
-        String drzava = request.getParameter("hotelCountry");
-        String grad = request.getParameter("hotelCity");
-        String brojZvezdica = request.getParameter("hotelZvezdice");
-        String brojParkingMesta = request.getParameter("hotelParking");
-        String opis = request.getParameter("hotelDesc");
-        String nazivSlike = request.getParameter("hotelPicture");
-        int zvezdice = 0, parkingMesta = 0;
+        String managerID = request.getParameter("assignedManager") == null ? "" : request.getParameter("assignedManager");
+        String name = request.getParameter("hotelName");
+        String country = request.getParameter("hotelCountry");
+        String city = request.getParameter("hotelCity");
+        String numberOfStars = request.getParameter("hotelZvezdice");
+        String numberOfParkingSpots = request.getParameter("hotelParking");
+        String desc = request.getParameter("hotelDesc");
+        String photoName = request.getParameter("hotelPicture");
+        int stars = 0, parkingSpots = 0;
 
         if(submit.equals("Add Hotel"))
         {
             try
             {
-                zvezdice = Integer.parseInt(brojZvezdica);
-                parkingMesta = Integer.parseInt(brojParkingMesta);
+                stars = Integer.parseInt(numberOfStars);
+                parkingSpots = Integer.parseInt(numberOfParkingSpots);
             }
             catch (Exception ex)
             {
-                request.setAttribute("ceoBrojGreska", true);
-                request.setAttribute("menadzer", menadzerID);
-                request.setAttribute("naziv", naziv);
-                request.setAttribute("drzava", drzava);
-                request.setAttribute("grad", grad);
-                request.setAttribute("brojZvezdica", brojZvezdica);
-                request.setAttribute("brojParkingMesta", brojParkingMesta);
-                request.setAttribute("opis", opis);
-                request.setAttribute("nazivSlike", nazivSlike);
+                request.setAttribute("wholeNumberError", true);
+                request.setAttribute("manager", managerID);
+                request.setAttribute("name", name);
+                request.setAttribute("country", country);
+                request.setAttribute("city", city);
+                request.setAttribute("numberOfStars", numberOfStars);
+                request.setAttribute("numberOfParkingSpots", numberOfParkingSpots);
+                request.setAttribute("desc", desc);
+                request.setAttribute("photoName", photoName);
                 RequestDispatcher rd = request.getRequestDispatcher("addOrEditHotel.jsp");
                 rd.forward(request, response);
                 response.sendRedirect("addOrEditHotel.jsp");
             }
 
-            String hotelID = Hotel.GenerisiNoviHotelID();
-            String upit = "insert into hotel values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String hotelID = Hotel.GenerateNewHotelID();
+            String upit = "insert into hotel values(?, ?, ?, ?, ?, ?, ?, ?, ?, default)";
             try
             {
                 PreparedStatement stmt = conn.prepareStatement(upit);
                 stmt.setString(1, hotelID);
-                stmt.setString(2, menadzerID);
-                stmt.setString(3, naziv);
-                stmt.setString(4, drzava);
-                stmt.setString(5, grad);
-                stmt.setInt(6, zvezdice);
-                stmt.setInt(7, parkingMesta);
-                stmt.setString(8, opis);
-                stmt.setString(9, nazivSlike);
+                stmt.setString(2, managerID);
+                stmt.setString(3, name);
+                stmt.setString(4, country);
+                stmt.setString(5, city);
+                stmt.setInt(6, stars);
+                stmt.setInt(7, parkingSpots);
+                stmt.setString(8, desc);
+                stmt.setString(9, photoName);
                 stmt.execute();
 
                 upit = "update menadzer set hotel_id = ? where korisnik_id = ?";
                 PreparedStatement stmtUpdateMenadzer = conn.prepareStatement(upit);
                 stmtUpdateMenadzer.setString(1, hotelID);
-                stmtUpdateMenadzer.setString(2, menadzerID);
+                stmtUpdateMenadzer.setString(2, managerID);
                 stmtUpdateMenadzer.execute();
 
-                request.setAttribute("uspesanUnos", true);
+                request.setAttribute("successfulInsert", true);
                 RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
                 rd.forward(request, response);
             }
@@ -93,39 +93,39 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
 
             try
             {
-                zvezdice = Integer.parseInt(brojZvezdica);
-                parkingMesta = Integer.parseInt(brojParkingMesta);
+                stars = Integer.parseInt(numberOfStars);
+                parkingSpots = Integer.parseInt(numberOfParkingSpots);
             }
             catch (Exception ex)
             {
-                request.setAttribute("ceoBrojGreska", true);
+                request.setAttribute("wholeNumberError", true);
 
-                Hotel hotelZaUpdate = Hotel.VratiDetaljeHotela(updateHotelID);
+                Hotel hotelZaUpdate = Hotel.ReturnHotelDetails(updateHotelID);
                 request.setAttribute("hotel", hotelZaUpdate);
-                request.setAttribute("updateProvera", "1");
-                request.setAttribute("menadzer", menadzerID);
-                request.setAttribute("naziv", naziv);
-                request.setAttribute("drzava", drzava);
-                request.setAttribute("grad", grad);
-                request.setAttribute("brojZvezdica", brojZvezdica);
-                request.setAttribute("brojParkingMesta", brojParkingMesta);
-                request.setAttribute("opis", opis);
-                request.setAttribute("nazivSlike", nazivSlike);
+                request.setAttribute("checkUpdate", "1");
+                request.setAttribute("manager", managerID);
+                request.setAttribute("name", name);
+                request.setAttribute("country", country);
+                request.setAttribute("city", city);
+                request.setAttribute("numberOfStars", numberOfStars);
+                request.setAttribute("numberOfParkingSpots", numberOfParkingSpots);
+                request.setAttribute("desc", desc);
+                request.setAttribute("photoName", photoName);
 
                 RequestDispatcher rd = request.getRequestDispatcher("addOrEditHotel.jsp");
                 rd.forward(request, response);
                 response.sendRedirect("addOrEditHotel.jsp");
             }
 
-            String upit;
+            String query;
             try
             {
-                String ulogovanRadnik  = (String) request.getSession().getAttribute("UlogovanRadnik");
-                switch (ulogovanRadnik)
+                String loggedInEmployee  = (String) request.getSession().getAttribute("LoggedInEmployee");
+                switch (loggedInEmployee)
                 {
-                    case "Menadzer":
+                    case "Manager":
                     {
-                        upit = "update hotel set " +
+                        query = "update hotel set " +
                                 "naziv = ?, " +
                                 "drzava = ?, " +
                                 "grad = ?, " +
@@ -134,39 +134,39 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                                 "opis = ?, " +
                                 "naziv_slike = ? " +
                                 "where hotel_id = ?";
-                        PreparedStatement stmtPromenaHotela = conn.prepareStatement(upit);
-                        stmtPromenaHotela.setString(1, naziv);
-                        stmtPromenaHotela.setString(2, drzava);
-                        stmtPromenaHotela.setString(3, grad);
-                        stmtPromenaHotela.setInt(4, zvezdice);
-                        stmtPromenaHotela.setInt(5, parkingMesta);
-                        stmtPromenaHotela.setString(6, opis);
-                        stmtPromenaHotela.setString(7, nazivSlike);
-                        stmtPromenaHotela.setString(8, updateHotelID);
-                        stmtPromenaHotela.execute();
+                        PreparedStatement stmtUpdateHotel = conn.prepareStatement(query);
+                        stmtUpdateHotel.setString(1, name);
+                        stmtUpdateHotel.setString(2, country);
+                        stmtUpdateHotel.setString(3, city);
+                        stmtUpdateHotel.setInt(4, stars);
+                        stmtUpdateHotel.setInt(5, parkingSpots);
+                        stmtUpdateHotel.setString(6, desc);
+                        stmtUpdateHotel.setString(7, photoName);
+                        stmtUpdateHotel.setString(8, updateHotelID);
+                        stmtUpdateHotel.execute();
 
-                        request.setAttribute("uspesnaPromena", true);
+                        request.setAttribute("successfulUpdate", true);
                         RequestDispatcher rd = request.getRequestDispatcher("managerAccount.jsp");
                         rd.forward(request, response);
                         break;
                     }
                     case "Admin":
                     {
-                        upit = "update menadzer set hotel_id = null where hotel_id = ?";
+                        query = "update menadzer set hotel_id = null where hotel_id = ?";
 
-                        PreparedStatement stmt = conn.prepareStatement(upit);
+                        PreparedStatement stmt = conn.prepareStatement(query);
                         stmt.setString(1, updateHotelID);
                         stmt.execute();
 
-                        upit = "update menadzer set hotel_id = ? where korisnik_id = ?";
-                        PreparedStatement stmtPromenaMenadzera = conn.prepareStatement(upit);
-                        stmtPromenaMenadzera.setString(1, updateHotelID);
-                        stmtPromenaMenadzera.setString(2, menadzerID);
-                        stmtPromenaMenadzera.execute();
+                        query = "update menadzer set hotel_id = ? where korisnik_id = ?";
+                        PreparedStatement stmtUpdateManager = conn.prepareStatement(query);
+                        stmtUpdateManager.setString(1, updateHotelID);
+                        stmtUpdateManager.setString(2, managerID);
+                        stmtUpdateManager.execute();
 
-                        if(menadzerID.equals(""))
+                        if(managerID.equals(""))
                         {
-                            upit = "update hotel set " +
+                            query = "update hotel set " +
                                     "menadzer_id = NULL, " +
                                     "naziv = ?, " +
                                     "drzava = ?, " +
@@ -176,20 +176,20 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                                     "opis = ?, " +
                                     "naziv_slike = ? " +
                                     "where hotel_id = ?";
-                            PreparedStatement stmtPromenaHotela = conn.prepareStatement(upit);
-                            stmtPromenaHotela.setString(1, naziv);
-                            stmtPromenaHotela.setString(2, drzava);
-                            stmtPromenaHotela.setString(3, grad);
-                            stmtPromenaHotela.setInt(4, zvezdice);
-                            stmtPromenaHotela.setInt(5, parkingMesta);
-                            stmtPromenaHotela.setString(6, opis);
-                            stmtPromenaHotela.setString(7, nazivSlike);
-                            stmtPromenaHotela.setString(8, updateHotelID);
-                            stmtPromenaHotela.execute();
+                            PreparedStatement stmtUpdateHotel = conn.prepareStatement(query);
+                            stmtUpdateHotel.setString(1, name);
+                            stmtUpdateHotel.setString(2, country);
+                            stmtUpdateHotel.setString(3, city);
+                            stmtUpdateHotel.setInt(4, stars);
+                            stmtUpdateHotel.setInt(5, parkingSpots);
+                            stmtUpdateHotel.setString(6, desc);
+                            stmtUpdateHotel.setString(7, photoName);
+                            stmtUpdateHotel.setString(8, updateHotelID);
+                            stmtUpdateHotel.execute();
                         }
                         else
                         {
-                            upit = "update hotel set " +
+                            query = "update hotel set " +
                                     "menadzer_id = ?, " +
                                     "naziv = ?, " +
                                     "drzava = ?, " +
@@ -199,20 +199,20 @@ public class ServletInsertAndUpdateHotel extends HttpServlet {
                                     "opis = ?, " +
                                     "naziv_slike = ? " +
                                     "where hotel_id = ?";
-                            PreparedStatement stmtPromenaHotela = conn.prepareStatement(upit);
-                            stmtPromenaHotela.setString(1, menadzerID);
-                            stmtPromenaHotela.setString(2, naziv);
-                            stmtPromenaHotela.setString(3, drzava);
-                            stmtPromenaHotela.setString(4, grad);
-                            stmtPromenaHotela.setInt(5, zvezdice);
-                            stmtPromenaHotela.setInt(6, parkingMesta);
-                            stmtPromenaHotela.setString(7, opis);
-                            stmtPromenaHotela.setString(8, nazivSlike);
-                            stmtPromenaHotela.setString(9, updateHotelID);
-                            stmtPromenaHotela.execute();
+                            PreparedStatement stmtUpdateHotel = conn.prepareStatement(query);
+                            stmtUpdateHotel.setString(1, managerID);
+                            stmtUpdateHotel.setString(2, name);
+                            stmtUpdateHotel.setString(3, country);
+                            stmtUpdateHotel.setString(4, city);
+                            stmtUpdateHotel.setInt(5, stars);
+                            stmtUpdateHotel.setInt(6, parkingSpots);
+                            stmtUpdateHotel.setString(7, desc);
+                            stmtUpdateHotel.setString(8, photoName);
+                            stmtUpdateHotel.setString(9, updateHotelID);
+                            stmtUpdateHotel.execute();
                         }
 
-                        request.setAttribute("uspesnaPromena", true);
+                        request.setAttribute("successfulUpdate", true);
                         RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
                         rd.forward(request, response);
                         break;

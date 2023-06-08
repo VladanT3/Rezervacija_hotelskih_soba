@@ -1,23 +1,24 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="Models.Menadzer" %>
+<%@ page import="Models.Manager" %>
 <%@ page import="Models.Hotel" %>
+<%@ page import="Models.Manager" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-	Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
-	if(proveraLogin == null)
+	Object checkLogin = request.getSession().getAttribute("LoggedInUser");
+	if(checkLogin == null)
 	{
 		request.getSession().invalidate();
 		response.sendRedirect("index.jsp");
 		return;
 	}
 	
-	String ulogovanRadnik = (String) request.getSession().getAttribute("UlogovanRadnik");
-	ulogovanRadnik = ulogovanRadnik == null ? "" : ulogovanRadnik;
-    if(ulogovanRadnik.equals("Menadzer")){
+	String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+	loggedInEmployee = loggedInEmployee == null ? "" : loggedInEmployee;
+    if(loggedInEmployee.equals("Manager")){
 	    request.getSession().setAttribute("Title", "Manager | Edit Hotel");
 	    request.getSession().setAttribute("Active", "editHotel");
     }
-    else if(ulogovanRadnik.equals("Admin")){
+    else if(loggedInEmployee.equals("Admin")){
 	    request.getSession().setAttribute("Title", "Administrator | Hotels");
 	    request.getSession().setAttribute("Active", "adminHoteli");
     }
@@ -26,35 +27,35 @@
 <%@ include file="inits/headInit.jsp" %>
 <body>
 	<%
-		String izmenaProvera = (String) request.getAttribute("updateProvera");
-        int izmena = 0;
+		String checkUpdate = (String) request.getAttribute("checkUpdate");
+        int update = 0;
 		Hotel hotel = new Hotel();
-        Menadzer menadzerHotela = new Menadzer();
-        if(izmenaProvera != null)
+        Manager hotelManager = new Manager();
+        if(checkUpdate != null)
         {
-	        izmena = Integer.parseInt(izmenaProvera);
+	        update = Integer.parseInt(checkUpdate);
             hotel = (Hotel) request.getAttribute("hotel");
-            menadzerHotela = Menadzer.VratiMenadzera(hotel.getMenadzerId());
+            hotelManager = Manager.ReturnManager(hotel.getManagerID());
         }
         
-		ArrayList<Menadzer> menadzeri = Menadzer.VratiMenadzereKojimaNijeDodeljenHotel();
+		ArrayList<Manager> unassignedManagers = Manager.ReturnManagersWhoArentAssignedAHotel();
         
-        boolean greska = request.getAttribute("ceoBrojGreska") != null;
-        String izabranMenadzer = request.getAttribute("menadzer") == null ? "" : (String) request.getAttribute("menadzer");
-        String naziv = request.getAttribute("naziv") == null ? "" : (String) request.getAttribute("naziv");
-        String drzava = request.getAttribute("drzava") == null ? "" : (String) request.getAttribute("drzava");
-        String grad = request.getAttribute("grad") == null ? "" : (String) request.getAttribute("grad");
-        String brojZvezdica = request.getAttribute("brojZvezdica") == null ? "" : (String) request.getAttribute("brojZvezdica");
-        String brojParkingMesta = request.getAttribute("brojParkingMesta") == null ? "" : (String) request.getAttribute("brojParkingMesta");
-        String opis = request.getAttribute("opis") == null ? "" : (String) request.getAttribute("opis");
-        String nazivSlike = request.getAttribute("nazivSlike") == null ? "" : (String) request.getAttribute("nazivSlike");
+        boolean wholeNumberError = request.getAttribute("wholeNumberError") != null;
+        String inputManager = request.getAttribute("manager") == null ? "" : (String) request.getAttribute("manager");
+        String inputName = request.getAttribute("name") == null ? "" : (String) request.getAttribute("name");
+        String inputCountry = request.getAttribute("country") == null ? "" : (String) request.getAttribute("country");
+        String inputCity = request.getAttribute("city") == null ? "" : (String) request.getAttribute("city");
+        String inputStars = request.getAttribute("numberOfStars") == null ? "" : (String) request.getAttribute("numberOfStars");
+        String inputParking = request.getAttribute("numberOfParkingSpots") == null ? "" : (String) request.getAttribute("numberOfParkingSpots");
+        String desc = request.getAttribute("desc") == null ? "" : (String) request.getAttribute("desc");
+        String photoName = request.getAttribute("photoName") == null ? "" : (String) request.getAttribute("photoName");
 		
-        if(ulogovanRadnik.equals("Menadzer")){
+        if(loggedInEmployee.equals("Manager")){
 	%>
 			<%@ include file="headers and footer/managerHeader.jsp" %>
 	<%
 		}
-		else if(ulogovanRadnik.equals("Admin")){
+		else if(loggedInEmployee.equals("Admin")){
 	%>
 			<%@ include file="headers and footer/adminHeader.jsp" %>
 	<%
@@ -68,7 +69,7 @@
 				<fieldset class="margin-t-50">
 					<legend>
 						<%
-							if(izmena == 1)
+							if(update == 1)
                                 out.print("Edit Hotel");
                             else
                                 out.print("Add New Hotel");
@@ -76,7 +77,7 @@
 					</legend>
 					<form action="ServletInsertAndUpdateHotel" method="post" class="row">
 						<%
-							if(ulogovanRadnik.equals("Admin"))
+							if(loggedInEmployee.equals("Admin"))
 							{
                         %>
 							<div class="col-12">
@@ -85,18 +86,18 @@
 									<select class="form-select input-boja" id="assignedManager" name="assignedManager">
 										<option value="">Select One</option>
 										<%
-											if(izmena == 1 && menadzerHotela.getId() != null){
+											if(update == 1 && hotelManager.getId() != null){
                                         %>
-												<option selected value="<%= menadzerHotela.getId() %>"><%= menadzerHotela.getId() + " - " + menadzerHotela.getIme() + " " + menadzerHotela.getPrezime() %></option>
+												<option selected value="<%= hotelManager.getId() %>"><%= hotelManager.getId() + " - " + hotelManager.getFirstName() + " " + hotelManager.getLastName() %></option>
 										<%
 											}
 										%>
 										<%
-											for(Menadzer menadzer : menadzeri)
+											for(Manager manager : unassignedManagers)
 											{
-                                                boolean selected = menadzer.getId().equals(hotel.getMenadzerId()) || menadzer.getId().equals(izabranMenadzer);
+                                                boolean selected = manager.getId().equals(inputManager);
 										%>
-												<option value="<%= menadzer.getId() %>" <%= selected ? "selected" : "" %>><%= menadzer.getId() + " - " + menadzer.getIme() + " " + menadzer.getPrezime() %></option>
+												<option value="<%= manager.getId() %>" <%= selected ? "selected" : "" %>><%= manager.getId() + " - " + manager.getFirstName() + " " + manager.getLastName() %></option>
 										<%
 											}
 										%>
@@ -108,32 +109,32 @@
 						%>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelName" id="hotelName" class="form-control input-boja" placeholder="Hotel Name" value="<%= naziv != "" ? naziv : izmena == 1 ? hotel.getNaziv() : "" %>" required>
+								<input type="text" name="hotelName" id="hotelName" class="form-control input-boja" placeholder="Hotel Name" value="<%= inputName != "" ? inputName : update == 1 ? hotel.getName() : "" %>" required>
 								<label for="hotelName" class="text-muted">Hotel Name</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelCountry" id="hotelCountry" class="form-control input-boja" placeholder="Country" value="<%= drzava != "" ? drzava : izmena == 1 ? hotel.getDrzava() : "" %>" required>
+								<input type="text" name="hotelCountry" id="hotelCountry" class="form-control input-boja" placeholder="Country" value="<%= inputCountry != "" ? inputCountry : update == 1 ? hotel.getCountry() : "" %>" required>
 								<label for="hotelCountry" class="text-muted">Country:</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelCity" id="hotelCity" class="form-control input-boja" placeholder="City" value="<%= grad != "" ? grad : izmena == 1 ? hotel.getGrad() : "" %>" required>
+								<input type="text" name="hotelCity" id="hotelCity" class="form-control input-boja" placeholder="City" value="<%= inputCity != "" ? inputCity : update == 1 ? hotel.getCity() : "" %>" required>
 								<label for="hotelCity" class="text-muted">City</label>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelZvezdice" id="hotelZvezdice" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" placeholder="Number of stars" value="<%= brojZvezdica != "" ? brojZvezdica : izmena == 1 ? hotel.getBrojZvezdica() : "" %>" required>
+								<input type="text" name="hotelZvezdice" id="hotelZvezdice" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" placeholder="Number of stars" value="<%= inputStars != "" ? inputStars : update == 1 ? hotel.getNumberOfStars() : "" %>" required>
 								<label for="hotelZvezdice" class="text-muted">Number of stars</label>
 								<%
-									if(greska)
+									if(wholeNumberError)
 									{
 										out.print
 										(
-											"<div id='validacijaBrojZvezdica' class='invalid-feedback'>" +
+											"<div id='validationNumberOfStars' class='invalid-feedback'>" +
 												"Incorrect value, number of stars has to be a number!" +
 											"</div>"
 										);
@@ -143,14 +144,14 @@
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelParking" id="hotelParking" class="form-control input-boja <%= greska ? "is-invalid" : "" %>" placeholder="Parking spots" value="<%= brojParkingMesta != "" ? brojParkingMesta : izmena == 1 ? hotel.getBrojParkingMesta() : "" %>" required>
+								<input type="text" name="hotelParking" id="hotelParking" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" placeholder="Parking spots" value="<%= inputParking != "" ? inputParking : update == 1 ? hotel.getNumberOfParkingSpots() : "" %>" required>
 								<label for="hotelParking" class="text-muted">Parking spots</label>
 								<%
-									if(greska)
+									if(wholeNumberError)
 									{
 										out.print
 										(
-											"<div id='validacijaBrojParkingMesta' class='invalid-feedback'>" +
+											"<div id='validationParkingSpots' class='invalid-feedback'>" +
 												"Incorrect value, number of parking spots has to be a number!" +
 											"</div>"
 										);
@@ -160,18 +161,18 @@
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelPicture" id="hotelPicture" class="form-control input-boja" placeholder="Hotel Picture" value="<%= nazivSlike != "" ? nazivSlike : izmena == 1 ? hotel.getNazivSlike() : "" %>">
+								<input type="text" name="hotelPicture" id="hotelPicture" class="form-control input-boja" placeholder="Hotel Picture" value="<%= photoName != "" ? photoName : update == 1 ? hotel.getPhotoName() : "" %>">
 								<label for="hotelPicture" class="text-muted">Hotel Picture</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<textarea name="hotelDesc" id="hotelDesc" class="form-control input-boja" style="height: 150px" placeholder="Hotel Description" maxlength="500" required><%= opis != "" ? opis : izmena == 1 ? hotel.getOpis() : "" %></textarea>
+								<textarea name="hotelDesc" id="hotelDesc" class="form-control input-boja" style="height: 150px" placeholder="Hotel Description" maxlength="500" required><%= desc != "" ? desc : update == 1 ? hotel.getDescription() : "" %></textarea>
 								<label for="hotelDesc" class="text-muted">Hotel Description</label>
 							</div>
 						</div>
 						<%
-							if(izmena == 0)
+							if(update == 0)
 							{
                         %>
 								<div class="col-12">

@@ -15,8 +15,8 @@ public class ServletDeleteHotel extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
-        if(proveraLogin == null)
+        Object checkLogin = request.getSession().getAttribute("LoggedInUser");
+        if(checkLogin == null)
         {
             request.getSession().invalidate();
             response.sendRedirect("index.jsp");
@@ -24,14 +24,14 @@ public class ServletDeleteHotel extends HttpServlet {
         }
 
         String hotelID = request.getParameter("hotel");
-        String upit = "delete from hotel where hotel_id = ?";
+        String query = "delete from hotel where hotel_id = ?";
         try
         {
-            PreparedStatement stmt = conn.prepareStatement(upit);
+            PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, hotelID);
             stmt.execute();
 
-            request.setAttribute("uspesnoBrisanje", true);
+            request.setAttribute("successfulDelete", true);
             RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
             rd.forward(request, response);
         }

@@ -2,8 +2,8 @@
 <%@ page import="Models.Hotel" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-	Object proveraLogin = request.getSession().getAttribute("UlogovanKorisnik");
-	if(proveraLogin == null)
+	Object loginCheck = request.getSession().getAttribute("LoggedInUser");
+	if(loginCheck == null)
 	{
 		request.getSession().invalidate();
 		response.sendRedirect("index.jsp");
@@ -11,27 +11,27 @@
 	}
 	
 	request.getSession().setAttribute("Title", "Administrator | Hotels");
-    request.getSession().setAttribute("Active", "adminHoteli");
+    request.getSession().setAttribute("Active", "adminHotels");
 %>
 <html>
 <%@ include file="inits/headInit.jsp" %>
 <body>
 	<%
-		boolean uspesanUnos = request.getAttribute("uspesanUnos") != null;
-        boolean uspesnaPromena = request.getAttribute("uspesnaPromena") != null;
-        boolean uspesnoBrisanje = request.getAttribute("uspesnoBrisanje") != null;
+		boolean successfulInsert = request.getAttribute("successfulInsert") != null;
+        boolean successfulUpdate = request.getAttribute("successfulUpdate") != null;
+        boolean successfulDelete = request.getAttribute("successfulDelete") != null;
 	%>
 	<%@ include file="headers and footer/adminHeader.jsp" %>
 
 	<div class="container">
 		<%
-			String pretraga = request.getParameter("search");
-            pretraga = pretraga == null ? "" : pretraga;
-			ArrayList<Hotel> hoteli = Hotel.VratiHotele(pretraga);
+			String search = request.getParameter("search");
+			search = search == null ? "" : search;
+			ArrayList<Hotel> hotels = Hotel.ReturnHotels(search);
 		%>
 		<div class="row margin-t-50">
 			<%
-				if(uspesanUnos)
+				if(successfulInsert)
 				{
             %>
 					<div class="col-12 alert alert-success" role="alert">
@@ -41,7 +41,7 @@
 				}
 			%>
 			<%
-				if(uspesnaPromena)
+				if(successfulUpdate)
 				{
 			%>
 					<div class="col-12 alert alert-success" role="alert">
@@ -51,7 +51,7 @@
 				}
 			%>
 			<%
-				if(uspesnoBrisanje)
+				if(successfulDelete)
 				{
 			%>
 					<div class="col-12 alert alert-success" role="alert">
@@ -66,24 +66,24 @@
 			<div class="col-4">
 				<form action="adminHotels.jsp" method="get">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control input-boja" name="search" placeholder="Search hotels..." value="<%= pretraga %>">
+						<input type="text" class="form-control input-boja" name="search" placeholder="Search hotels..." value="<%= search %>">
 						<input class="btn btn-outline-light" type="submit" value="Search">
 					</div>
 				</form>
 			</div>
 			<div class="col-7"></div>
 			<%
-				for(Hotel hotel : hoteli)
+				for(Hotel hotel : hotels)
 				{
             %>
 					<div class="col-3 padding-10">
 						<div class="div-artikal">
-							<img src="img/<%= hotel.getNazivSlike() %>" class="rounded mx-auto d-block" height="200px" width="188px" alt="<%= hotel.getNaziv() %>">
+							<img src="img/<%= hotel.getPhotoName() %>" class="rounded mx-auto d-block" height="200px" width="188px" alt="<%= hotel.getName() %>">
 							<div class="div-artikal-naziv">
-								<p><%= hotel.getNaziv() %></p>
-								<p><%= hotel.getDrzava() + ", " + hotel.getGrad() %></p>
-								<p>Stars: <%= hotel.getBrojZvezdica() %></p>
-								<p>Parking spots: <%= hotel.getBrojParkingMesta() %></p>
+								<p><%= hotel.getName() %></p>
+								<p><%= hotel.getCountry() + ", " + hotel.getCity() %></p>
+								<p>Stars: <%= hotel.getNumberOfStars() %></p>
+								<p>Parking spots: <%= hotel.getNumberOfParkingSpots() %></p>
 							</div>
 							<div class="align-center">
 								<div class="row">

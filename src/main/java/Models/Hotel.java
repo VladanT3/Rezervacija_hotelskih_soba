@@ -9,47 +9,47 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Hotel {
-    protected String id, menadzerId, naziv, drzava, grad, opis, nazivSlike;
-    protected int brojZvezdica, brojParkingMesta;
+    protected String id, managerID, name, country, city, description, photoName;
+    protected int numberOfStars, numberOfParkingSpots;
     private static final Connection conn = DBConnection.connectToDB();
 
     public Hotel() {
     }
 
-    public Hotel(String id, String menadzerId, String naziv, String drzava, String grad, String opis, String nazivSlike, int brojZvezdica, int brojParkingMesta) {
+    public Hotel(String id, String managerID, String name, String country, String city, String description, String photoName, int numberOfStars, int numberOfParkingSpots) {
         this.id = id;
-        this.menadzerId = menadzerId;
-        this.naziv = naziv;
-        this.drzava = drzava;
-        this.grad = grad;
-        this.opis = opis;
-        this.nazivSlike = nazivSlike;
-        this.brojZvezdica = brojZvezdica;
-        this.brojParkingMesta = brojParkingMesta;
+        this.managerID = managerID;
+        this.name = name;
+        this.country = country;
+        this.city = city;
+        this.description = description;
+        this.photoName = photoName;
+        this.numberOfStars = numberOfStars;
+        this.numberOfParkingSpots = numberOfParkingSpots;
     }
 
-    public static ArrayList<Hotel> VratiHotele(String nazivHotela)
+    public static ArrayList<Hotel> ReturnHotels(String hotelName)
     {
-        ArrayList<Hotel> hoteli = new ArrayList<>();
-        String upit = "select * from hotel where naziv like '%" + nazivHotela + "%'";
+        ArrayList<Hotel> hotels = new ArrayList<>();
+        String query = "select * from hotel where naziv like '%" + hotelName + "%'";
 
         try
         {
-            PreparedStatement stmt = conn.prepareStatement(upit);
-            ResultSet rez = stmt.executeQuery();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet res = stmt.executeQuery();
 
-            while(rez.next())
+            while(res.next())
             {
-                String hotelID = rez.getString("hotel_id");
-                String menadzerID = rez.getString("menadzer_id");
-                String naziv = rez.getString("naziv");
-                String drzava = rez.getString("drzava");
-                String grad = rez.getString("grad");
-                String opis = rez.getString("opis");
-                String nazivSlike = rez.getString("naziv_slike");
-                int zvezdice = rez.getInt("broj_zvezdica");
-                int parking = rez.getInt("broj_parking_mesta");
-                hoteli.add(new Hotel(hotelID, menadzerID, naziv, drzava, grad, opis, nazivSlike, zvezdice, parking));
+                String hotelID = res.getString("hotel_id");
+                String managerID = res.getString("menadzer_id");
+                String name = res.getString("naziv");
+                String country = res.getString("drzava");
+                String city = res.getString("grad");
+                String desc = res.getString("opis");
+                String photoName = res.getString("naziv_slike");
+                int stars = res.getInt("broj_zvezdica");
+                int parking = res.getInt("broj_parking_mesta");
+                hotels.add(new Hotel(hotelID, managerID, name, country, city, desc, photoName, stars, parking));
             }
         }
         catch (SQLException ex)
@@ -57,30 +57,30 @@ public class Hotel {
             ex.printStackTrace();
         }
 
-        return hoteli;
+        return hotels;
     }
 
-    public static Hotel VratiDetaljeHotela(String hotelID)
+    public static Hotel ReturnHotelDetails(String hotelID)
     {
         Hotel hotel = new Hotel();
-        String upit = "select * from hotel where hotel_id = ?";
+        String query = "select * from hotel where hotel_id = ?";
 
         try
         {
-            PreparedStatement stmt = conn.prepareStatement(upit);
+            PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, hotelID);
-            ResultSet rez = stmt.executeQuery();
-            if(rez.next())
+            ResultSet res = stmt.executeQuery();
+            if(res.next())
             {
-                String menadzerID = rez.getString("menadzer_id");
-                String naziv = rez.getString("naziv");
-                String drzava = rez.getString("drzava");
-                String grad = rez.getString("grad");
-                String opis = rez.getString("opis");
-                String nazivSlike = rez.getString("naziv_slike");
-                int zvezdice = rez.getInt("broj_zvezdica");
-                int parking = rez.getInt("broj_parking_mesta");
-                hotel = new Hotel(hotelID, menadzerID, naziv, drzava, grad, opis, nazivSlike, zvezdice, parking);
+                String managerID = res.getString("menadzer_id");
+                String name = res.getString("naziv");
+                String country = res.getString("drzava");
+                String city = res.getString("grad");
+                String desc = res.getString("opis");
+                String photoName = res.getString("naziv_slike");
+                int stars = res.getInt("broj_zvezdica");
+                int parking = res.getInt("broj_parking_mesta");
+                hotel = new Hotel(hotelID, managerID, name, country, city, desc, photoName, stars, parking);
             }
         }
         catch (SQLException ex)
@@ -91,19 +91,20 @@ public class Hotel {
         return hotel;
     }
 
-    public static String GenerisiNoviHotelID()
+    public static String GenerateNewHotelID()
     {
         String hotelID = "H";
-        int dodatakID = 11;
-        String upit = "select count(*) as brojHotela from hotel";
+        int additionToID = 0;
+        String query = "select hotel_id from hotel order by datum_dodavanja desc limit 1";
 
         try
         {
-            PreparedStatement stmt = conn.prepareStatement(upit);
-            ResultSet rez = stmt.executeQuery();
-            if(rez.next())
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet res = stmt.executeQuery();
+            if(res.next())
             {
-                dodatakID += rez.getInt("brojHotela");
+                String lastHotelID = res.getString("hotel_id");
+                additionToID = Integer.parseInt(lastHotelID.substring(1)) + 1;
             }
         }
         catch (SQLException ex)
@@ -111,7 +112,7 @@ public class Hotel {
             ex.printStackTrace();
         }
 
-        return hotelID + dodatakID;
+        return hotelID + additionToID;
     }
 
     public String getId() {
@@ -122,67 +123,67 @@ public class Hotel {
         this.id = id;
     }
 
-    public String getMenadzerId() {
-        return menadzerId;
+    public String getManagerID() {
+        return managerID;
     }
 
-    public void setMenadzerId(String menadzerId) {
-        this.menadzerId = menadzerId;
+    public void setManagerID(String managerID) {
+        this.managerID = managerID;
     }
 
-    public String getNaziv() {
-        return naziv;
+    public String getName() {
+        return name;
     }
 
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDrzava() {
-        return drzava;
+    public String getCountry() {
+        return country;
     }
 
-    public void setDrzava(String drzava) {
-        this.drzava = drzava;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public String getGrad() {
-        return grad;
+    public String getCity() {
+        return city;
     }
 
-    public void setGrad(String grad) {
-        this.grad = grad;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getOpis() {
-        return opis;
+    public String getDescription() {
+        return description;
     }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getBrojZvezdica() {
-        return brojZvezdica;
+    public int getNumberOfStars() {
+        return numberOfStars;
     }
 
-    public void setBrojZvezdica(int brojZvezdica) {
-        this.brojZvezdica = brojZvezdica;
+    public void setNumberOfStars(int numberOfStars) {
+        this.numberOfStars = numberOfStars;
     }
 
-    public int getBrojParkingMesta() {
-        return brojParkingMesta;
+    public int getNumberOfParkingSpots() {
+        return numberOfParkingSpots;
     }
 
-    public void setBrojParkingMesta(int brojParkingMesta) {
-        this.brojParkingMesta = brojParkingMesta;
+    public void setNumberOfParkingSpots(int numberOfParkingSpots) {
+        this.numberOfParkingSpots = numberOfParkingSpots;
     }
 
-    public String getNazivSlike() {
-        return nazivSlike;
+    public String getPhotoName() {
+        return photoName;
     }
 
-    public void setNazivSlike(String nazivSlike) {
-        this.nazivSlike = nazivSlike;
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
 }

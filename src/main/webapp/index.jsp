@@ -7,6 +7,8 @@
 	<%@ include file="headers and footer/loginHeader.jsp"%>
 	<%
 		request.getSession().setAttribute("LoggedInUser", null);
+        request.getSession().setAttribute("LoggedInEmployee", null);
+        request.getSession().setAttribute("LoggedInClient", null);
 		
 		String email = (String) request.getAttribute("inputEmail");
         if(email == null) email = "";

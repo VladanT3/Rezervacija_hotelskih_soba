@@ -13,6 +13,18 @@
 		return;
 	}
 	
+	String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+	if(loggedInEmployee.equals("Manager"))
+	{
+		response.sendRedirect("managerAccount.jsp");
+		return;
+	}
+	else if(loggedInEmployee.equals("Admin"))
+	{
+		response.sendRedirect("adminAccount.jsp");
+		return;
+	}
+	
 	request.getSession().setAttribute("Title", "Kontinental | Your Profile");
 %>
 <html>

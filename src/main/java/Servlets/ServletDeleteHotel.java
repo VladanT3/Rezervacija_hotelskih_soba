@@ -23,7 +23,29 @@ public class ServletDeleteHotel extends HttpServlet {
             return;
         }
 
+        boolean isClientLoggedIn = request.getSession().getAttribute("LoggedInClient") != null;
+        if(isClientLoggedIn)
+        {
+            response.sendRedirect("clientAccount.jsp");
+            return;
+        }
+
         String hotelID = request.getParameter("hotel");
+        if(hotelID.equals(""))
+        {
+            String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+            if(loggedInEmployee.equals("Manager"))
+            {
+                response.sendRedirect("managerAccount.jsp");
+                return;
+            }
+            else if(loggedInEmployee.equals("Admin"))
+            {
+                response.sendRedirect("adminAccount.jsp");
+                return;
+            }
+        }
+
         String query = "delete from hotel where hotel_id = ?";
         try
         {

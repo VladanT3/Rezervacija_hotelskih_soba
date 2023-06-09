@@ -12,6 +12,13 @@
 		return;
 	}
 	
+	boolean isClientLoggedIn = request.getSession().getAttribute("LoggedInClient") != null;
+	if(isClientLoggedIn)
+	{
+		response.sendRedirect("clientAccount.jsp");
+		return;
+	}
+	
 	request.getSession().setAttribute("Active", "roomTypes");
 	
 	String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");

@@ -22,7 +22,30 @@ public class ServletPrepareRoomUpdate extends HttpServlet {
             return;
         }
 
-        Room roomForUpdate = Room.ReturnRoomDetails(request.getParameter("room"));
+        boolean isClientLoggedIn = request.getSession().getAttribute("LoggedInClient") != null;
+        if(isClientLoggedIn)
+        {
+            response.sendRedirect("clientAccount.jsp");
+            return;
+        }
+
+        String roomID = request.getParameter("room");
+        if(roomID.equals(""))
+        {
+            String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+            if(loggedInEmployee.equals("Manager"))
+            {
+                response.sendRedirect("managerAccount.jsp");
+                return;
+            }
+            else if(loggedInEmployee.equals("Admin"))
+            {
+                response.sendRedirect("adminAccount.jsp");
+                return;
+            }
+        }
+
+        Room roomForUpdate = Room.ReturnRoomDetails(roomID);
         request.setAttribute("room", roomForUpdate);
         request.setAttribute("checkUpdate", "1");
         RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoom.jsp");

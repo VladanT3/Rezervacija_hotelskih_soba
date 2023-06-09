@@ -10,8 +10,30 @@ import java.io.IOException;
 public class ServletLogout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().invalidate();
-        response.sendRedirect("index.jsp");
+        Object checkLogin = request.getSession().getAttribute("LoggedInUser");
+        if(checkLogin == null)
+        {
+            request.getSession().invalidate();
+            response.sendRedirect("index.jsp");
+            return;
+        }
+
+        boolean isClientLoggedIn = request.getSession().getAttribute("LoggedInClient") != null;
+        if(isClientLoggedIn)
+        {
+            response.sendRedirect("clientAccount.jsp");
+            return;
+        }
+
+        String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+        if(loggedInEmployee.equals("Manager"))
+        {
+            response.sendRedirect("managerAccount.jsp");
+        }
+        else if(loggedInEmployee.equals("Admin"))
+        {
+            response.sendRedirect("adminAccount.jsp");
+        }
     }
 
     @Override

@@ -59,6 +59,65 @@ public class Room {
         return rooms;
     }
 
+    public static Room ReturnRoomDetails(String id)
+    {
+        Room room = new Room();
+        String query = "select * from soba s join tip_sobe ts on s.tip_sobe_id = ts.tip_sobe_id where soba_id = ?";
+        try
+        {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, id);
+            ResultSet res = stmt.executeQuery();
+            if(res.next())
+            {
+                String hotelID = res.getString("hotel_id");
+                String roomTypeID = res.getString("tip_sobe_id");
+                String reservationID = res.getString("rezervacija_id");
+                String name = res.getString("naziv");
+                int roomNumber = res.getInt("broj_sobe");
+                float price = res.getFloat("dnevna_cena");
+
+                room = new Room(id, hotelID, roomTypeID, reservationID, name, roomNumber, price);
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return room;
+    }
+
+    public static boolean CheckIfRoomNumberExists(int newRoomNumber, int oldRoomNumber, String hotelID)
+    {
+        String query = "select broj_sobe from soba where broj_sobe = ? and hotel_id = ?";
+        try
+        {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, newRoomNumber);
+            stmt.setString(2, hotelID);
+            ResultSet res = stmt.executeQuery();
+            if(res.next())
+            {
+                int roomNumber = res.getInt("broj_sobe");
+                return roomNumber != oldRoomNumber;
+            }
+            else
+                return false;
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return true;
+    }
+
+    public static String GenerateNewRoomID(String hotelID, int roomNumber)
+    {
+        return hotelID + "S" + roomNumber;
+    }
+
     public String getRoomID() {
         return roomID;
     }

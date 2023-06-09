@@ -85,7 +85,7 @@
 					}
 				%>
 				<div class="col-1">
-					<a href="" class="btn btn-outline-light" title="Add new Room"><i class="fa-solid fa-plus fa-lg"></i></a>
+					<a href="addOrEditRoom.jsp" class="btn btn-outline-light" title="Add new Room"><i class="fa-solid fa-plus fa-lg"></i></a>
 				</div>
 				<div class="col-4">
 					<form action="searchRooms.jsp" method="get">

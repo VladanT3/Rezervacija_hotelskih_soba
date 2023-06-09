@@ -8,6 +8,13 @@
 		response.sendRedirect("index.jsp");
 		return;
 	}
+	
+	boolean isClientLoggedIn = request.getSession().getAttribute("LoggedInClient") != null;
+	if(isClientLoggedIn)
+	{
+		response.sendRedirect("clientAccount.jsp");
+		return;
+	}
  
 	request.getSession().setAttribute("Title", "Kontinental | Administrator");
 %>

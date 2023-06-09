@@ -24,7 +24,29 @@ public class ServletDeleteRoomType extends HttpServlet {
             return;
         }
 
+        boolean isClientLoggedIn = request.getSession().getAttribute("LoggedInClient") != null;
+        if(isClientLoggedIn)
+        {
+            response.sendRedirect("clientAccount.jsp");
+            return;
+        }
+
         String roomTypeID = request.getParameter("roomType");
+        if(roomTypeID.equals(""))
+        {
+            String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+            if(loggedInEmployee.equals("Manager"))
+            {
+                response.sendRedirect("managerAccount.jsp");
+                return;
+            }
+            else if(loggedInEmployee.equals("Admin"))
+            {
+                response.sendRedirect("adminAccount.jsp");
+                return;
+            }
+        }
+
         String query = "delete from tip_sobe where tip_sobe_id = ?";
         try
         {

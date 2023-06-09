@@ -5,6 +5,8 @@
 <body>
 	<%
 		request.getSession().setAttribute("LoggedInUser", null);
+		request.getSession().setAttribute("LoggedInEmployee", null);
+		request.getSession().setAttribute("LoggedInClient", null);
 		
 		boolean emailError = request.getAttribute("emailError") != null;
 		

@@ -24,7 +24,25 @@ public class ServletDeleteClient extends HttpServlet {
             return;
         }
 
+        String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+        if(loggedInEmployee.equals("Manager"))
+        {
+            response.sendRedirect("managerAccount.jsp");
+            return;
+        }
+        else if(loggedInEmployee.equals("Admin"))
+        {
+            response.sendRedirect("adminAccount.jsp");
+            return;
+        }
+
         String clientID = request.getParameter("client");
+        if(clientID.equals(""))
+        {
+            response.sendRedirect("clientAccount.jsp");
+            return;
+        }
+
         String query = "delete from korisnik where korisnik_id = ?";
         try
         {

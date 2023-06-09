@@ -96,15 +96,11 @@
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a type="button" class="btn btn-light">Show All Rooms</a>
+						<a href="searchRooms.jsp" type="button" class="btn btn-light">Show All Rooms</a>
 					</div>
 					<div class="col-6"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
 						<a href="roomTypes.jsp" type="button" class="btn btn-light">Show All Room Types</a>
-					</div>
-					<div class="col-6"></div>
-					<div class="col-6 mb-3 d-grid gap-2">
-						<a type="button" class="btn btn-light">Show All Users</a>
 					</div>
 				</div>
 			</div>

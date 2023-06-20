@@ -143,7 +143,7 @@
 							<div class="row">
 								<div class="col-3"></div>
 								<div class="col-3"><a href="PrepareRoomUpdateServlet?room=<%= room.getRoomID() %>" class="btn btn-light" title="Edit"><i class="fa-solid fa-pen fa-lg"></i></a></div>
-								<div class="col-3"><a href="DeleteRoomServlet?room=<%= room.getRoomID() %>" class="btn btn-outline-light" title="Delete"><i class="fa-solid fa-trash fa-lg"></i></a></div>
+								<div class="col-3"><a href="DeleteRoomServlet?room=<%= room.getRoomID() %>" class="btn btn-outline-danger" title="Delete"><i class="fa-solid fa-trash fa-lg"></i></a></div>
 								<div class="col-3"></div>
 							</div>
 						</div>

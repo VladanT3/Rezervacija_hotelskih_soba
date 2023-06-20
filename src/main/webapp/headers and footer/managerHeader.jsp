@@ -11,7 +11,7 @@
 <header>
 	<nav class="navbar fixed-top navbar-expand-lg bg-light">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="">
+			<a class="navbar-brand" href="managerAccount.jsp">
 				<img src="img/logo.png" alt="Logo" width="50" height="50">
 				Kontinental
 			</a>

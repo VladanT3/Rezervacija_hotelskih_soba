@@ -1,8 +1,8 @@
 <%@ page import="Models.Client" %>
 <%@ page import="Models.Reservation" %>
-<%@ page import="Models.Hotel" %>
-<%@ page import="Models.Client" %>
-<%@ page import="Models.Reservation" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="Models.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
 	Object loginCheck = request.getSession().getAttribute("LoggedInUser");
@@ -37,6 +37,17 @@
 		
 		boolean successfulUpdate = request.getAttribute("successfulUpdate") != null;
 		boolean successfulReservation = request.getAttribute("successfulReservation") != null;
+		
+        String dateFrom = "", dateTo = "";
+        if(reservation.getDateFrom() != null)
+        {
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+	        LocalDate reservationFrom = LocalDate.parse(reservation.getDateFrom(), formatter);
+	        LocalDate reservationTo = LocalDate.parse(reservation.getDateTo(), formatter);
+	        formatter = DateTimeFormatter.ofPattern("eeee d. MMMM, y");
+	        dateFrom = reservationFrom.format(formatter);
+	        dateTo = reservationTo.format(formatter);
+        }
 	%>
 	<%@ include file="headers and footer/clientHeader.jsp"%>
 	
@@ -166,7 +177,7 @@
 							<div class="mb-3 row">
 								<label for="reservationFrom" class="col-5 col-form-label text-muted">From:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="reservationFrom" value="<%= reservation.getDateFrom() == null ? "" : reservation.getDateFrom() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="reservationFrom" value="<%= dateFrom %>">
 								</div>
 							</div>
 						</div>
@@ -174,7 +185,7 @@
 							<div class="mb-3 row">
 								<label for="reservationTo" class="col-5 col-form-label text-muted">To:</label>
 								<div class="col">
-									<input readonly class="form-control-plaintext input-boja bold" id="reservationTo" value="<%= reservation.getDateTo() == null ? "" : reservation.getDateTo() %>">
+									<input readonly class="form-control-plaintext input-boja bold" id="reservationTo" value="<%= dateTo %>">
 								</div>
 							</div>
 						</div>
@@ -188,11 +199,11 @@
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a type="button" class="btn btn-light">Browse Hotels</a>
+						<a href="browseHotels.jsp" type="button" class="btn btn-light">Browse Hotels</a>
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a type="button" class="btn btn-light">Your Reservations</a>
+						<a href="showReservations.jsp" type="button" class="btn btn-light">Your Reservations</a>
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">

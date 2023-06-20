@@ -31,7 +31,7 @@ public class InsertAndUpdateHotelServlet extends HttpServlet {
             return;
         }
 
-        String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+        String loggedInEmployee = request.getSession().getAttribute("LoggedInEmployee") == null ? "" : (String) request.getSession().getAttribute("LoggedInEmployee");
         if(loggedInEmployee.equals("Manager"))
         {
             response.sendRedirect("managerAccount.jsp");

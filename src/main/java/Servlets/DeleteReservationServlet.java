@@ -10,8 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "DeleteRoomServlet", value = "/DeleteRoomServlet")
-public class DeleteRoomServlet extends HttpServlet {
+@WebServlet(name = "DeleteReservationServlet", value = "/DeleteReservationServlet")
+public class DeleteReservationServlet extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
 
     @Override
@@ -24,38 +24,34 @@ public class DeleteRoomServlet extends HttpServlet {
             return;
         }
 
-        boolean isClientLoggedIn = request.getSession().getAttribute("LoggedInClient") != null;
-        if(isClientLoggedIn)
+        String loggedInEmployee = request.getSession().getAttribute("LoggedInEmployee") == null ? "" : (String) request.getSession().getAttribute("LoggedInEmployee");
+        if(loggedInEmployee.equals("Manager"))
+        {
+            response.sendRedirect("managerAccount.jsp");
+            return;
+        }
+        else if(loggedInEmployee.equals("Admin"))
+        {
+            response.sendRedirect("adminAccount.jsp");
+            return;
+        }
+
+        String reservationID = request.getParameter("reservation");
+        if(reservationID.equals(""))
         {
             response.sendRedirect("clientAccount.jsp");
             return;
         }
 
-        String roomID = request.getParameter("room");
-        if(roomID.equals(""))
-        {
-            String loggedInEmployee = request.getSession().getAttribute("LoggedInEmployee") == null ? "" : (String) request.getSession().getAttribute("LoggedInEmployee");
-            if(loggedInEmployee.equals("Manager"))
-            {
-                response.sendRedirect("managerAccount.jsp");
-                return;
-            }
-            else if(loggedInEmployee.equals("Admin"))
-            {
-                response.sendRedirect("adminAccount.jsp");
-                return;
-            }
-        }
-
-        String query = "delete from soba where soba_id = ?";
+        String query = "delete from rezervacija where rezervacija_id = ?";
         try
         {
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, roomID);
+            stmt.setString(1, reservationID);
             stmt.execute();
 
             request.setAttribute("successfulDelete", true);
-            RequestDispatcher rd = request.getRequestDispatcher("searchRooms.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("showReservations.jsp");
             rd.forward(request, response);
         }
         catch(SQLException ex)

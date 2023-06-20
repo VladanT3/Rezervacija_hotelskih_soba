@@ -182,8 +182,4 @@ public class Hotel {
     public String getPhotoName() {
         return photoName;
     }
-
-    public void setPhotoName(String photoName) {
-        this.photoName = photoName;
-    }
 }

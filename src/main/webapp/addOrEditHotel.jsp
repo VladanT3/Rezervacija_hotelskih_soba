@@ -77,9 +77,17 @@
 					<legend>
 						<%
 							if(update == 1)
-                                out.print("Edit Hotel");
+							{
+						%>
+								Edit Hotel
+						<%
+							}
                             else
-                                out.print("Add New Hotel");
+							{
+						%>
+								Add New Hotel
+						<%
+							}
 						%>
 					</legend>
 					<form action="InsertAndUpdateHotelServlet" method="post" class="row">
@@ -116,65 +124,63 @@
 						%>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelName" id="hotelName" class="form-control input-boja" placeholder="Hotel Name" value="<%= inputName != "" ? inputName : update == 1 ? hotel.getName() : "" %>" required>
+								<input type="text" name="hotelName" id="hotelName" class="form-control input-boja" placeholder="Hotel Name" value="<%= !inputName.equals("") ? inputName : update == 1 ? hotel.getName() : "" %>" required>
 								<label for="hotelName" class="text-muted">Hotel Name</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelCountry" id="hotelCountry" class="form-control input-boja" placeholder="Country" value="<%= inputCountry != "" ? inputCountry : update == 1 ? hotel.getCountry() : "" %>" required>
+								<input type="text" name="hotelCountry" id="hotelCountry" class="form-control input-boja" placeholder="Country" value="<%= !inputCountry.equals("") ? inputCountry : update == 1 ? hotel.getCountry() : "" %>" required>
 								<label for="hotelCountry" class="text-muted">Country:</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelCity" id="hotelCity" class="form-control input-boja" placeholder="City" value="<%= inputCity != "" ? inputCity : update == 1 ? hotel.getCity() : "" %>" required>
+								<input type="text" name="hotelCity" id="hotelCity" class="form-control input-boja" placeholder="City" value="<%= !inputCity.equals("") ? inputCity : update == 1 ? hotel.getCity() : "" %>" required>
 								<label for="hotelCity" class="text-muted">City</label>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelZvezdice" id="hotelZvezdice" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" placeholder="Number of stars" value="<%= inputStars != "" ? inputStars : update == 1 ? hotel.getNumberOfStars() : "" %>" required>
+								<input type="text" name="hotelZvezdice" id="hotelZvezdice" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" placeholder="Number of stars" value="<%= !inputStars.equals("") ? inputStars : update == 1 ? hotel.getNumberOfStars() : "" %>" required>
 								<label for="hotelZvezdice" class="text-muted">Number of stars</label>
 								<%
 									if(wholeNumberError)
 									{
-										out.print
-										(
-											"<div id='validationNumberOfStars' class='invalid-feedback'>" +
-												"Incorrect value, number of stars has to be a number!" +
-											"</div>"
-										);
+								%>
+										<div id='validationNumberOfStars' class='invalid-feedback'>
+											Incorrect value, number of stars has to be a number!
+										</div>
+								<%
 									}
 								%>
 							</div>
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelParking" id="hotelParking" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" placeholder="Parking spots" value="<%= inputParking != "" ? inputParking : update == 1 ? hotel.getNumberOfParkingSpots() : "" %>" required>
+								<input type="text" name="hotelParking" id="hotelParking" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" placeholder="Parking spots" value="<%= !inputParking.equals("") ? inputParking : update == 1 ? hotel.getNumberOfParkingSpots() : "" %>" required>
 								<label for="hotelParking" class="text-muted">Parking spots</label>
 								<%
 									if(wholeNumberError)
 									{
-										out.print
-										(
-											"<div id='validationParkingSpots' class='invalid-feedback'>" +
-												"Incorrect value, number of parking spots has to be a number!" +
-											"</div>"
-										);
+								%>
+										<div id='validationParkingSpots' class='invalid-feedback'>
+											Incorrect value, number of parking spots has to be a number!
+										</div>
+								<%
 									}
 								%>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<input type="text" name="hotelPicture" id="hotelPicture" class="form-control input-boja" placeholder="Hotel Picture" value="<%= photoName != "" ? photoName : update == 1 ? hotel.getPhotoName() : "" %>">
+								<input type="text" name="hotelPicture" id="hotelPicture" class="form-control input-boja" placeholder="Hotel Picture" value="<%= !photoName.equals("") ? photoName : update == 1 ? hotel.getPhotoName() : "" %>">
 								<label for="hotelPicture" class="text-muted">Hotel Picture</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<textarea name="hotelDesc" id="hotelDesc" class="form-control input-boja" style="height: 150px" placeholder="Hotel Description" maxlength="500" required><%= desc != "" ? desc : update == 1 ? hotel.getDescription() : "" %></textarea>
+								<textarea name="hotelDesc" id="hotelDesc" class="form-control input-boja" style="height: 150px" placeholder="Hotel Description" maxlength="500" required><%= !desc.equals("") ? desc : update == 1 ? hotel.getDescription() : "" %></textarea>
 								<label for="hotelDesc" class="text-muted">Hotel Description</label>
 							</div>
 						</div>

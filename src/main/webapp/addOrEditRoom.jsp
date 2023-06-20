@@ -79,9 +79,17 @@
 					<legend>
 						<%
 							if(update == 1)
-								out.print("Edit Room");
+							{
+						%>
+								Edit Room
+						<%
+							}
 							else
-								out.print("Add New Room");
+							{
+						%>
+								Add New Room
+						<%
+							}
 						%>
 					</legend>
 					<form action="InsertAndUpdateRoomServlet" method="post" class="row">
@@ -130,7 +138,7 @@
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja <%= numberError || roomNumberAlreadyExistsError ? "is-invalid" : "" %>" placeholder="Room Number" name="roomNumber" id="roomNumber" minlength="3" maxlength="3" value="<%= pickedRoomNumber != "" ? pickedRoomNumber : update == 1 ? room.getRoomNumber() : "" %>" required>
+								<input type="text" class="form-control input-boja <%= numberError || roomNumberAlreadyExistsError ? "is-invalid" : "" %>" placeholder="Room Number" name="roomNumber" id="roomNumber" minlength="3" maxlength="3" value="<%= !pickedRoomNumber.equals("") ? pickedRoomNumber : update == 1 ? room.getRoomNumber() : "" %>" required>
 								<label for="roomNumber" class="text-muted">Room Number</label>
 								<%
 									if(numberError)
@@ -154,7 +162,7 @@
 						</div>
 						<div class="col-6">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja <%= numberError ? "is-invalid" : "" %>" placeholder="Price per Night" name="pricePerNight" id="pricePerNight" value="<%= pickedPricePerNight != "" ? pickedPricePerNight : update == 1 ? room.getPricePerNight() : "" %>" required>
+								<input type="text" class="form-control input-boja <%= numberError ? "is-invalid" : "" %>" placeholder="Price per Night" name="pricePerNight" id="pricePerNight" value="<%= !pickedPricePerNight.equals("") ? pickedPricePerNight : update == 1 ? room.getPricePerNight() : "" %>" required>
 								<label for="pricePerNight" class="text-muted">Price per Night</label>
 								<%
 									if(numberError)

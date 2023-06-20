@@ -225,10 +225,6 @@ public class Room {
         return roomID;
     }
 
-    public void setRoomID(String roomID) {
-        this.roomID = roomID;
-    }
-
     public String getHotelID() {
         return hotelID;
     }
@@ -241,31 +237,15 @@ public class Room {
         return roomTypeID;
     }
 
-    public void setRoomTypeID(String roomTypeID) {
-        this.roomTypeID = roomTypeID;
-    }
-
     public String getRoomTypeName() {
         return roomTypeName;
-    }
-
-    public void setRoomTypeName(String roomTypeName) {
-        this.roomTypeName = roomTypeName;
     }
 
     public int getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
     public float getPricePerNight() {
         return pricePerNight;
-    }
-
-    public void setPricePerNight(float pricePerNight) {
-        this.pricePerNight = pricePerNight;
     }
 }

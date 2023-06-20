@@ -266,10 +266,6 @@ public class RoomType {
         return roomTypeID;
     }
 
-    public void setRoomTypeID(String roomTypeID) {
-        this.roomTypeID = roomTypeID;
-    }
-
     public String getName() {
         return name;
     }
@@ -280,10 +276,6 @@ public class RoomType {
 
     public String getBedType() {
         return bedType;
-    }
-
-    public void setBedType(String bedType) {
-        this.bedType = bedType;
     }
 
     public String getKitchen() {
@@ -298,10 +290,6 @@ public class RoomType {
         return bathroom;
     }
 
-    public void setBathroom(String bathroom) {
-        this.bathroom = bathroom;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -312,10 +300,6 @@ public class RoomType {
 
     public int getNumberOfBeds() {
         return numberOfBeds;
-    }
-
-    public void setNumberOfBeds(int numberOfBeds) {
-        this.numberOfBeds = numberOfBeds;
     }
 
     public boolean isTelevision() {

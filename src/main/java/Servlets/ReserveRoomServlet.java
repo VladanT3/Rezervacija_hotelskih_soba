@@ -60,17 +60,17 @@ public class ReserveRoomServlet extends HttpServlet {
         String query = "insert into rezervacija values(?, ?, ?, ?, ?, ?)";
         try
         {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, reservationID);
+            stmt.setString(2, client.getId());
+            stmt.setString(3, roomID);
+            stmt.setString(4, dateFrom);
+            stmt.setString(5, dateTo);
+            stmt.setFloat(6, fullPrice);
+            stmt.execute();
+
             if(applyPoints != null)
             {
-                PreparedStatement stmt = conn.prepareStatement(query);
-                stmt.setString(1, reservationID);
-                stmt.setString(2, client.getId());
-                stmt.setString(3, roomID);
-                stmt.setString(4, dateFrom);
-                stmt.setString(5, dateTo);
-                stmt.setFloat(6, fullPrice);
-                stmt.execute();
-
                 query = "update klijent set broj_poena = 0 where korisnik_id = ?";
                 PreparedStatement stmtUpdatePoints = conn.prepareStatement(query);
                 stmtUpdatePoints.setString(1, client.getId());
@@ -85,15 +85,6 @@ public class ReserveRoomServlet extends HttpServlet {
             }
             else
             {
-                PreparedStatement stmt = conn.prepareStatement(query);
-                stmt.setString(1, reservationID);
-                stmt.setString(2, client.getId());
-                stmt.setString(3, roomID);
-                stmt.setString(4, dateFrom);
-                stmt.setString(5, dateTo);
-                stmt.setFloat(6, fullPrice);
-                stmt.execute();
-
                 int newPoints = client.getNumberOfPoints() + 2;
 
                 query = "update klijent set broj_poena = ? where korisnik_id = ?";

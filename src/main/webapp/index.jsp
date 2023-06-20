@@ -32,12 +32,11 @@
 								<%
 									if(loginError)
 									{
-                                        out.print
-		                                (
-                                            "<div id='validationEmail' class='invalid-feedback'>" +
-		                                        "Email or password are incorrect!" +
-		                                    "</div>"
-		                                );
+								%>
+										<div id='validationEmail' class='invalid-feedback'>
+											Email or password are incorrect!
+										</div>
+								<%
 									}
 								%>
 							</div>
@@ -49,12 +48,11 @@
 								<%
 									if(loginError)
 									{
-										out.print
-										(
-											"<div id='validationPassword' class='invalid-feedback'>" +
-												"Email or password are incorrect!" +
-											"</div>"
-										);
+								%>
+										<div id='validationPassword' class='invalid-feedback'>
+											Email or password are incorrect!
+										</div>
+								<%
 									}
 								%>
 							</div>

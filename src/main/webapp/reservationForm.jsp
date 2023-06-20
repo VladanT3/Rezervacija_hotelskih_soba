@@ -4,6 +4,7 @@
 <%@ page import="java.time.LocalDate" %>
 <%@ page import="Models.RoomType" %>
 <%@ page import="java.time.temporal.ChronoUnit" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
 	Object loginCheck = request.getSession().getAttribute("LoggedInUser");
@@ -51,8 +52,12 @@
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
 		LocalDate reservationFrom = LocalDate.parse(dateFrom, formatter);
 		LocalDate reservationTo = LocalDate.parse(dateTo, formatter);
+  
 		long difference = ChronoUnit.DAYS.between(reservationFrom, reservationTo);
         float reservationPrice = difference * roomToBeReserved.getPricePerNight();
+        
+		DecimalFormat numberFormat = new DecimalFormat("#.00");
+        String price = numberFormat.format(reservationPrice);
 	%>
 	<%@ include file="headers and footer/clientHeader.jsp" %>
 	
@@ -102,14 +107,19 @@
 								<input type="date" class="form-control input-boja color-scheme-dark" name="reservationTo" id="reservationTo" value="<%= dateTo %>" readonly>
 							</div>
 						</div>
-						<div class="col-4"></div>
-						<div class="col-4">
-							<div class="form-floating mb-3">
-								<input type="text" class="form-control input-boja" name="reservationPrice" id="reservationPrice" placeholder="Total Price" value="<%= reservationPrice %>" readonly>
-								<label for="reservationPrice" class="text-muted">Total Price</label>
+						<div class="col-6"><label for="reservationPrice" class="form-label">Total Price:</label></div>
+						<div class="col-6"><label class="form-check-label" for="applyPoints">Use your points? You have:</label></div>
+						<div class="col-6">
+							<div class="mb-3">
+								<input type="text" class="form-control input-boja" name="reservationPrice" id="reservationPrice" placeholder="Total Price" value="<%= price %>" readonly>
 							</div>
 						</div>
-						<div class="col-4"></div>
+						<div class="col-6">
+							<div class="form-check form-switch">
+								<input class="form-check-input check-boja" type="checkbox" name="applyPoints" id="applyPoints" value="<%= client.getNumberOfPoints() %>">
+								<label class="form-check-label" for="applyPoints"><%= client.getNumberOfPoints() %></label>
+							</div>
+						</div>
 						<div class="col-12 align-center">
 							<div class="d-grid gap-2">
 								<input type="submit" class="btn btn-light" value="Reserve">
@@ -124,6 +134,7 @@
 		<%@ include file="headers and footer/footer.jsp" %>
 	</div>
 	
+	<script src="js/adjustReservationPrice.js"></script>
 	<%@ include file="inits/jsInit.jsp"%>
 </body>
 </html>

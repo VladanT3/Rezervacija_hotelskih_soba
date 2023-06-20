@@ -2,17 +2,19 @@
 
 Web aplikacija za rezervisanje hotelskih soba:
 
-Radjena je u Javi sa Maven-om
+-Radjena je u Javi sa Maven-om
 
-Baza podataka je pravljena pomoću phpMyAdmin-a preko XAMPP-a
+-Baza podataka je pravljena pomoću phpMyAdmin-a preko XAMPP-a
 
-Korišćeni server: Tomcat 10.1.9
+-Korišćeni server: Tomcat 10.1.9
 
-Back-end: Java
+-Back-end: Java
 
-Front-end: JSP, core CSS, JavaScript i BootStrap
+-Front-end: JSP, core CSS, JavaScript i BootStrap
 
-Baza podataka: MySQL
+-Baza podataka: MySQL
+
+---------------------------------------------------------------------------------------------
 
 Neki od fajlova i čemu služe:
 

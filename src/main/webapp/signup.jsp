@@ -9,6 +9,7 @@
 		request.getSession().setAttribute("LoggedInClient", null);
 		
 		boolean emailError = request.getAttribute("emailError") != null;
+		boolean currentDateError = request.getAttribute("currentDateError") != null;
 		
 		String firstName = (String) request.getAttribute("firstName");
 		if(firstName == null) firstName = "";
@@ -352,12 +353,11 @@
 								<%
 									if(emailError)
 									{
-										out.print
-										(
-											"<div id='validationEmail' class='invalid-feedback'>" +
-												"Email has already been registered!" +
-											"</div>"
-										);
+								%>
+                                        <div id = "validationEmail" class="invalid-feedback">
+											Email has already been registered !
+										</div>
+								<%
 									}
 								%>
 							</div>
@@ -371,7 +371,17 @@
 						<div class="col-3">
 							<div class="mb-3">
 								<label for="clientBirthday" class="form-label text-muted">Date of Birth:</label>
-								<input type="date" class="form-control input-boja color-scheme-dark" name="clientBirthday" id="clientBirthday" value="<%= birthday %>" required>
+								<input type="date" class="form-control input-boja color-scheme-dark <%= currentDateError ? "is-invalid" : "" %>" name="clientBirthday" id="clientBirthday" value="<%= birthday %>" required>
+								<%
+									if(currentDateError)
+									{
+								%>
+										<div id='validationDateFrom' class='invalid-feedback'>
+											Birthday can't be after the current date!
+										</div>
+								<%
+									}
+								%>
 							</div>
 						</div>
 						<div class="col-6"></div>

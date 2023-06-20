@@ -8,6 +8,9 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @WebServlet(name = "SignupServlet", value = "/SignupServlet")
 public class SignupServlet extends HttpServlet {
@@ -54,6 +57,26 @@ public class SignupServlet extends HttpServlet {
         String address = request.getParameter("clientAddress");
         String phoneNumber = request.getParameter("clientPhone");
         String birthday = request.getParameter("clientBirthday");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        LocalDate birthdayDate = LocalDate.parse(birthday, formatter);
+        LocalDate currentDate = LocalDate.now();
+        if(ChronoUnit.DAYS.between(birthdayDate, currentDate) < 0)
+        {
+            request.setAttribute("currentDateError", true);
+            request.setAttribute("firstName", firstName);
+            request.setAttribute("lastName", lastName);
+            request.setAttribute("email", email);
+            request.setAttribute("password", password);
+            request.setAttribute("city", city);
+            request.setAttribute("address", address);
+            request.setAttribute("phoneNumber", phoneNumber);
+            request.setAttribute("birthday", birthday);
+
+            RequestDispatcher rd = request.getRequestDispatcher("signup.jsp");
+            rd.forward(request, response);
+            response.sendRedirect("signup.jsp");
+        }
 
         query = "select * from korisnik where email = ?";
 

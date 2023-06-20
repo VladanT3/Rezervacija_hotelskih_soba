@@ -1,7 +1,15 @@
 # Rezervacija_hotelskih_soba
 
-Aplikacija za rezervisanje hotelskih soba
+Web aplikacija za rezervisanje hotelskih soba:
 
-Front-end: JSP, CSS, JS
+Radjena je u Javi sa Maven-om
+
+Baza podataka je pravljena pomoću phpMyAdmin-a preko XAMPP-a
+
+Korišćeni server: Tomcat 10.1.9
 
 Back-end: Java
+
+Front-end: JSP, core CSS, JavaScript i BootStrap
+
+Baza podataka: MySQL

@@ -13,3 +13,7 @@ Back-end: Java
 Front-end: JSP, core CSS, JavaScript i BootStrap
 
 Baza podataka: MySQL
+
+Neki od fajlova i čemu služe:
+
+-hoteli_projekat.sql - baza podatak korišćena za aplikaciju

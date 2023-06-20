@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Room {
-    private String roomID, hotelID, roomTypeID, reservationID, roomTypeName;
+    private String roomID, hotelID, roomTypeID, roomTypeName;
     private int roomNumber;
     private float pricePerNight;
     private static final Connection conn = DBConnection.connectToDB();
@@ -17,11 +17,10 @@ public class Room {
     public Room() {
     }
 
-    public Room(String roomID, String hotelID, String roomTypeID, String reservationID, String roomTypeName, int roomNumber, float pricePerNight) {
+    public Room(String roomID, String hotelID, String roomTypeID, String roomTypeName, int roomNumber, float pricePerNight) {
         this.roomID = roomID;
         this.hotelID = hotelID;
         this.roomTypeID = roomTypeID;
-        this.reservationID = reservationID;
         this.roomTypeName = roomTypeName;
         this.roomNumber = roomNumber;
         this.pricePerNight = pricePerNight;
@@ -43,12 +42,11 @@ public class Room {
             {
                 String roomID = res.getString("soba_id");
                 String roomTypeID = res.getString("tip_sobe_id");
-                String reservationID = res.getString("rezervacija_id");
                 String name = res.getString("naziv");
                 int roomNumber = res.getInt("broj_sobe");
                 float price = res.getFloat("dnevna_cena");
 
-                rooms.add(new Room(roomID, hotelID, roomTypeID, reservationID, name, roomNumber, price));
+                rooms.add(new Room(roomID, hotelID, roomTypeID, name, roomNumber, price));
             }
         }
         catch (SQLException ex)
@@ -72,12 +70,11 @@ public class Room {
             {
                 String hotelID = res.getString("hotel_id");
                 String roomTypeID = res.getString("tip_sobe_id");
-                String reservationID = res.getString("rezervacija_id");
                 String name = res.getString("naziv");
                 int roomNumber = res.getInt("broj_sobe");
                 float price = res.getFloat("dnevna_cena");
 
-                room = new Room(id, hotelID, roomTypeID, reservationID, name, roomNumber, price);
+                room = new Room(id, hotelID, roomTypeID, name, roomNumber, price);
             }
         }
         catch (SQLException ex)
@@ -118,6 +115,112 @@ public class Room {
         return hotelID + "S" + roomNumber;
     }
 
+    public static ArrayList<Room> ReturnAvailableRoomsInHotel(String hotelID, String roomTypeName, String dateFrom)
+    {
+        ArrayList<Room> allRooms = Room.ReturnRoomsInHotel(hotelID, roomTypeName);
+        ArrayList<Room> availableRooms = new ArrayList<>();
+        String query = "select * " +
+                "from soba s join rezervacija r on r.soba_id = s.soba_id " +
+                "where ? BETWEEN r.datum_pocetka and r.datum_isteka and s.soba_id = ?";
+        try
+        {
+            for(Room room : allRooms)
+            {
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, dateFrom);
+                stmt.setString(2, room.getRoomID());
+                ResultSet res = stmt.executeQuery();
+                if(!res.next())
+                {
+                    availableRooms.add(room);
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return availableRooms;
+    }
+
+    public static ArrayList<Room> FilterRooms(String hotelID, String roomTypeName, String dateFrom, String bedType, String numberOfBeds, String kitchen, String bathroom)
+    {
+        ArrayList<Room> availableRooms = Room.ReturnAvailableRoomsInHotel(hotelID, roomTypeName, dateFrom);
+        ArrayList<Room> filteredRooms = new ArrayList<>();
+        try
+        {
+            if(numberOfBeds.equals(""))
+            {
+                String query = "select * " +
+                        "from soba s join tip_sobe ts on s.tip_sobe_id = ts.tip_sobe_id " +
+                        "where s.soba_id = ? and " +
+                        "ts.tip_kreveta like '%" + bedType + "%' and " +
+                        "ts.kuhinja like '%" + kitchen + "%' and " +
+                        "ts.kupatilo like '%" + bathroom + "%'";
+
+                for(Room room : availableRooms)
+                {
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, room.getRoomID());
+                    ResultSet res = stmt.executeQuery();
+                    if(res.next())
+                    {
+                        String roomID = res.getString("soba_id");
+                        String roomTypeID = res.getString("tip_sobe_id");
+                        String name = res.getString("naziv");
+                        int roomNumber = res.getInt("broj_sobe");
+                        float price = res.getFloat("dnevna_cena");
+
+                        filteredRooms.add(new Room(roomID, hotelID, roomTypeID, name, roomNumber, price));
+                    }
+                }
+            }
+            else
+            {
+                int beds = Integer.parseInt(numberOfBeds);
+                String query = "select * " +
+                        "from soba s join tip_sobe ts on s.tip_sobe_id = ts.tip_sobe_id " +
+                        "where s.soba_id = ? and " +
+                        "ts.tip_kreveta like '%" + bedType + "%' and " +
+                        "ts.broj_kreveta = ? and " +
+                        "ts.kuhinja like '%" + kitchen + "%' and " +
+                        "ts.kupatilo like '%" + bathroom + "%'";
+
+                for(Room room : availableRooms)
+                {
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setString(1, room.getRoomID());
+                    stmt.setInt(2, beds);
+                    ResultSet res = stmt.executeQuery();
+                    if(res.next())
+                    {
+                        String roomID = res.getString("soba_id");
+                        String roomTypeID = res.getString("tip_sobe_id");
+                        String name = res.getString("naziv");
+                        int roomNumber = res.getInt("broj_sobe");
+                        float price = res.getFloat("dnevna_cena");
+
+                        filteredRooms.add(new Room(roomID, hotelID, roomTypeID, name, roomNumber, price));
+                    }
+                }
+            }
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return filteredRooms;
+    }
+
+    public static Room ReturnFirstAvailableRoom(String hotelID, String roomTypeName, String dateFrom)
+    {
+        ArrayList<Room> availableRooms = Room.ReturnAvailableRoomsInHotel(hotelID, roomTypeName, dateFrom);
+
+        return availableRooms.get(0);
+    }
+
     public String getRoomID() {
         return roomID;
     }
@@ -140,14 +243,6 @@ public class Room {
 
     public void setRoomTypeID(String roomTypeID) {
         this.roomTypeID = roomTypeID;
-    }
-
-    public String getReservationID() {
-        return reservationID;
-    }
-
-    public void setReservationID(String reservationID) {
-        this.reservationID = reservationID;
     }
 
     public String getRoomTypeName() {

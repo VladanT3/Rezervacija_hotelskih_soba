@@ -55,7 +55,7 @@
 			<div class="col-8">
 				<fieldset>
 					<legend>Create an Account</legend>
-					<form action="ServletSignup" method="post" class="row">
+					<form action="SignupServlet" method="post" class="row">
 						<div class="col-6">
 							<div class="form-floating mb-3">
 								<input type="text" class="form-control input-boja" name="clientFirstName" id="clientFirstName" placeholder="First Name" value="<%= firstName %>" required>

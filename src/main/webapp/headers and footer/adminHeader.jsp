@@ -40,7 +40,7 @@
 					<a type="button" class="btn btn-outline-dark" href="adminAccount.jsp">
 						<i class="fa-solid fa-user fa-lg"></i>
 					</a>
-					<a href="ServletLogout" type="button" class="btn btn-dark me-2">Log Out</a>
+					<a href="LogoutServlet" type="button" class="btn btn-dark me-2">Log Out</a>
 				</div>
 			</div>
 		</div>

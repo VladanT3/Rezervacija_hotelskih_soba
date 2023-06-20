@@ -12,10 +12,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@WebServlet(name = "ServletEditClient", value = "/ServletEditClient")
-public class ServletEditClient extends HttpServlet {
+@WebServlet(name = "EditClientServlet", value = "/EditClientServlet")
+public class EditClientServlet extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,14 +58,30 @@ public class ServletEditClient extends HttpServlet {
         String address = request.getParameter("clientAddress");
         String phoneNumber = request.getParameter("clientPhone");
         String birthday = request.getParameter("clientBirthday");
+        String query;
+        Client client = (Client) request.getSession().getAttribute("LoggedInUser");
 
         try
         {
+            if(!email.equals(client.getEmail()))
+            {
+                query = "select count(*) as numberOfEmails from korisnik where email = ?";
+                PreparedStatement stmtEmailCheck = conn.prepareStatement(query);
+                stmtEmailCheck.setString(1, email);
+                ResultSet res = stmtEmailCheck.executeQuery();
+                if(res.getInt("numberOfEmails") > 0)
+                {
+                    request.setAttribute("emailError", true);
+                    RequestDispatcher rd = request.getRequestDispatcher("editClient.jsp");
+                    rd.forward(request, response);
+                }
+            }
+
             if(password.equals(""))
             {
                 if(country.equals(""))
                 {
-                    String query = "update korisnik set " +
+                    query = "update korisnik set " +
                             "ime = ?, " +
                             "prezime = ?, " +
                             "email = ?, " +
@@ -99,7 +116,7 @@ public class ServletEditClient extends HttpServlet {
                 }
                 else
                 {
-                    String query = "update korisnik set " +
+                    query = "update korisnik set " +
                             "ime = ?, " +
                             "prezime = ?, " +
                             "email = ?, " +
@@ -138,7 +155,7 @@ public class ServletEditClient extends HttpServlet {
             {
                 if(country.equals(""))
                 {
-                    String query = "update korisnik set " +
+                    query = "update korisnik set " +
                             "ime = ?, " +
                             "prezime = ?, " +
                             "email = ?, " +
@@ -174,7 +191,7 @@ public class ServletEditClient extends HttpServlet {
                 }
                 else
                 {
-                    String query = "update korisnik set " +
+                    query = "update korisnik set " +
                             "ime = ?, " +
                             "prezime = ?, " +
                             "email = ?, " +

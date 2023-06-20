@@ -8,7 +8,7 @@
 		return;
 	}
 	
-	String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+	String loggedInEmployee = request.getSession().getAttribute("LoggedInEmployee") == null ? "" : (String) request.getSession().getAttribute("LoggedInEmployee");
 	if(loggedInEmployee.equals("Manager"))
 	{
 		response.sendRedirect("managerAccount.jsp");
@@ -26,7 +26,8 @@
 <%@ include file="inits/headInit.jsp" %>
 <body>
 	<%
-		Client client = Client.ReturnClient(request.getParameter("client"));
+		Client client = (Client) request.getSession().getAttribute("LoggedInUser");
+        boolean emailError = request.getAttribute("emailError") != null;
 	%>
 	<%@ include file="headers and footer/clientHeader.jsp" %>
 
@@ -36,7 +37,7 @@
 			<div class="col-8">
 				<fieldset class="margin-t-50">
 					<legend>Edit Account Details</legend>
-					<form action="ServletEditClient" method="post" class="row">
+					<form action="EditClientServlet" method="post" class="row">
 						<div class="col-6"><label for="clientFirstName" class="form-label">First Name:</label></div>
 						<div class="col-6"><label for="clientLastName" class="form-label">Last Name:</label></div>
 						<div class="col-6">
@@ -330,7 +331,17 @@
 						<div class="col-6"><label for="userPassword" class="form-label"><i class="fa-solid fa-circle-question fa-sm" title="Leave empty if you dont want to change your password."></i> Password:</label></div>
 						<div class="col-6">
 							<div class="mb-3">
-								<input type="text" class="form-control input-boja" name="clientEmail" id="clientEmail" value="<%= client.getEmail() %>" required>
+								<input type="text" class="form-control input-boja <%= emailError ? "is-invalid" : "" %>" name="clientEmail" id="clientEmail" value="<%= client.getEmail() %>" required>
+								<%
+									if(emailError)
+									{
+								%>
+										<div id='validationEmail' class='invalid-feedback'>
+											Email you put in has already been registered!
+										</div>
+								<%
+									}
+								%>
 							</div>
 						</div>
 						<div class="col-6">

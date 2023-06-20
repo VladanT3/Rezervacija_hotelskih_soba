@@ -24,6 +24,10 @@
 <%@ include file="inits/headInit.jsp" %>
 <body>
 	<%
+		String search = request.getParameter("search");
+		search = search == null ? "" : search;
+		ArrayList<Hotel> hotels = Hotel.ReturnHotels(search);
+		
 		boolean successfulInsert = request.getAttribute("successfulInsert") != null;
         boolean successfulUpdate = request.getAttribute("successfulUpdate") != null;
         boolean successfulDelete = request.getAttribute("successfulDelete") != null;
@@ -31,11 +35,6 @@
 	<%@ include file="headers and footer/adminHeader.jsp" %>
 
 	<div class="container">
-		<%
-			String search = request.getParameter("search");
-			search = search == null ? "" : search;
-			ArrayList<Hotel> hotels = Hotel.ReturnHotels(search);
-		%>
 		<div class="row margin-t-50">
 			<%
 				if(successfulInsert)
@@ -95,8 +94,8 @@
 							<div class="align-center">
 								<div class="row">
 									<div class="col-3"></div>
-									<div class="col-3"><a href="ServletPrepareHotelUpdate?hotel=<%= hotel.getId() %>" class="btn btn-light" title="Edit"><i class="fa-solid fa-pen fa-lg"></i></a></div>
-									<div class="col-3"><a href="ServletDeleteHotel?hotel=<%= hotel.getId() %>" class="btn btn-outline-light" title="Delete"><i class="fa-solid fa-trash fa-lg"></i></a></div>
+									<div class="col-3"><a href="PrepareHotelUpdateServlet?hotel=<%= hotel.getId() %>" class="btn btn-light" title="Edit"><i class="fa-solid fa-pen fa-lg"></i></a></div>
+									<div class="col-3"><a href="DeleteHotelServlet?hotel=<%= hotel.getId() %>" class="btn btn-outline-light" title="Delete"><i class="fa-solid fa-trash fa-lg"></i></a></div>
 									<div class="col-3"></div>
 								</div>
 							</div>

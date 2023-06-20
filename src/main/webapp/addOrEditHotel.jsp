@@ -82,7 +82,7 @@
                                 out.print("Add New Hotel");
 						%>
 					</legend>
-					<form action="ServletInsertAndUpdateHotel" method="post" class="row">
+					<form action="InsertAndUpdateHotelServlet" method="post" class="row">
 						<%
 							if(loggedInEmployee.equals("Admin"))
 							{

@@ -84,7 +84,7 @@
 								out.print("Add New Room");
 						%>
 					</legend>
-					<form action="ServletInsertAndUpdateRoom" method="post" class="row">
+					<form action="InsertAndUpdateRoomServlet" method="post" class="row">
 						<div class="col-12">
 							<div class="mb-3">
 								<label for="hotelID" class="form-label">Hotel</label>

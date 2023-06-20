@@ -155,7 +155,7 @@
 			<div class="col-4">
 				<div class="align-center margin-t-50 mb-3">
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="ServletPrepareHotelUpdate?hotel=<%= assignedHotel.getId() %>" type="button" class="btn btn-light">Edit Hotel</a>
+						<a href="PrepareHotelUpdateServlet?hotel=<%= assignedHotel.getId() %>" type="button" class="btn btn-light">Edit Hotel</a>
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">

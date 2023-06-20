@@ -10,8 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "ServletDeleteClient", value = "/ServletDeleteClient")
-public class ServletDeleteClient extends HttpServlet {
+@WebServlet(name = "DeleteClientServlet", value = "/DeleteClientServlet")
+public class DeleteClientServlet extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
 
     @Override

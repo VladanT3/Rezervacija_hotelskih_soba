@@ -38,10 +38,15 @@
 		boolean successfulUpdate = request.getAttribute("successfulUpdate") != null;
 		boolean successfulReservation = request.getAttribute("successfulReservation") != null;
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        LocalDate clientBirthday = LocalDate.parse(client.getBirthday(), formatter);
+		formatter = DateTimeFormatter.ofPattern("eeee d. MMMM, y");
+        String birthday = clientBirthday.format(formatter);
+		
         String dateFrom = "", dateTo = "";
         if(reservation.getDateFrom() != null)
         {
-	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+	        formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
 	        LocalDate reservationFrom = LocalDate.parse(reservation.getDateFrom(), formatter);
 	        LocalDate reservationTo = LocalDate.parse(reservation.getDateTo(), formatter);
 	        formatter = DateTimeFormatter.ofPattern("eeee d. MMMM, y");
@@ -135,7 +140,7 @@
 						<div class="mb-3 row">
 							<label for="birthday" class="col-5 col-form-label text-muted">Birthday:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= client.getBirthday() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= birthday %>">
 							</div>
 						</div>
 					</div>

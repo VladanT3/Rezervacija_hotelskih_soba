@@ -1,4 +1,6 @@
 <%@ page import="Models.Administrator" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
 	Object checkLogin = request.getSession().getAttribute("LoggedInUser");
@@ -23,6 +25,13 @@
 <body>
 	<%
 		Administrator admin = (Administrator) request.getSession().getAttribute("LoggedInUser");
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+		LocalDate adminDateOfHire = LocalDate.parse(admin.getDateOfHiring(), formatter);
+		LocalDate adminBirthday = LocalDate.parse(admin.getBirthday(), formatter);
+		formatter = DateTimeFormatter.ofPattern("eeee d. MMMM, y");
+		String dateOfHire = adminDateOfHire.format(formatter);
+		String birthday = adminBirthday.format(formatter);
 	%>
 	<%@ include file="headers and footer/adminHeader.jsp"%>
 	
@@ -58,7 +67,7 @@
 						<div class="mb-3 row">
 							<label for="hired" class="col-5 col-form-label text-muted">Hired:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="hired" value="<%= admin.getDateOfHiring() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="hired" value="<%= dateOfHire %>">
 							</div>
 						</div>
 					</div>
@@ -90,7 +99,7 @@
 						<div class="mb-3 row">
 							<label for="birthday" class="col-5 col-form-label text-muted">Birthday:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= admin.getBirthday() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= birthday %>">
 							</div>
 						</div>
 					</div>

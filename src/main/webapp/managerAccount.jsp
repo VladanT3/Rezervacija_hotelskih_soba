@@ -1,5 +1,7 @@
 <%@ page import="Models.Manager" %>
 <%@ page import="Models.Hotel" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDate" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
 	Object checkLogin = request.getSession().getAttribute("LoggedInUser");
@@ -26,6 +28,13 @@
 		Manager manager = (Manager) request.getSession().getAttribute("LoggedInUser");
         Hotel assignedHotel = manager.ReturnAssignedHotel();
 		boolean successfulUpdate = request.getAttribute("successfulUpdate") != null;
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+		LocalDate managerDateOfHire = LocalDate.parse(manager.getDateOfHiring(), formatter);
+		LocalDate managerBirthday = LocalDate.parse(manager.getBirthday(), formatter);
+		formatter = DateTimeFormatter.ofPattern("eeee d. MMMM, y");
+		String dateOfHire = managerDateOfHire.format(formatter);
+		String birthday = managerBirthday.format(formatter);
 	%>
 	<%@ include file="headers and footer/managerHeader.jsp"%>
 
@@ -71,7 +80,7 @@
 						<div class="mb-3 row">
 							<label for="hired" class="col-5 col-form-label text-muted">Hired:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="hired" value="<%= manager.getDateOfHiring() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="hired" value="<%= dateOfHire %>">
 							</div>
 						</div>
 					</div>
@@ -103,7 +112,7 @@
 						<div class="mb-3 row">
 							<label for="birthday" class="col-5 col-form-label text-muted">Birthday:</label>
 							<div class="col">
-								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= manager.getBirthday() %>">
+								<input readonly class="form-control-plaintext input-boja bold" id="birthday" value="<%= birthday %>">
 							</div>
 						</div>
 					</div>

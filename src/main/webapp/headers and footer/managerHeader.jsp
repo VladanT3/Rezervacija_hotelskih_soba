@@ -21,7 +21,7 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="ServletPrepareHotelUpdate?hotel=<%= ah.getId() %>" class="nav-link <%= active.equals("editHotel") ? "active" : "" %>">
+						<a href="PrepareHotelUpdateServlet?hotel=<%= ah.getId() %>" class="nav-link <%= active.equals("editHotel") ? "active" : "" %>">
 							<i class="fa-solid fa-hotel fa-lg bi d-block mx-auto mb-1"></i>
 							Edit Hotel
 						</a>
@@ -45,7 +45,7 @@
 					<a type="button" class="btn btn-outline-dark" href="managerAccount.jsp">
 						<i class="fa-solid fa-user fa-lg"></i>
 					</a>
-					<a href="ServletLogout" type="button" class="btn btn-dark me-2">Log Out</a>
+					<a href="LogoutServlet" type="button" class="btn btn-dark me-2">Log Out</a>
 				</div>
 			</div>
 		</div>

@@ -24,7 +24,7 @@
 			<div class="col-4">
 				<fieldset class="margin-t-100">
 					<legend>Log In</legend>
-					<form method="post" action="ServletLogin" class="row">
+					<form method="post" action="LoginServlet" class="row">
 						<div class="col-12">
 							<div class="form-floating mb-3">
 								<input type="email" class="form-control input-boja <%= loginError ? "is-invalid" : "" %>" id="floatingEmail" name="inputEmail" placeholder="E-mail" value="<%= email %>" required>

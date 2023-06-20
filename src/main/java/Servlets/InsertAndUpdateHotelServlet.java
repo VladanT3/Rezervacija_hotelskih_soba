@@ -11,8 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "ServletInsertAndUpdateHotel", value = "/ServletInsertAndUpdateHotel")
-public class ServletInsertAndUpdateHotel extends HttpServlet {
+@WebServlet(name = "InsertAndUpdateHotelServlet", value = "/InsertAndUpdateHotelServlet")
+public class InsertAndUpdateHotelServlet extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

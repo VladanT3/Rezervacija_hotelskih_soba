@@ -1,3 +1,8 @@
+<%
+	String active = (String) request.getSession().getAttribute("Active");
+	active = active == null ? "" : active;
+%>
+
 <header>
 	<nav class="navbar fixed-top navbar-expand-lg bg-light">
 		<div class="container-fluid">
@@ -17,7 +22,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link">
+						<a href="browseHotels.jsp" class="nav-link <%= active.equals("browseHotels") ? "active" : "" %>">
 							<i class="fa-solid fa-door-closed fa-lg bi d-block mx-auto mb-1"></i>
 							Browse Hotels
 						</a>
@@ -35,7 +40,7 @@
 					<a type="button" class="btn btn-outline-dark" href="clientAccount.jsp">
 						<i class="fa-solid fa-user fa-lg"></i>
 					</a>
-					<a href="ServletLogout" type="button" class="btn btn-dark me-2">Log Out</a>
+					<a href="LogoutServlet" type="button" class="btn btn-dark me-2">Log Out</a>
 				</div>
 			</div>
 		</div>

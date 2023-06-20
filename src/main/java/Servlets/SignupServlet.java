@@ -9,8 +9,8 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.*;
 
-@WebServlet(name = "ServletSignup", value = "/ServletSignup")
-public class ServletSignup extends HttpServlet {
+@WebServlet(name = "SignupServlet", value = "/SignupServlet")
+public class SignupServlet extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

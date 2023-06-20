@@ -97,7 +97,7 @@
 				<div class="col-4">
 					<form action="searchRooms.jsp" method="get">
 						<div class="input-group mb-3">
-							<input type="text" class="form-control input-boja" name="search" placeholder="Search room types..." value="<%= search %>">
+							<input type="text" class="form-control input-boja" name="search" placeholder="Search rooms..." value="<%= search %>">
 							<input class="btn btn-outline-light" type="submit" value="Search">
 						</div>
 					</form>
@@ -138,13 +138,12 @@
 							<p class="bold"><%= room.getRoomNumber() %></p>
 							<p><%= room.getRoomTypeName() %></p>
 							<p>Price per Night: €<%= String.format("%.02f", room.getPricePerNight()) %></p>
-							<p>Reserved: <%= room.getReservationID() != null ? "Yes" : "No" %></p>
 						</div>
 						<div class="align-center">
 							<div class="row">
 								<div class="col-3"></div>
-								<div class="col-3"><a href="ServletPrepareRoomUpdate?room=<%= room.getRoomID() %>" class="btn btn-light" title="Edit"><i class="fa-solid fa-pen fa-lg"></i></a></div>
-								<div class="col-3"><a href="ServletDeleteRoom?room=<%= room.getRoomID() %>" class="btn btn-outline-light" title="Delete"><i class="fa-solid fa-trash fa-lg"></i></a></div>
+								<div class="col-3"><a href="PrepareRoomUpdateServlet?room=<%= room.getRoomID() %>" class="btn btn-light" title="Edit"><i class="fa-solid fa-pen fa-lg"></i></a></div>
+								<div class="col-3"><a href="DeleteRoomServlet?room=<%= room.getRoomID() %>" class="btn btn-outline-light" title="Delete"><i class="fa-solid fa-trash fa-lg"></i></a></div>
 								<div class="col-3"></div>
 							</div>
 						</div>

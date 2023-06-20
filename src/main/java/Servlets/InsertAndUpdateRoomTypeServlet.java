@@ -12,8 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@WebServlet(name = "ServletInsertAndUpdateRoomType", value = "/ServletInsertAndUpdateRoomType")
-public class ServletInsertAndUpdateRoomType extends HttpServlet {
+@WebServlet(name = "InsertAndUpdateRoomTypeServlet", value = "/InsertAndUpdateRoomTypeServlet")
+public class InsertAndUpdateRoomTypeServlet extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

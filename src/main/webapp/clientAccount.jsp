@@ -13,7 +13,7 @@
 		return;
 	}
 	
-	String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+	String loggedInEmployee = request.getSession().getAttribute("LoggedInEmployee") == null ? "" : (String) request.getSession().getAttribute("LoggedInEmployee");
 	if(loggedInEmployee.equals("Manager"))
 	{
 		response.sendRedirect("managerAccount.jsp");
@@ -36,6 +36,7 @@
 		Hotel hotel = reservation.ReturnHotelDetailsInReservation();
 		
 		boolean successfulUpdate = request.getAttribute("successfulUpdate") != null;
+		boolean successfulReservation = request.getAttribute("successfulReservation") != null;
 	%>
 	<%@ include file="headers and footer/clientHeader.jsp"%>
 	
@@ -45,9 +46,19 @@
 				if(successfulUpdate)
 				{
 			%>
-			<div class="col-12 alert alert-success" role="alert">
-				<i class="fa-solid fa-circle-check fa-lg"></i> Your account details have been updated!
-			</div>
+					<div class="col-12 alert alert-success" role="alert">
+						<i class="fa-solid fa-circle-check fa-lg"></i> Your account details have been updated!
+					</div>
+			<%
+				}
+			%>
+			<%
+				if(successfulReservation)
+				{
+			%>
+					<div class="col-12 alert alert-success" role="alert">
+						<i class="fa-solid fa-circle-check fa-lg"></i> Your reservation has been completed, you can view the details in "Your Reservations" tab!
+					</div>
 			<%
 				}
 			%>
@@ -185,7 +196,7 @@
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="ServletDeleteClient?client=<%= client.getId() %>" type="button" class="btn btn-outline-danger">Delete Account</a>
+						<a href="DeleteClientServlet?client=<%= client.getId() %>" type="button" class="btn btn-outline-danger">Delete Account</a>
 					</div>
 				</div>
 			</div>

@@ -10,9 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "ServletDeleteHotel", value = "/ServletDeleteHotel")
-public class ServletDeleteHotel extends HttpServlet {
+@WebServlet(name = "DeleteRoomTypeServlet", value = "/DeleteRoomTypeServlet")
+public class DeleteRoomTypeServlet extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Object checkLogin = request.getSession().getAttribute("LoggedInUser");
@@ -30,8 +31,8 @@ public class ServletDeleteHotel extends HttpServlet {
             return;
         }
 
-        String hotelID = request.getParameter("hotel");
-        if(hotelID.equals(""))
+        String roomTypeID = request.getParameter("roomType");
+        if(roomTypeID.equals(""))
         {
             String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
             if(loggedInEmployee.equals("Manager"))
@@ -46,15 +47,15 @@ public class ServletDeleteHotel extends HttpServlet {
             }
         }
 
-        String query = "delete from hotel where hotel_id = ?";
+        String query = "delete from tip_sobe where tip_sobe_id = ?";
         try
         {
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, hotelID);
+            stmt.setString(1, roomTypeID);
             stmt.execute();
 
             request.setAttribute("successfulDelete", true);
-            RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("roomTypes.jsp");
             rd.forward(request, response);
         }
         catch(SQLException ex)

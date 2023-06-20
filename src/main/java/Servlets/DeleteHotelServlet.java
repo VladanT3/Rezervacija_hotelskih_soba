@@ -1,17 +1,18 @@
 package Servlets;
 
-import Models.Room;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import Database.DBConnection;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-@WebServlet(name = "ServletPrepareRoomUpdate", value = "/ServletPrepareRoomUpdate")
-public class ServletPrepareRoomUpdate extends HttpServlet {
+@WebServlet(name = "DeleteHotelServlet", value = "/DeleteHotelServlet")
+public class DeleteHotelServlet extends HttpServlet {
+    Connection conn = DBConnection.connectToDB();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Object checkLogin = request.getSession().getAttribute("LoggedInUser");
@@ -29,8 +30,8 @@ public class ServletPrepareRoomUpdate extends HttpServlet {
             return;
         }
 
-        String roomID = request.getParameter("room");
-        if(roomID.equals(""))
+        String hotelID = request.getParameter("hotel");
+        if(hotelID.equals(""))
         {
             String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
             if(loggedInEmployee.equals("Manager"))
@@ -45,11 +46,21 @@ public class ServletPrepareRoomUpdate extends HttpServlet {
             }
         }
 
-        Room roomForUpdate = Room.ReturnRoomDetails(roomID);
-        request.setAttribute("room", roomForUpdate);
-        request.setAttribute("checkUpdate", "1");
-        RequestDispatcher rd = request.getRequestDispatcher("addOrEditRoom.jsp");
-        rd.forward(request, response);
+        String query = "delete from hotel where hotel_id = ?";
+        try
+        {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, hotelID);
+            stmt.execute();
+
+            request.setAttribute("successfulDelete", true);
+            RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
+            rd.forward(request, response);
+        }
+        catch(SQLException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     @Override

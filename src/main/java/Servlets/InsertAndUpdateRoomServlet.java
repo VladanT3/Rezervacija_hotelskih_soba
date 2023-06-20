@@ -11,8 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "ServletInsertAndUpdateRoom", value = "/ServletInsertAndUpdateRoom")
-public class ServletInsertAndUpdateRoom extends HttpServlet {
+@WebServlet(name = "InsertAndUpdateRoomServlet", value = "/InsertAndUpdateRoomServlet")
+public class InsertAndUpdateRoomServlet extends HttpServlet {
     Connection conn = DBConnection.connectToDB();
 
     @Override
@@ -89,7 +89,7 @@ public class ServletInsertAndUpdateRoom extends HttpServlet {
                 }
 
                 String roomID = Room.GenerateNewRoomID(hotelID, roomNumber);
-                String query = "insert into soba values(?, ?, ?, null, ?, ?)";
+                String query = "insert into soba values(?, ?, ?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(query);
                 stmt.setString(1, roomID);
                 stmt.setString(2, hotelID);

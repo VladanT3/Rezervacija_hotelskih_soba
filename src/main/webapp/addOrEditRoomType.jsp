@@ -85,7 +85,7 @@
 								out.print("Add New Room Type");
 						%>
 					</legend>
-					<form action="ServletInsertAndUpdateRoomType" method="post" class="row">
+					<form action="InsertAndUpdateRoomTypeServlet" method="post" class="row">
 						<div class="col-6">
 							<div class="mb-3">
 								<label for="roomTypeBedType" class="form-label">Bed Type</label>

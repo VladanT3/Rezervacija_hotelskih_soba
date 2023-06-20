@@ -77,6 +77,27 @@ public class Reservation {
         return roomNumber;
     }
 
+    public static String GenerateNewReservationID(String roomID, String clientID)
+    {
+        String reservationID = clientID + "-" + roomID + "-R";
+        String query = "select count(*) as numberOfReservations from rezervacija where klijent_id = ? and soba_id = ?";
+        try
+        {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, clientID);
+            stmt.setString(2, roomID);
+            ResultSet res = stmt.executeQuery();
+            int IDnumber = res.getInt("numberOfReservations") + 1;
+            reservationID += IDnumber;
+        }
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return reservationID;
+    }
+
     public void setReservationID(String reservationID) {
         this.reservationID = reservationID;
     }

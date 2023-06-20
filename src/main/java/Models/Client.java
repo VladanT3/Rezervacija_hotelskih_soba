@@ -50,11 +50,11 @@ public class Client extends User {
     {
         Reservation reservation = new Reservation();
         String query = "select * " +
-                "from reservation " +
+                "from rezervacija " +
                 "where klijent_id = ? and " +
                 "datediff(datum_pocetka, curdate()) = " +
                 "(select min(datediff(datum_pocetka, curdate())) " +
-                "from reservation " +
+                "from rezervacija " +
                 "where klijent_id = ?)";
         try
         {

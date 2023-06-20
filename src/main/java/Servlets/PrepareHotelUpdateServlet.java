@@ -32,7 +32,7 @@ public class PrepareHotelUpdateServlet extends HttpServlet {
         String hotelID = request.getParameter("hotel");
         if(hotelID.equals(""))
         {
-            String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+            String loggedInEmployee = request.getSession().getAttribute("LoggedInEmployee") == null ? "" : (String) request.getSession().getAttribute("LoggedInEmployee");
             if(loggedInEmployee.equals("Manager"))
             {
                 response.sendRedirect("managerAccount.jsp");

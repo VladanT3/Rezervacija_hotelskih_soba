@@ -32,7 +32,7 @@ public class PrepareRoomTypeUpdateServlet extends HttpServlet {
         String roomTypeID = request.getParameter("roomType");
         if(roomTypeID.equals(""))
         {
-            String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
+            String loggedInEmployee = request.getSession().getAttribute("LoggedInEmployee") == null ? "" : (String) request.getSession().getAttribute("LoggedInEmployee");
             if(loggedInEmployee.equals("Manager"))
             {
                 response.sendRedirect("managerAccount.jsp");

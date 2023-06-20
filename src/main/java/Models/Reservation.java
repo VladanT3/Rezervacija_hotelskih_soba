@@ -132,25 +132,8 @@ public class Reservation {
 
         return reservations;
     }
-
-    public void setReservationID(String reservationID) {
-        this.reservationID = reservationID;
-    }
-
-    public void setClientID(String clientID) {
-        this.clientID = clientID;
-    }
-
-    public void setRoomID(String roomID) {
-        this.roomID = roomID;
-    }
-
     public String getReservationID() {
         return reservationID;
-    }
-
-    public String getClientID() {
-        return clientID;
     }
 
     public String getRoomID() {
@@ -161,23 +144,11 @@ public class Reservation {
         return dateFrom;
     }
 
-    public void setDateFrom(String dateFrom) {
-        this.dateFrom = dateFrom;
-    }
-
     public String getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(String dateTo) {
-        this.dateTo = dateTo;
-    }
-
     public float getPrice() {
         return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
     }
 }

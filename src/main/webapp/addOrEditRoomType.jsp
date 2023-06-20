@@ -80,9 +80,17 @@
 					<legend>
 						<%
 							if(update == 1)
-								out.print("Edit Room Type");
+							{
+						%>
+								Edit Room Type
+						<%
+							}
 							else
-								out.print("Add New Room Type");
+							{
+						%>
+								Add New Room Type
+						<%
+							}
 						%>
 					</legend>
 					<form action="InsertAndUpdateRoomTypeServlet" method="post" class="row">
@@ -102,16 +110,15 @@
 						<div class="col-6">
 							<div class="mb-3">
 								<label for="roomTypeNumberOfBeds" class="form-label">Number of Beds</label>
-								<input type="text" name="roomTypeNumberOfBeds" id="roomTypeNumberOfBeds" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" value="<%= numberOfBeds != "" ? numberOfBeds : update == 1 ? roomType.getNumberOfBeds() : "" %>" required>
+								<input type="text" name="roomTypeNumberOfBeds" id="roomTypeNumberOfBeds" class="form-control input-boja <%= wholeNumberError ? "is-invalid" : "" %>" value="<%= !numberOfBeds.equals("") ? numberOfBeds : update == 1 ? roomType.getNumberOfBeds() : "" %>" required>
 								<%
 									if(wholeNumberError)
 									{
-										out.print
-										(
-											"<div id='validationNumberOfStars' class='invalid-feedback'>" +
-												"Incorrect value, number of beds has to be a number!" +
-											"</div>"
-										);
+								%>
+										<div id='validationNumberOfStars' class='invalid-feedback'>
+											Incorrect value, number of beds has to be a number!
+										</div>
+								<%
 									}
 								%>
 							</div>
@@ -147,7 +154,7 @@
 						</div>
 						<div class="col-12">
 							<div class="form-floating mb-3">
-								<textarea name="roomTypeDesc" id="roomTypeDesc" class="form-control input-boja" style="height: 150px" placeholder="Room Description" maxlength="500" required><%= desc != "" ? desc : update == 1 ? roomType.getDescription() : "" %></textarea>
+								<textarea name="roomTypeDesc" id="roomTypeDesc" class="form-control input-boja" style="height: 150px" placeholder="Room Description" maxlength="500" required><%= !desc.equals("") ? desc : update == 1 ? roomType.getDescription() : "" %></textarea>
 								<label for="roomTypeDesc" class="text-muted">Room Description</label>
 							</div>
 						</div>

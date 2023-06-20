@@ -40,6 +40,7 @@
 	<%! static String dateFrom, dateTo; %>
 	<%
 		boolean dateError = request.getAttribute("reservationError") != null;
+        boolean currentDateError = request.getAttribute("currentDateError") != null;
 		dateFrom = request.getParameter("dateFrom") == null ? request.getAttribute("dateFrom") == null ? "" : (String) request.getAttribute("dateFrom") : request.getParameter("dateFrom");
 		dateTo = request.getParameter("dateTo") == null ? request.getAttribute("dateTo") == null ? "" : (String) request.getAttribute("dateTo") : request.getParameter("dateTo");
 		
@@ -47,7 +48,7 @@
 		search = search == null ? "" : search;
 		Hotel pickedHotel = Hotel.ReturnHotelDetails(hotelID);
         ArrayList<Room> rooms = new ArrayList<>();
-        if(dateFrom != "")
+        if(!dateFrom.equals(""))
         {
 	        rooms = Room.ReturnAvailableRoomsInHotel(hotelID, search, dateFrom);
         }
@@ -78,13 +79,23 @@
 					</div>
 					<div class="col-6">
 						<div class="mb-3">
-							<input type="date" class="form-control input-boja color-scheme-dark <%= dateError ? "is-invalid" : "" %>" name="reservationFrom" id="reservationFrom" value="<%= dateFrom %>" required>
+							<input type="date" class="form-control input-boja color-scheme-dark <%= dateError || currentDateError ? "is-invalid" : "" %>" name="reservationFrom" id="reservationFrom" value="<%= dateFrom %>" required>
 							<%
 								if(dateError)
 								{
 							%>
 							<div id='validationDateFrom' class='invalid-feedback'>
 								"Reserve From" date has to be before "Reserve Until"!
+							</div>
+							<%
+								}
+							%>
+							<%
+								if(currentDateError)
+								{
+							%>
+							<div id='validationDateFrom' class='invalid-feedback'>
+								"Reserve From" date can't be before the current date!
 							</div>
 							<%
 								}

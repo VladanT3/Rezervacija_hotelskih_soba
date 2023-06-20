@@ -52,6 +52,18 @@ public class ShowAvailableRoomsServlet extends HttpServlet {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
         LocalDate reservationFrom = LocalDate.parse(dateFrom, formatter);
         LocalDate reservationTo = LocalDate.parse(dateTo, formatter);
+
+        LocalDate currentDate = LocalDate.now();
+        if(ChronoUnit.DAYS.between(reservationFrom, currentDate) > 0)
+        {
+            request.setAttribute("currentDateError", true);
+            request.setAttribute("hotel", hotel);
+
+            RequestDispatcher rd = request.getRequestDispatcher("browseRooms.jsp");
+            rd.forward(request, response);
+            response.sendRedirect("browseRooms.jsp");
+        }
+
         long difference = ChronoUnit.DAYS.between(reservationFrom, reservationTo);
         if(difference < 0)
         {

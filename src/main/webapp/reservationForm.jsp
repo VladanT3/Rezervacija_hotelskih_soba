@@ -116,7 +116,7 @@
 						</div>
 						<div class="col-6">
 							<div class="form-check form-switch">
-								<input class="form-check-input check-boja" type="checkbox" name="applyPoints" id="applyPoints" value="<%= client.getNumberOfPoints() %>">
+								<input class="form-check-input check-boja" type="checkbox" name="applyPoints" id="applyPoints" <%= client.getNumberOfPoints() == 0 ? "disabled" : "" %> value="<%= client.getNumberOfPoints() %>">
 								<label class="form-check-label" for="applyPoints"><%= client.getNumberOfPoints() %></label>
 							</div>
 						</div>

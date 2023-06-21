@@ -27,7 +27,7 @@
 		return;
 	}
 	
-	request.getSession().setAttribute("Title", "Kontinental | Your Profile");
+	request.getSession().setAttribute("Title", "Kontinental | Your Reservations");
 	request.getSession().setAttribute("Active", "showReservations");
 %>
 <html>

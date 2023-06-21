@@ -69,11 +69,15 @@ public class EditClientServlet extends HttpServlet {
                 PreparedStatement stmtEmailCheck = conn.prepareStatement(query);
                 stmtEmailCheck.setString(1, email);
                 ResultSet res = stmtEmailCheck.executeQuery();
-                if(res.getInt("numberOfEmails") > 0)
+                if(res.next())
                 {
-                    request.setAttribute("emailError", true);
-                    RequestDispatcher rd = request.getRequestDispatcher("editClient.jsp");
-                    rd.forward(request, response);
+                    if(res.getInt("numberOfEmails") > 0)
+                    {
+                        request.setAttribute("emailError", true);
+                        RequestDispatcher rd = request.getRequestDispatcher("editClient.jsp");
+                        rd.forward(request, response);
+                        response.sendRedirect("editClient.jsp");
+                    }
                 }
             }
 

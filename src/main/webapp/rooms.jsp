@@ -95,7 +95,7 @@
 					<a href="addOrEditRoom.jsp" class="btn btn-outline-light" title="Add new Room"><i class="fa-solid fa-plus fa-lg"></i></a>
 				</div>
 				<div class="col-4">
-					<form action="searchRooms.jsp" method="get">
+					<form action="rooms.jsp" method="get">
 						<div class="input-group mb-3">
 							<input type="text" class="form-control input-boja" name="search" placeholder="Search rooms..." value="<%= search %>">
 							<input class="btn btn-outline-light" type="submit" value="Search">
@@ -116,7 +116,7 @@
 										for(Hotel hotel : hotels)
 										{
 									%>
-									<li><a class="dropdown-item" href="searchRooms.jsp?hotel=<%= hotel.getId() %>"><%= hotel.getName() %></a></li>
+									<li><a class="dropdown-item" href="rooms.jsp?hotel=<%= hotel.getId() %>"><%= hotel.getName() %></a></li>
 									<%
 										}
 									%>

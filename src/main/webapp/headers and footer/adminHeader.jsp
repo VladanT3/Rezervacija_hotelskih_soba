@@ -16,13 +16,13 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="adminHotels.jsp" class="nav-link <%= active.equals("adminHotels") ? "active" : "" %>">
+						<a href="hotels.jsp" class="nav-link <%= active.equals("adminHotels") ? "active" : "" %>">
 						<i class="fa-solid fa-hotel fa-lg bi d-block mx-auto mb-1"></i>
 						Hotels
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="searchRooms.jsp" class="nav-link <%= active.equals("searchRooms") ? "active" : "" %>">
+						<a href="rooms.jsp" class="nav-link <%= active.equals("searchRooms") ? "active" : "" %>">
 						<i class="fa-solid fa-door-closed fa-lg bi d-block mx-auto mb-1"></i>
 						Rooms
 						</a>

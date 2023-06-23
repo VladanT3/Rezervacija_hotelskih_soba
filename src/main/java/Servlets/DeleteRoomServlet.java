@@ -55,7 +55,7 @@ public class DeleteRoomServlet extends HttpServlet {
             stmt.execute();
 
             request.setAttribute("successfulDelete", true);
-            RequestDispatcher rd = request.getRequestDispatcher("searchRooms.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("rooms.jsp");
             rd.forward(request, response);
         }
         catch(SQLException ex)

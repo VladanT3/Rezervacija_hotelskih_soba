@@ -99,7 +99,7 @@ public class InsertAndUpdateRoomServlet extends HttpServlet {
                 stmt.execute();
 
                 request.setAttribute("successfulInsert", true);
-                RequestDispatcher rd = request.getRequestDispatcher("searchRooms.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("rooms.jsp");
                 rd.forward(request, response);
                 response.sendRedirect("http://localhost:8080/Rezervacija_hotelskih_soba_war_exploded/searchRooms.jsp?hotel=" + hotelID);
             }
@@ -155,7 +155,7 @@ public class InsertAndUpdateRoomServlet extends HttpServlet {
                 stmt.execute();
 
                 request.setAttribute("successfulUpdate", true);
-                RequestDispatcher rd = request.getRequestDispatcher("searchRooms.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("rooms.jsp");
                 rd.forward(request, response);
                 response.sendRedirect("http://localhost:8080/Rezervacija_hotelskih_soba_war_exploded/searchRooms.jsp?hotel=" + hotelID);
             }

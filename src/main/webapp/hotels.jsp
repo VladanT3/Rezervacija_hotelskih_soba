@@ -70,7 +70,7 @@
 				<a href="addOrEditHotel.jsp" class="btn btn-outline-light" title="Add new Hotel"><i class="fa-solid fa-plus fa-lg"></i></a>
 			</div>
 			<div class="col-4">
-				<form action="adminHotels.jsp" method="get">
+				<form action="hotels.jsp" method="get">
 					<div class="input-group mb-3">
 						<input type="text" class="form-control input-boja" name="search" placeholder="Search hotels..." value="<%= search %>">
 						<input class="btn btn-outline-light" type="submit" value="Search">

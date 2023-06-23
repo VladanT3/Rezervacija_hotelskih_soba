@@ -168,7 +168,7 @@
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="searchRooms.jsp" type="button" class="btn btn-light">Show All Hotel Rooms</a>
+						<a href="rooms.jsp" type="button" class="btn btn-light">Show All Hotel Rooms</a>
 					</div>
 					<div class="col-6"></div>
 					<div class="col-6 mb-3 d-grid gap-2">

@@ -16,7 +16,7 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="adminHotels.jsp" class="nav-link <%= active.equals("adminHotels") ? "active" : "" %>">
+						<a href="hotels.jsp" class="nav-link <%= active.equals("adminHotels") ? "active" : "" %>">
 						<i class="fa-solid fa-hotel fa-lg bi d-block mx-auto mb-1"></i>
 						Hotels
 						</a>

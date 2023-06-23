@@ -32,7 +32,7 @@
 	
 	if(roomTypeID.equals(""))
 	{
-		response.sendRedirect("hotels.jsp");
+		response.sendRedirect("browseHotels.jsp");
 		return;
 	}
 	

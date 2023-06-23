@@ -108,7 +108,7 @@
 			<div class="col-4">
 				<div class="align-center margin-t-50 mb-3">
 					<div class="col-6 mb-3 d-grid gap-2">
-						<a href="adminHotels.jsp" type="button" class="btn btn-light">Show All Hotels</a>
+						<a href="hotels.jsp" type="button" class="btn btn-light">Show All Hotels</a>
 					</div>
 					<div class="col-6 mb-3"></div>
 					<div class="col-6 mb-3 d-grid gap-2">

@@ -101,7 +101,7 @@ public class InsertAndUpdateHotelServlet extends HttpServlet {
                 stmtUpdateMenadzer.execute();
 
                 request.setAttribute("successfulInsert", true);
-                RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
+                RequestDispatcher rd = request.getRequestDispatcher("hotels.jsp");
                 rd.forward(request, response);
             }
             catch (SQLException ex)
@@ -235,7 +235,7 @@ public class InsertAndUpdateHotelServlet extends HttpServlet {
                         }
 
                         request.setAttribute("successfulUpdate", true);
-                        RequestDispatcher rd = request.getRequestDispatcher("adminHotels.jsp");
+                        RequestDispatcher rd = request.getRequestDispatcher("hotels.jsp");
                         rd.forward(request, response);
                         break;
                     }

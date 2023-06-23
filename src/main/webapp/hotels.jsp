@@ -38,7 +38,7 @@
 	<div class="container">
 		<div class="row margin-t-50">
 			<div class="col-4">
-				<form action="browseHotels.jsp" method="get">
+				<form action="hotels.jsp" method="get">
 					<div class="input-group mb-3">
 						<input type="text" class="form-control input-boja" name="search" placeholder="Search hotels..." value="<%= search %>">
 						<input class="btn btn-outline-light" type="submit" value="Search">

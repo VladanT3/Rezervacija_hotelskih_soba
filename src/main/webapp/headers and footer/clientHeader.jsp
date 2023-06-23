@@ -6,7 +6,7 @@
 <header>
 	<nav class="navbar fixed-top navbar-expand-lg bg-light">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="browseHotels.jsp">
+			<a class="navbar-brand" href="hotels.jsp">
 				<img src="img/logo.png" alt="Logo" width="50" height="50">
 				Kontinental
 			</a>
@@ -16,7 +16,7 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a href="browseHotels.jsp" class="nav-link <%= active.equals("browseHotels") ? "active" : "" %>">
+						<a href="hotels.jsp" class="nav-link <%= active.equals("browseHotels") ? "active" : "" %>">
 							<i class="fa-solid fa-door-closed fa-lg bi d-block mx-auto mb-1"></i>
 							Browse Hotels
 						</a>

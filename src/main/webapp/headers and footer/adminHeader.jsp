@@ -22,7 +22,7 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="searchRooms.jsp" class="nav-link <%= active.equals("searchRooms") ? "active" : "" %>">
+						<a href="rooms.jsp" class="nav-link <%= active.equals("searchRooms") ? "active" : "" %>">
 						<i class="fa-solid fa-door-closed fa-lg bi d-block mx-auto mb-1"></i>
 						Rooms
 						</a>

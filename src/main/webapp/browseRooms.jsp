@@ -27,7 +27,7 @@
     
     if(hotelID.equals(""))
     {
-        response.sendRedirect("browseHotels.jsp");
+        response.sendRedirect("hotels.jsp");
         return;
     }
 	

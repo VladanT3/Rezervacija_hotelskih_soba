@@ -19,7 +19,7 @@
 		return;
 	}
 	
-	request.getSession().setAttribute("Active", "roomTypes");
+	request.getSession().setAttribute("Active", "searchRooms");
 	
 	String loggedInEmployee = (String) request.getSession().getAttribute("LoggedInEmployee");
 	loggedInEmployee = loggedInEmployee == null ? "" : loggedInEmployee;
@@ -104,15 +104,16 @@
 											<option selected value="<%= roomsHotel.getId() %>"><%= roomsHotel.getName() %></option>
 									<%
 										}
-                                        else
+                                        else if(loggedInEmployee.equals("Admin"))
 										{
 									%>
 											<option value="">Select One</option>
 									<%
+											room.setHotelID(room.getHotelID() == null ? "" : room.getHotelID());
 											for(Hotel hotel : hotels)
 											{
 									%>
-												<option <%= pickedHotelID.equals(hotel.getId()) ? "selected" : "" %> value="<%= hotel.getId() %>"><%= hotel.getName() %></option>
+												<option <%= pickedHotelID.equals(hotel.getId()) ? "selected" : room.getHotelID().equals(hotel.getId()) ? "selected" : "" %> value="<%= hotel.getId() %>"><%= hotel.getName() %></option>
 									<%
 											}
 										}

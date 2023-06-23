@@ -93,7 +93,7 @@ public class Manager extends Employee {
         Manager manager = new Manager();
         String query = "select * " +
                 "from korisnik k join radnik r on k.korisnik_id = r.korisnik_id " +
-                "join manager m on m.korisnik_id = r.korisnik_id " +
+                "join menadzer m on m.korisnik_id = r.korisnik_id " +
                 "where k.korisnik_id = ?";
 
         try

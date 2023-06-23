@@ -50,7 +50,7 @@ public class InsertAndUpdateRoomTypeServlet extends HttpServlet {
         String numberOfBedsString = request.getParameter("roomTypeNumberOfBeds");
         String kitchen = request.getParameter("roomTypeKitchen");
         String bathroom = request.getParameter("roomTypeBathroom");
-        String tvBool = request.getParameter("roomTypeTV");
+        String tvBool = request.getParameter("roomTypeTV") == null ? "" : request.getParameter("roomTypeTV");
         String desc = request.getParameter("roomTypeDesc");
         int numberOfBeds = 0;
         boolean tv = tvBool.equals("on");

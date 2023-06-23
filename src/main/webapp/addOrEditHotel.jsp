@@ -131,7 +131,7 @@
 						<div class="col-12">
 							<div class="form-floating mb-3">
 								<input type="text" name="hotelCountry" id="hotelCountry" class="form-control input-boja" placeholder="Country" value="<%= !inputCountry.equals("") ? inputCountry : update == 1 ? hotel.getCountry() : "" %>" required>
-								<label for="hotelCountry" class="text-muted">Country:</label>
+								<label for="hotelCountry" class="text-muted">Country</label>
 							</div>
 						</div>
 						<div class="col-12">

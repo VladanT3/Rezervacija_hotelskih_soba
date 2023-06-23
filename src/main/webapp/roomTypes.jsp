@@ -69,7 +69,7 @@
 					{
 				%>
 						<div class="col-12 alert alert-success" role="alert">
-							<i class="fa-solid fa-circle-check fa-lg"></i> The selected room type details have been update!
+							<i class="fa-solid fa-circle-check fa-lg"></i> The selected room type details have been updated!
 						</div>
 				<%
 					}

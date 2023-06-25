@@ -16,4 +16,4 @@ Web aplikacija za rezervisanje hotelskih soba:
 
 ---------------------------------------------------------------------------------------------
 
-U folderu "Dokumentacija i Baza" se nalaze potpuna dokumentacija aplikacije i baza korišćena za aplikaciju.
+U folderu "src/main/webapp/Dokumentacija i Baza" se nalaze potpuna dokumentacija aplikacije i baza korišćena za aplikaciju.

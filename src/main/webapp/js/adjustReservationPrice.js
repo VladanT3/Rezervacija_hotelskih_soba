@@ -11,6 +11,7 @@ checkBoxApplyPoints.addEventListener("change", function ()
     else
         totalPrice = originalPrice;
 
+    totalPrice = totalPrice.replace(',', '.');
     totalPrice = (Math.round(totalPrice * 100) / 100).toFixed(2);
     totalPriceElem.value = totalPrice;
 });

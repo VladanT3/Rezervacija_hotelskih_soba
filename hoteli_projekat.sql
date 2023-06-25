@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2023 at 05:54 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Jun 25, 2023 at 12:19 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -67,7 +67,7 @@ INSERT INTO `hotel` (`hotel_id`, `menadzer_id`, `naziv`, `drzava`, `grad`, `broj
 ('H11', 'M1001', 'Kontinental Alps', 'France', 'Tignes', 4, 150, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur porta lorem eu tempor commodo. Nunc gravida rutrum urna, vel cursus nunc ultricies ut. Ut vehicula id nibh et tincidunt. Nunc ac commodo nunc. Aenean ultrices ex sed ante vehicula, consequat molestie arcu vestibulum. Maecenas viverra molestie leo, eu luctus odio ullamcorper vel.', 'hotelAlps.webp', '2023-06-08 13:08:57'),
 ('H12', 'M1002', 'Kontinental Beach', 'France', 'Nice', 5, 350, 'Sed sodales elit a suscipit egestas. Fusce non ligula vitae nibh feugiat condimentum. Nulla nec mi libero. Quisque placerat euismod lectus, eget imperdiet sapien dapibus sit amet. Nunc vel faucibus erat, non gravida velit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.', 'hotelBeach.jpg', '2023-06-08 13:09:07'),
 ('H13', 'M1003', 'Kontinental Paris', 'France', 'Paris', 4, 250, 'Aliquam blandit neque eget tincidunt vulputate. Phasellus non nulla egestas, pretium felis a, feugiat ipsum. Nunc porttitor rhoncus erat a tincidunt. Quisque ac varius mauris, in aliquet purus. Sed in interdum erat.', 'hotelParis.jpg', '2023-06-08 13:09:16'),
-('H16', 'M1004', 'testHotel', 'Italy', 'Venice', 5, 175, 'test', 'hotelVenice.webp', '2023-06-08 13:20:35');
+('H14', 'M1004', 'Kontinental Venice', 'Italy', 'Venice', 5, 175, 'test', 'hotelVenice.webp', '2023-06-25 10:03:50');
 
 -- --------------------------------------------------------
 
@@ -123,8 +123,8 @@ INSERT INTO `korisnik` (`korisnik_id`, `ime`, `prezime`, `email`, `sifra`, `drza
 ('M1001', 'Marko', 'Markovic', 'marko@gmail.com', '*B883F9B747DEAD2F31DAC857EEEF3CDC58691C63', 'Germany', 'Munich', 'Adresa 62', '0612345678', '1995-06-12', '2023-06-08 12:57:07'),
 ('M1002', 'Jana', 'Janic', 'jana@gmail.com', '*3A6B98B98C8DF0510796253778DBCBA66A99938B', 'Italy', 'Rome', 'Adresa 83', '0698765432', '1997-04-28', '2023-06-08 12:57:23'),
 ('M1003', 'Petar', 'Petrovic', 'petar@gmail.com', '*1EC4AE268D26AB8FFCDC6D73AD077E5DFE2B6423', 'Netherlands', 'Amsterdam', 'Adresa 112', '0631245678', '1999-08-15', '2023-06-08 12:57:33'),
-('M1004', 'testMenadzer', 'testMenadzer', 'testMenadzer@gmail.com', '*94BDCEBE19083CE2A1F959FD02F964C7AF4CFC29', 'Italy', 'Rome', 'Address 75', '123456789', '1990-05-18', '2023-06-08 12:58:49'),
-('M1005', 'test2', 'test2', 'testMenadzer2@gmail.com', '*94BDCEBE19083CE2A1F959FD02F964C7AF4CFC29', 'test', 'test', 'test', 'test', '2023-06-07', '2023-06-08 12:59:03');
+('M1004', 'Katarina', 'Katic', 'katarina@gmail.com', '*E30818699678915C753ADA650BAD0346994CA2A4', 'Italy', 'Rome', 'Address 75', '123456789', '1990-05-18', '2023-06-08 12:58:49'),
+('M1005', 'testMenadzer', 'testMenadzer', 'testMenadzer@gmail.com', '*94BDCEBE19083CE2A1F959FD02F964C7AF4CFC29', 'test', 'test', 'test', 'test', '2023-06-07', '2023-06-08 12:59:03');
 
 -- --------------------------------------------------------
 
@@ -146,7 +146,7 @@ INSERT INTO `menadzer` (`korisnik_id`, `hotel_id`) VALUES
 ('M1001', 'H11'),
 ('M1002', 'H12'),
 ('M1003', 'H13'),
-('M1004', 'H16');
+('M1004', 'H14');
 
 -- --------------------------------------------------------
 
@@ -326,9 +326,7 @@ INSERT INTO `soba` (`soba_id`, `hotel_id`, `tip_sobe_id`, `broj_sobe`, `dnevna_c
 ('H13S503', 'H13', 'TS1K2KBth1TV', 503, 180),
 ('H13S504', 'H13', 'TS1K2KBth1TV', 504, 180),
 ('H13S505', 'H13', 'TS1K2KBth1TV', 505, 180),
-('H13S600', 'H13', 'TS2K2KBth1TV', 600, 350),
-('H16S101', 'H16', 'TS1Q2KBth1TV', 101, 110),
-('H16S102', 'H16', 'TS1K2KBth1TV', 102, 120);
+('H13S600', 'H13', 'TS2K2KBth1TV', 600, 350);
 
 -- --------------------------------------------------------
 

@@ -16,6 +16,4 @@ Web aplikacija za rezervisanje hotelskih soba:
 
 ---------------------------------------------------------------------------------------------
 
-Neki od fajlova i čemu služe:
-
--hoteli_projekat.sql - baza podatak korišćena za aplikaciju
+U folderu "Dokumentacija i Baza" se nalaze potpuna dokumentacija aplikacije i baza korišćena za aplikaciju.
